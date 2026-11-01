@@ -1,0 +1,82 @@
+---
+import {
+  RESEARCH_BRANCHES,
+  getResearchByBranch,
+} from '../data/research';
+
+const branches = RESEARCH_BRANCHES.map((branch) => ({
+  branch,
+  nodes: getResearchByBranch(branch),
+}));
+---
+
+<div class="mt-6 border border-line-soft bg-night p-4 md:p-6">
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line-soft pb-4">
+    <p class="font-mono text-[0.61rem] uppercase tracking-[0.1em] text-signal">
+      Visible demo research branches
+    </p>
+    <div class="flex flex-wrap gap-4 font-mono text-[0.58rem] uppercase tracking-[0.06em] text-mist">
+      <span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 bg-scanner"></span>Demo tree</span>
+      <span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 bg-signal"></span>Science</span>
+    </div>
+  </div>
+
+  <div class="mt-6 space-y-7">
+    {
+      branches.map(({ branch, nodes }) => (
+        <section aria-labelledby={`branch-${branch.replaceAll(' ', '-').replaceAll('&', 'and').toLowerCase()}`}>
+          <div class="flex items-baseline justify-between gap-3">
+            <h3
+              id={`branch-${branch.replaceAll(' ', '-').replaceAll('&', 'and').toLowerCase()}`}
+              class="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-paper"
+            >
+              {branch}
+            </h3>
+            <span class="font-mono text-[0.55rem] uppercase tracking-[0.08em] text-mist">
+              {nodes.length} nodes
+            </span>
+          </div>
+          <div
+            class="mt-2 overflow-x-auto pb-2 no-scrollbar"
+            tabindex="0"
+            role="region"
+            aria-label={`${branch} research branch. Scroll if needed.`}
+          >
+            <div class="flex min-w-max flex-col items-stretch md:flex-row md:items-stretch">
+              {nodes.map((node, index) => (
+                <>
+                  {index > 0 && (
+                    <span
+                      aria-hidden="true"
+                      class="tech-arrow px-1 py-0.5 md:px-1.5 md:py-0"
+                    >
+                      <span class="inline-block rotate-90 md:rotate-0">→</span>
+                    </span>
+                  )}
+                  <span
+                    class:list={[
+                      'tech-node md:min-w-[9rem]',
+                      node.branch === 'Science' && 'tech-node-science',
+                      node.status !== 'In demo tree' && 'tech-node-locked',
+                    ]}
+                    title={`${node.name} — ${node.status}`}
+                  >
+                    {node.name}
+                  </span>
+                </>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <p class="mt-6 border-t border-line-soft pt-4 text-xs leading-relaxed text-mist">
+    Node order and visible left-to-right connections are transcribed from the
+    official demo research screenshot. The screenshot does not show every
+    prerequisite, cost or cross-branch link. Locked-looking branches are marked
+    with a muted dot; a dot does not necessarily reflect the current unlock
+    state in your save.
+  </p>
+</div>

@@ -1,0 +1,215 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import DataFilter from '../../components/DataFilter.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import {
+  MODULES,
+  MODULE_CATEGORIES,
+} from '../../data/modules';
+import { getSources } from '../../data/sources';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Database', path: '/database/' },
+  { name: 'Ships & station modules', path: '/database/modules/' },
+];
+
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'entries', label: 'Module entries' },
+  { id: 'limits', label: 'What is missing' },
+  { id: 'sources', label: 'Sources' },
+];
+
+const sourceIds = Array.from(
+  new Set(MODULES.flatMap((module) => module.sourceIds)),
+);
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replaceAll('&', 'and')
+    .replace(/\./g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const categoryCounts = MODULE_CATEGORIES.map((category) => ({
+  category,
+  count: MODULES.filter((module) => module.category === category).length,
+}));
+
+const sourceLabel = (sourceId: string) => {
+  const source = getSources([sourceId])[0];
+  if (!source) return 'Source';
+  if (source.kind === 'media') return 'Official screenshot';
+  if (source.id === 'steamdb-playtest-13') return 'Official patch notes';
+  if (source.kind === 'official') return `Developer update · ${source.date}`;
+  if (source.kind === 'community') return `Community report · ${source.date}`;
+  return `${source.publisher} · ${source.date}`;
+};
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Modules: Ships, Stations & Production Database"
+  description="A searchable list of confirmed Main Sequence modules, including production, power, logistics, defense, ship design and propulsion, with sources and known functions."
+  eyebrow="Database / modules"
+  title="Main Sequence ship and station modules"
+  intro="Thirty-plus confirmed systems, from Command modules and conveyor belts to Slipstream Drives and shields. Function is sourced; missing stats stay missing."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={sourceIds}
+  image={GAME_IMAGES['main-sequence-ship-designer.jpg']}
+  imageAlt="A Main Sequence ship Designer showing a frigate and a detailed build-cost panel"
+  imageCaption="Modules are the building blocks of both stations and ships. The exact stats are patch-dependent."
+  meta={['Filterable table', 'Official sources only', 'No invented stats']}
+  pageType="WebPage"
+  dataNote="Module balance changed during the demo period. This index distinguishes confirmed existence and function from unpublished values."
+>
+  <section id="overview" class="scroll-mt-28">
+    <h2>What this module index covers</h2>
+    <p>
+      A module is a physical part of a ship or station. This page brings the
+      confirmed modules together in one place, with a short statement of what
+      each one does and where the evidence comes from. It includes production,
+      power, logistics, defense and ship systems, plus a few utility modules
+      shown in the official interface.
+    </p>
+
+    <div class="flex flex-wrap gap-2 not-prose mt-5">
+      {
+        categoryCounts.map((entry) => (
+          <span class="tag">
+            {entry.category} <span class="ml-1 text-signal">{entry.count}</span>
+          </span>
+        ))
+      }
+    </div>
+
+    <div class="callout callout-info mt-6">
+      <span class="callout-title">Not a stat sheet</span>
+      <p class="m-0 text-sm">
+        The available screenshots show some costs and masses, but those values
+        belong to specific development builds and have changed in patches. Rows
+        therefore describe confirmed function, not current power, throughput,
+        damage or capacity unless an official note provides one.
+      </p>
+    </div>
+  </section>
+
+  <section id="entries" class="scroll-mt-28">
+    <h2>Confirmed modules</h2>
+    <p>
+      Search by module name or use the category filters. Every row includes a
+      source link. Rows remain readable if JavaScript is disabled.
+    </p>
+
+    <DataFilter
+      targetId="modules-table"
+      categories={[...MODULE_CATEGORIES]}
+      placeholder="Search modules, functions or sources…"
+    />
+
+    <div class="data-table-wrap not-prose mt-4">
+      <table class="data-table data-table-stack" id="modules-table">
+        <caption class="sr-only">
+          Confirmed Main Sequence ship and station modules
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Module</th>
+            <th scope="col">Category</th>
+            <th scope="col">Confirmed function</th>
+            <th scope="col">Detail and limits</th>
+            <th scope="col">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            MODULES.map((module) => {
+              const sources = getSources(module.sourceIds);
+              const search = [
+                module.name,
+                module.category,
+                module.function,
+                module.detail,
+                module.status,
+                ...sources.map((source) => source.title),
+              ]
+                .join(' ')
+                .toLowerCase();
+              return (
+                <tr
+                  id={slugify(module.name)}
+                  data-row
+                  data-category={module.category}
+                  data-search={search}
+                >
+                  <th
+                    scope="row"
+                    class="cell-name bg-transparent px-4 py-3 text-left"
+                    data-label="Module"
+                  >
+                    {module.name}
+                  </th>
+                  <td data-label="Category"><span class="tag">{module.category}</span></td>
+                  <td class="text-sm text-paper" data-label="Confirmed function">{module.function}</td>
+                  <td class="text-sm text-mist" data-label="Detail and limits">{module.detail}</td>
+                  <td data-label="Evidence">
+                    <div class="flex flex-col gap-2">
+                      <StatusBadge
+                        status={module.status}
+                        label={module.status === 'Official' ? 'Official' : 'Community'}
+                      />
+                      {sources.map((source) => (
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={source.title}
+                          class="evidence-link font-mono text-[0.55rem] uppercase leading-relaxed tracking-[0.03em] text-signal hover:text-paper"
+                        >
+                          {sourceLabel(source.id)} ↗
+                        </a>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
+          }
+          <tr data-filter-empty hidden>
+            <td colspan="5" class="py-10 text-center text-sm text-mist">
+              No modules match that search. Try a broader term or reset the category.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 font-mono text-[0.58rem] uppercase tracking-[0.05em] text-mist">
+      {MODULES.length} indexed modules · Some modules also appear as research unlocks
+    </p>
+  </section>
+
+  <section id="limits" class="scroll-mt-28">
+    <h2>What is missing from the module data</h2>
+    <ul>
+      <li>Complete module footprints, power draw and throughput values.</li>
+      <li>Weapon damage, range, rate of fire and shield strength.</li>
+      <li>Full container, reactor and thruster tiers.</li>
+      <li>Blueprint compatibility rules across demo and Early Access saves.</li>
+      <li>A fully exhaustive module list; the public screenshots show only part of the UI.</li>
+    </ul>
+    <p>
+      The safest way to use this page is as a vocabulary and dependency guide.
+      When you open the in-game build menu, read the current tooltip rather than
+      assuming a value from a screenshot is still correct.
+    </p>
+    <p>
+      For build guidance, see the <a href="/guides/ship-design/">ship design
+      guide</a> and the <a href="/guides/factory-layout/">factory layout
+      guide</a>. For the technology that unlocks them, use the{' '}
+      <a href="/database/research/">research database</a>.
+    </p>
+  </section>
+</GuideLayout>

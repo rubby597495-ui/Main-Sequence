@@ -1,0 +1,383 @@
+---
+import GuideLayout from '../components/GuideLayout.astro';
+import Figure from '../components/Figure.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { GAME_FACTS, FEATURES } from '../data/game';
+import { GAME_IMAGES } from '../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Game overview', path: '/game/' },
+];
+
+const toc = [
+  { id: 'what-is-it', label: 'What is Main Sequence?' },
+  { id: 'facts', label: 'Confirmed facts' },
+  { id: 'setting', label: 'Setting and story' },
+  { id: 'gameplay', label: 'The gameplay loop' },
+  { id: 'building', label: 'Ships, stations and factories' },
+  { id: 'combat', label: 'Combat and threats' },
+  { id: 'co-op', label: 'Solo and co-op' },
+  { id: 'status', label: 'Current development status' },
+  { id: 'comparisons', label: 'Similar games and inspirations' },
+  { id: 'faq', label: 'Questions' },
+];
+
+const faq = [
+  {
+    question: 'Is Main Sequence like Factorio or Satisfactory?',
+    answer:
+      'It shares the core automation appeal: gather resources, build production chains and scale up. Its first-person station and ship construction is closer to the immersion of Satisfactory, while space flight, fleet logistics and sector exploration are part of its own loop. The developer cites Factorio, Satisfactory, Star Citizen and Subnautica as inspirations; that does not mean it is a clone of any one of them.',
+  },
+  {
+    question: 'Can you play Main Sequence solo?',
+    answer:
+      'Yes. Steam lists single-player, online co-op and LAN co-op. The automation and exploration loop can be played alone, and cooperative play adds captains with their own ships.',
+  },
+  {
+    question: 'Does Main Sequence have combat?',
+    answer:
+      'Yes. Industrial activity awakens an ancient alien defense network. The game includes ship weapons, station turrets, shields, repair packs and enemy installations. The demo also offers a peaceful mode for players who want to focus on building.',
+  },
+  {
+    question: 'Is Main Sequence an open-world game?',
+    answer:
+      'It is built around procedurally generated star systems and free movement between stations, asteroid fields and other locations. The demo is limited to its starting star system and first technology tiers. “Open world” is useful shorthand, but the actual structure is a space-sim sandbox with progression gates rather than one continuous planet surface.',
+  },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Game Overview: Gameplay, Setting & Features"
+  description="What is Main Sequence? A source-checked overview of the first-person space factory sim, its automation loop, ship building, combat, co-op and Early Access status."
+  eyebrow="Game dossier"
+  title="Main Sequence game overview: mine, build, automate, survive"
+  intro="Main Sequence is a first-person space-sim factory builder from Tumbling Dumpling Studio: one mining ship, one station, and a production network that eventually has to defend itself."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'official-site',
+    'steam-store',
+    'steam-demo',
+    'steam-news-2025-08-12',
+    'steam-news-2026-02-13',
+    'steam-news-2026-09-09',
+    'gamespress',
+  ]}
+  image={GAME_IMAGES['main-sequence-station-asteroid-belt.jpg']}
+  imageAlt="A large white and orange Main Sequence station surrounded by asteroid fields"
+  imageCaption="A station and its support structures in the starting asteroid field. Official Steam screenshot."
+  meta={['Space factory sim', 'First-person', 'Windows PC', 'Early Access · Nov 12, 2026']}
+  faq={faq}
+  videoGame
+  pageType="WebPage"
+>
+  <section id="what-is-it" class={block}>
+    <div class="callout">
+      <span class="callout-title">Short answer</span>
+      <p class="m-0 text-fog">
+        Main Sequence is a space-based factory automation game played in first
+        person. You mine asteroids, refine resources, build and automate space
+        stations, design ships, research new technology and defend the
+        resulting industrial empire. It enters Steam Early Access for Windows PC
+        on <strong>November 12, 2026</strong>.
+      </p>
+    </div>
+
+    <p>
+      The official description positions the game as an interstellar industrial
+      sim rather than a story-first RPG. You begin at the frontier of
+      human-charted space in a small mining ship. Your ship is the first
+      factory module, the first vehicle and the first place where ore becomes a
+      usable material. Once you build a station, the game becomes about
+      logistics: moving items, supplying machines, expanding power, and keeping
+      the line running.
+    </p>
+    <p>
+      The second half of that promise is force. Mining and manufacturing wake an
+      ancient alien defense network. The ships that move cargo also have to
+      answer threats, which is why ship design, weapon modules and fleet
+      management matter alongside conveyor belts.
+    </p>
+  </section>
+
+  <section id="facts" class={block}>
+    <h2>Confirmed facts at a glance</h2>
+    <p>
+      These are the details we can tie to official storefronts, developer
+      announcements or publisher material. We deliberately keep price and the
+      exact launch hour out of the confirmed column because neither has been
+      announced.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-6">
+      <table class="data-table data-table-stack">
+        <caption class="sr-only">
+          Confirmed facts about Main Sequence
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">What we know</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            GAME_FACTS.map((fact) => (
+              <tr>
+                <th scope="row" class="whitespace-nowrap bg-deep font-mono text-[0.65rem] font-medium uppercase tracking-[0.08em] text-signal" data-label="Field">
+                  {fact.label}
+                </th>
+                <td data-label="What we know">
+                  <span class="block text-paper">{fact.value}</span>
+                  {fact.note && (
+                    <span class="mt-1 block text-xs leading-relaxed text-mist">
+                      {fact.note}
+                    </span>
+                  )}
+                </td>
+                <td data-label="Status">
+                  <StatusBadge status={fact.status} />
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 font-mono text-[0.6rem] uppercase tracking-[0.06em] text-mist">
+      Detailed source notes appear at the bottom of this page. Price and launch
+      time need a publisher update before they can be called confirmed.
+    </p>
+  </section>
+
+  <section id="setting" class={block}>
+    <h2>Setting: the Fracture, the Initiative and Frontier Heavy Industries</h2>
+    <p>
+      The developer’s February 2026 announcement gives the clearest picture of
+      the setting. Humanity’s reach once stretched across the galaxy, but a
+      golden age ended with an event called <strong>the Fracture</strong>. Only
+      scattered pockets of civilisation remain.
+    </p>
+    <p>
+      The <strong>Main Sequence Initiative</strong> was founded to reclaim
+      humanity’s place among the stars through a partnership of industry and
+      governance. You enlist as a station commander with{' '}
+      <strong>Frontier Heavy Industries</strong>, one of the corporations
+      supporting the Initiative. Your assignment is to establish industrial
+      operations at the edge of explored space so the sector can be prepared for
+      human habitation.
+    </p>
+    <p>
+      The setup justifies the game’s priorities. You are not a lone hero with a
+      fixed quest; you are an industrial operator building infrastructure under
+      pressure. The official store description also mentions meeting allies and
+      encountering different factions within humanity, but it does not publish a
+      character roster. We will not invent one.
+    </p>
+
+    <div class="callout callout-info">
+      <span class="callout-title">What the game does not provide yet</span>
+      <p class="m-0 text-sm">
+        There is no public list of named companions, faction leaders or story
+        characters. If you see a character wiki before launch, check whether
+        those pages are marked as speculation. This guide only names entities
+        that appear in official material.
+      </p>
+    </div>
+  </section>
+
+  <section id="gameplay" class={block}>
+    <h2>The gameplay loop</h2>
+    <p>
+      The developer describes two ways to gather resources: mining asteroids
+      directly with your ship, or building mining drone bays on stations. Both
+      consume power. That tension between expansion and power capacity is the
+      foundation of the factory loop.
+    </p>
+
+    <ol class="not-prose mt-6 grid gap-px border border-line-soft bg-line sm:grid-cols-2">
+      {
+        FEATURES.map((feature) => (
+          <li class="bg-deep p-5">
+            <div class="flex items-baseline justify-between gap-3">
+              <h3 class="font-display text-xl font-semibold uppercase text-paper">
+                {feature.title}
+              </h3>
+              <span class="font-mono text-[0.58rem] text-signal">
+                {feature.index}
+              </span>
+            </div>
+            <p class="mt-2 text-sm leading-relaxed text-mist">{feature.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="mt-6">
+      The important limitation is that the main factory floor lives on
+      stations, not inside every ship. The developer’s core-loop post says you
+      build machines to automate refining and crafting after your first station
+      is in place. Ships handle mining, transport and combat; the starting ship
+      also has a workstation for early refining and crafting.
+    </p>
+  </section>
+
+  <section id="building" class={block}>
+    <h2>Ships, stations and factories</h2>
+    <p>
+      The <strong>Designer</strong> is the shared building interface. You can
+      open it from a station’s Command module to edit the station, from a
+      Shipyard module to edit a docked ship, or from the main menu to design in
+      creative mode and save blueprints for later.
+    </p>
+
+    <Figure
+      name="main-sequence-factory-floor.jpg"
+      alt="Rows of large orange and white production machines connected by conveyor belts inside a Main Sequence station"
+      caption="A station production floor with parallel machine lines and conveyor belts. The building system is fully first-person."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+
+    <h3>What you are actually managing</h3>
+    <ul>
+      <li>
+        <strong>Station modules and rooms:</strong> command, docks, shipyard,
+        production, power, storage and decoration are all placed in the same
+        designer. The station is both a factory and a physical place you walk
+        through.
+      </li>
+      <li>
+        <strong>Module choices:</strong> cargo capacity, reactor placement and
+        weapons are named in the official store description. The designer
+        readout also exposes mass, hull, thrust and dimensions for ships.
+      </li>
+      <li>
+        <strong>Blueprints:</strong> official material confirms saved and
+        shareable ship/station designs, plus creative mode from the main menu.
+      </li>
+      <li>
+        <strong>Logistics:</strong> conveyor belts, splitters, item elevators
+        and storage modules move output between machines. The current demo gates
+        belts behind research rather than handing them to you at the start.
+      </li>
+    </ul>
+
+    <p>
+      Fleet management extends the same thinking between stations. The
+      developer describes automated supply routes and a fleet that keeps
+      operations provisioned. In practice, you will need to decide whether to
+      concentrate production in one giant base or distribute it across several
+      stations and accept the transport overhead.
+    </p>
+  </section>
+
+  <section id="combat" class={block}>
+    <h2>Combat is part of the factory problem</h2>
+    <p>
+      Your industrial activity awakens an ancient alien defense network that
+      identifies you as a threat. The official description explicitly mentions
+      station defense, a mobile fleet and taking the fight to enemy defense
+      platforms and shipyards.
+    </p>
+    <p>
+      Confirmed defense elements include station plasma turrets, the Shield
+      Generator Mk. 1 added in the October 19, 2026 demo update, and Repair Packs
+      crafted in the Assembler. The combat flow is not a separate shooter mode;
+      it is the same ship and station that you use for industry. That is why
+      this guide treats combat readiness as a factory-layout decision as well
+      as a piloting decision.
+    </p>
+    <p>
+      For a full breakdown of what is and is not confirmed, see the{' '}
+      <a href="/guides/combat-defense/">combat and defense guide</a>.
+    </p>
+  </section>
+
+  <section id="co-op" class={block}>
+    <h2>Solo and co-op</h2>
+    <p>
+      Main Sequence supports single-player, online co-op and LAN co-op. In
+      co-op, every player is the captain of their own ship. The official example
+      splits responsibilities between logistics, defense and exploration, but
+      the game does not force a class system: the crew can work on the same
+      objective or divide the empire.
+    </p>
+    <p>
+      The October 19, 2026 demo update added co-op to the demo, but the maximum
+      player count, dedicated-server support, cross-play and save-sharing rules
+      have not been published. The demo’s co-op is the current reference point.
+      See the <a href="/guides/co-op/">co-op guide and crew planner</a> for the
+      more detailed status.
+    </p>
+  </section>
+
+  <section id="status" class={block}>
+    <h2>Current development status</h2>
+    <p>
+      The game is not a finished 1.0 release. It is scheduled to enter Early
+      Access on <time datetime="2026-11-12">November 12, 2026</time>. The
+      developer expects Early Access to last one to two years and says the goal
+      is to leave it as a complete, well-rounded experience. Plans for the full
+      version include more building options, customization, quality-of-life
+      features, factions, modules, production lines and places to explore.
+    </p>
+    <p>
+      The store page currently estimates around 40 hours of content in the Early
+      Access build, while noting that automation fans may play much longer. That
+      is a developer estimate, not a measured review.
+    </p>
+    <p>
+      For launch timing, pricing, platforms and system requirements, use the{' '}
+      <a href="/release-date/">release status page</a>.
+    </p>
+  </section>
+
+  <section id="comparisons" class={block}>
+    <h2>Similar games and inspirations</h2>
+    <p>
+      The press material names <strong>Factorio</strong>,{' '}
+      <strong>Satisfactory</strong>, <strong>Star Citizen</strong> and{' '}
+      <strong>Subnautica</strong> as inspirations. Those comparisons are useful
+      shorthand, not a description of identical systems.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-6">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">If you want…</th>
+            <th scope="col">What Main Sequence offers</th>
+            <th scope="col">Caveat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="If you want">Factory automation</td>
+            <td data-label="What Main Sequence offers">Belts, machines, power, research and station production lines.</td>
+            <td data-label="Caveat">The demo is an early slice; full recipe balance is still in development.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="If you want">First-person building</td>
+            <td data-label="What Main Sequence offers">Walk through ships and stations; place modules and production equipment in person.</td>
+            <td data-label="Caveat">Not a planet-side construction sandbox like Satisfactory.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="If you want">Space flight and fleet logistics</td>
+            <td data-label="What Main Sequence offers">Pilot ships, design hulls, assign fleets and move between asteroid fields and stations.</td>
+            <td data-label="Caveat">Ship fitting depth and late-game balance are not public in full.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="If you want">Base defense and combat</td>
+            <td data-label="What Main Sequence offers">An alien defense network, station turrets, shields and ship weapons.</td>
+            <td data-label="Caveat">Peaceful mode exists if you prefer to focus on building.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</GuideLayout>

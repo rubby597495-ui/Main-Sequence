@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import DemoChecklist from '../../components/DemoChecklist.astro';
+import SourceList from '../../components/SourceList.astro';
+import { CHECKLIST } from '../../data/checklist';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Tools', path: '/tools/' },
+  { name: 'Demo checklist', path: '/tools/demo-checklist/' },
+];
+
+const sourceIds = Array.from(
+  new Set(CHECKLIST.flatMap((item) => item.sourceIds)),
+);
+---
+
+<BaseLayout
+  title="Main Sequence Demo Checklist: Track Your Progress"
+  description="Use this spoiler-light Main Sequence demo checklist to work from first scan to Slipstream Drive. Your progress is saved in your browser; no account needed."
+  breadcrumbs={breadcrumbs}
+  pageType="WebPage"
+>
+  <PageIntro
+    eyebrow="Field tool"
+    title="Main Sequence demo checklist"
+    description="A spoiler-light progress list for the current demo. Check items off as you go; your browser remembers them on this device."
+    breadcrumbs={breadcrumbs}
+    image={GAME_IMAGES['main-sequence-production-lines.jpg']}
+    imageAlt="A Main Sequence station production floor with machines and belts"
+    imageCaption="The checklist covers the systems that matter in the demo, not hidden puzzle solutions or unverified achievement claims."
+    meta={['15 checklist items', 'Saved in localStorage', 'No account', 'Demo + launch prep']}
+  />
+
+  <div class="wrap grid gap-12 py-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:py-14">
+    <div class="min-w-0">
+      <div class="callout">
+        <span class="callout-title">How to use it</span>
+        <p class="m-0">
+          Work in order if you are new. If you are only here for the conveyor
+          belt answer, start at the “Research Logistics I” item. The checklist
+          is editorial, not an in-game achievement list: every item exists to
+          teach a system or confirm a demo feature.
+        </p>
+      </div>
+
+      <DemoChecklist />
+
+      <SourceList ids={sourceIds} title="Checklist sources" />
+    </div>
+
+    <aside class="hidden lg:block">
+      <div class="sticky top-28 space-y-6">
+        <div class="border border-line-soft bg-night p-5">
+          <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+            What is saved
+          </p>
+          <p class="mt-3 text-xs leading-relaxed text-mist">
+            Checkbox state is stored in your browser under a site-specific key.
+            It is not sent to us and does not synchronise between devices.
+          </p>
+        </div>
+        <div class="border border-line-soft bg-night p-5">
+          <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+            Start with the basics
+          </p>
+          <ul class="mt-3 space-y-2 text-sm text-mist">
+            <li><a class="hover:text-paper" href="/demo/">Demo guide</a></li>
+            <li><a class="hover:text-paper" href="/beginner-guide/">Beginner's guide</a></li>
+            <li><a class="hover:text-paper" href="/guides/first-station-logistics/">Conveyor belt fix</a></li>
+            <li><a class="hover:text-paper" href="/database/research/">Research database</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

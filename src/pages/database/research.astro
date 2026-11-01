@@ -1,0 +1,314 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import DataFilter from '../../components/DataFilter.astro';
+import ResearchTree from '../../components/ResearchTree.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import {
+  RESEARCH_NODES,
+  RESEARCH_BRANCHES,
+} from '../../data/research';
+import { getSources } from '../../data/sources';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Database', path: '/database/' },
+  { name: 'Research & sciences', path: '/database/research/' },
+];
+
+const toc = [
+  { id: 'overview', label: 'How research works' },
+  { id: 'tree', label: 'Visible tech tree' },
+  { id: 'nodes', label: 'Node index' },
+  { id: 'sciences', label: 'Science types' },
+  { id: 'priority', label: 'Demo priorities' },
+  { id: 'limits', label: 'Limits' },
+  { id: 'faq', label: 'Research questions' },
+  { id: 'sources', label: 'Sources' },
+];
+
+const sourceIds = Array.from(
+  new Set(RESEARCH_NODES.flatMap((node) => node.sourceIds)),
+);
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replaceAll('&', 'and')
+    .replace(/\./g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const faq = [
+  {
+    question: 'How do you get research in Main Sequence?',
+    answer:
+      'The developer says certain manufactured items can be fed into Science Labs and converted into research, which unlocks technologies. In the demo, the research interface also has a queue and progress values.',
+  },
+  {
+    question: 'What science types are confirmed?',
+    answer:
+      'Electromagnetic Science was added to the demo in October 2026. Quantum Science, Astronomic Science and Xenobiologic Science were named in the developer’s September 2026 playtest overview for later progression.',
+  },
+  {
+    question: 'Is this the complete Main Sequence tech tree?',
+    answer:
+      'No. The tree and node list are transcribed from an official demo screenshot and developer posts. It does not contain every prerequisite, cost, recipe or late-game node, and it may change before or during Early Access.',
+  },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Research Tree & Sciences Database"
+  description="Explore confirmed Main Sequence research nodes, visible dependencies and science types, from Logistics I and Mining Drones to Electromagnetic Science."
+  eyebrow="Database / research"
+  title="Main Sequence research and technology"
+  intro="A source-labelled reconstruction of the visible demo tree, with later science types kept separate from nodes that were actually on screen."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={sourceIds}
+  image={GAME_IMAGES['main-sequence-research-tree.jpg']}
+  imageAlt="The Main Sequence research tree showing production, automation, power and ship-module branches"
+  imageCaption="The official research screenshot is the anchor for this page. It is a snapshot of the demo, not a final technology list."
+  meta={['Visible demo tree', 'Science types labelled', 'Costs omitted where unknown']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="The full research tree is not public. This page separates nodes visible in official media from later science types named only in developer updates."
+>
+  <section id="overview" class={block}>
+    <h2>How research works</h2>
+    <p>
+      Research is the progression system that turns factory output into new
+      capabilities. The developer’s core-loop post says certain manufactured
+      items can be fed into <strong>Science Labs</strong> and converted into
+      research. Unlocks include crafting recipes, machines, and new modules for
+      ships and stations.
+    </p>
+    <p>
+      In practice, this means research is an industrial input. If a lab has no
+      item supply or no power, progress stops. The demo also uses a research
+      queue; the official screenshot shows Logistics I at 0/10 with an Unlocks
+      panel beside it.
+    </p>
+    <p>
+      Science types and individual technologies are different things.
+      <strong>Electromagnetic Science</strong> is a research branch/tier that
+      consumes production output. <strong>Logistics I</strong> and{' '}
+      <strong>Mining Drones</strong> are technology nodes within the automation
+      branch.
+    </p>
+  </section>
+
+  <section id="tree" class={block}>
+    <h2>Visible technology tree</h2>
+    <p>
+      The rows below follow the visible left-to-right ordering in the official
+      demo screenshot. The screenshot shows the Automation branch, part of the
+      Production branch, Power Generation and Ship Modules. The Weapons branch
+      label is visible but its contents are not in the captured frame.
+    </p>
+
+    <ResearchTree />
+
+    <div class="callout callout-warning mt-5">
+      <span class="callout-title">What the screenshot does not show</span>
+      <p class="m-0 text-sm">
+        A left-to-right arrow is a visible connection, not a complete
+        prerequisite chain. The screenshot does not show every root node, cost,
+        research time, cross-branch dependency or the full late-game tree. We
+        do not infer those values.
+      </p>
+    </div>
+  </section>
+
+  <section id="nodes" class={block}>
+    <h2>Research node index</h2>
+    <p>
+      Search the nodes or filter by branch. The status column distinguishes
+      nodes visible in the demo screenshot from later technologies named in
+      developer updates.
+    </p>
+
+    <DataFilter
+      targetId="research-table"
+      categories={[...RESEARCH_BRANCHES]}
+      placeholder="Search technologies, branches or context…"
+    />
+
+    <div class="data-table-wrap not-prose mt-4">
+      <table class="data-table data-table-stack" id="research-table">
+        <caption class="sr-only">
+          Confirmed Main Sequence research nodes and branches
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Node</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Status</th>
+            <th scope="col">What is known</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            RESEARCH_NODES.map((node) => {
+              const sources = getSources(node.sourceIds);
+              const search = [
+                node.name,
+                node.branch,
+                node.detail,
+                node.status,
+                ...sources.map((source) => source.title),
+              ]
+                .join(' ')
+                .toLowerCase();
+              return (
+                <tr
+                  id={slugify(node.name)}
+                  data-row
+                  data-category={node.branch}
+                  data-search={search}
+                >
+                  <th
+                    scope="row"
+                    class="cell-name bg-transparent px-4 py-3 text-left"
+                    data-label="Node"
+                  >
+                    {node.name}
+                  </th>
+                  <td data-label="Branch"><span class="tag">{node.branch}</span></td>
+                  <td data-label="Status"><StatusBadge status={node.status} /></td>
+                  <td class="text-sm text-mist" data-label="What is known">{node.detail}</td>
+                  <td data-label="Source">
+                    <div class="flex flex-col gap-2">
+                      {sources.map((source) => (
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={source.title}
+                          class="evidence-link font-mono text-[0.55rem] uppercase leading-relaxed tracking-[0.03em] text-signal hover:text-paper"
+                        >
+                          {source.kind === 'media' ? 'Official screenshot' : `Official update · ${source.date}`} ↗
+                        </a>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
+          }
+          <tr data-filter-empty hidden>
+            <td colspan="5" class="py-10 text-center text-sm text-mist">
+              No research nodes match that search.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 font-mono text-[0.58rem] uppercase tracking-[0.05em] text-mist">
+      {RESEARCH_NODES.length} indexed nodes · Costs not shown unless directly visible
+    </p>
+  </section>
+
+  <section id="sciences" class={block}>
+    <h2>Science types</h2>
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Science</th>
+            <th scope="col">Status</th>
+            <th scope="col">Confirmed context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Science">Electromagnetic Science</td>
+            <td data-label="Status"><StatusBadge status="confirmed" label="In demo" /></td>
+            <td class="text-sm text-mist" data-label="Confirmed context">Added in the October 19, 2026 demo update. Cobalt and Graphite are part of its production chain.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Science">Quantum Science</td>
+            <td data-label="Status"><StatusBadge status="estimated" label="Announced" /></td>
+            <td class="text-sm text-mist" data-label="Confirmed context">Named in the September 2026 playtest overview as part of the later progression after Cobalt and Graphite.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Science">Astronomic Science</td>
+            <td data-label="Status"><StatusBadge status="estimated" label="Announced" /></td>
+            <td class="text-sm text-mist" data-label="Confirmed context">A later science type researched with resources from other star systems.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Science">Xenobiologic Science</td>
+            <td data-label="Status"><StatusBadge status="estimated" label="Announced" /></td>
+            <td class="text-sm text-mist" data-label="Confirmed context">The final science type named in the September playtest overview, tied to late-game equipment and modules.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="priority" class={block}>
+    <h2>A sensible demo research priority</h2>
+    <p>
+      This is an editorial reading of the visible tree, not a mandatory build
+      order. It assumes you want to progress from hand-fed machines to a stable
+      automated base.
+    </p>
+    <ol>
+      <li>
+        <strong>Logistics I:</strong> the gate to conveyor belts in the current
+        demo. Until this is done, the factory cannot really automate.
+      </li>
+      <li>
+        <strong>Reliable station power:</strong> keep the research and production
+        machines running. The power branch is a separate progression line, so
+        do not ignore it while chasing automation.
+      </li>
+      <li>
+        <strong>Mining Drones:</strong> after Logistics I, this moves resource
+        gathering onto the station and reduces the need to hand-fly every run.
+      </li>
+      <li>
+        <strong>Computation Science / Logistics II:</strong> the visible
+        automation path after Mining Drones, leading toward the Enrichment
+        Chamber and larger logistics.
+      </li>
+      <li>
+        <strong>Ore and production tiers:</strong> Silica Refining, Ore
+        Enrichment and Cobalt Refining feed later construction and science.
+        Follow the item you actually need rather than unlocking everything.
+      </li>
+      <li>
+        <strong>Slipstream Drive:</strong> the demo’s stated endpoint. Build the
+        science loop to support it, and remember that only Warp Fuel can go into
+        the drive.
+      </li>
+    </ol>
+    <p>
+      The tree does not expose enough cost data to calculate an optimal
+      order. Your actual priority depends on the production bottleneck in your
+      save, especially in co-op.
+    </p>
+  </section>
+
+  <section id="limits" class={block}>
+    <h2>What this research page does not cover</h2>
+    <ul>
+      <li>Every node in the final game; the public screenshot is partial.</li>
+      <li>Exact research costs, times and science-item recipes.</li>
+      <li>Weapon-branch contents, which are cut off in the source image.</li>
+      <li>Faction or story-locked technology.</li>
+      <li>Balance changes that may land at Early Access or later.</li>
+    </ul>
+    <p>
+      The page is still useful as a map of the demo’s research vocabulary and
+      the dependencies shown on screen. For the practical route, return to the{' '}
+      <a href="/beginner-guide/">beginner’s guide</a>. For station machines and
+      module functions, use the <a href="/database/modules/">modules
+      database</a>.
+    </p>
+  </section>
+</GuideLayout>

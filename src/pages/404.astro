@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Signal Lost | Main Sequence Guide"
+  description="The requested page could not be found. Return to the Main Sequence Guide home page, guides, database or launch status."
+  noindex
+>
+  <section class="relative overflow-hidden border-b border-line-soft bg-night">
+    <div class="grid-bg pointer-events-none absolute inset-0 opacity-30" aria-hidden="true"></div>
+    <div class="wrap relative flex min-h-[62vh] flex-col justify-center py-16">
+      <p class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-signal">
+        Navigation error / 404
+      </p>
+      <h1 class="display display-xl mt-5 text-paper">
+        Signal lost.
+      </h1>
+      <p class="lede mt-5">
+        This route does not exist, moved, or was never published. The field
+        guide is still here.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/" class="btn btn-primary">Return to base</a>
+        <a href="/guides/" class="btn btn-secondary">Browse guides</a>
+        <a href="/database/" class="btn btn-secondary">Open database</a>
+      </div>
+      <div class="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-line-soft pt-5 font-mono text-[0.6rem] uppercase tracking-[0.08em] text-mist">
+        <a href="/release-date/" class="hover:text-signal">Release status</a>
+        <a href="/tools/" class="hover:text-signal">Tools</a>
+        <a href="/updates/" class="hover:text-signal">Update log</a>
+        <a href="/contact/" class="hover:text-signal">Report a broken link</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

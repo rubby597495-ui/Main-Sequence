@@ -1,0 +1,163 @@
+---
+import { NAV, PRIMARY_CTA, SITE } from '../data/site';
+
+const path = Astro.url.pathname;
+
+const isActive = (href: string) => {
+  if (href === '/game/') {
+    return path.startsWith('/game/') || path.startsWith('/demo/');
+  }
+  if (href === '/guides/') {
+    return path.startsWith('/guides/') || path.startsWith('/beginner-guide/');
+  }
+  if (href === '/database/') return path.startsWith('/database/');
+  if (href === '/tools/') return path.startsWith('/tools/');
+  if (href === '/updates/') return path.startsWith('/updates/');
+  return path === href;
+};
+---
+
+<div class="border-b border-line-soft bg-night">
+  <div class="wrap flex min-h-8 flex-wrap items-center justify-between gap-x-6 gap-y-1 py-1.5 font-mono text-[0.56rem] uppercase tracking-[0.1em] text-mist">
+    <p class="flex items-center gap-2">
+      <span class="h-1.5 w-1.5 bg-signal"></span>
+      <span>Field status: pre-launch</span>
+      <span aria-hidden="true" class="text-line">/</span>
+      <span class="text-fog">Early Access · Nov 12, 2026</span>
+    </p>
+    <p class="hidden items-center gap-4 sm:flex">
+      <a
+        href={SITE.game.demoSteam}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-signal"
+      >
+        Demo live on Steam ↗
+      </a>
+      <span aria-hidden="true" class="text-line">/</span>
+      <span>Independent, unofficial</span>
+    </p>
+  </div>
+</div>
+
+<header class="sticky top-0 z-50 border-b border-line-soft bg-void">
+  <div class="wrap flex min-h-[4.65rem] items-center justify-between gap-5">
+    <a href="/" class="group flex items-center gap-3 py-2">
+      <img
+        src="/icons/mark.svg"
+        width="40"
+        height="40"
+        alt=""
+        class="h-9 w-9 shrink-0 border border-line-soft transition-colors group-hover:border-signal"
+      />
+      <span class="leading-none">
+        <span class="block font-display text-[1.42rem] font-bold uppercase tracking-[0.015em] text-paper transition-colors group-hover:text-signal">
+          Main Sequence
+        </span>
+        <span class="mt-1 block font-mono text-[0.54rem] uppercase tracking-[0.28em] text-mist">
+          Field Guide
+        </span>
+      </span>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <nav
+        id="site-nav-panel"
+        class="site-nav-panel absolute left-0 right-0 top-full flex-col gap-1 border-b border-line bg-void p-4 lg:static lg:flex-row lg:items-center lg:gap-1 lg:border-0 lg:bg-transparent lg:p-0"
+        aria-label="Primary"
+        data-open="false"
+      >
+        {
+          NAV.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                'relative px-3 py-2.5 font-display text-[0.93rem] font-semibold uppercase tracking-[0.06em] transition-colors',
+                isActive(item.href)
+                  ? 'text-signal'
+                  : 'text-fog hover:text-paper',
+              ]}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+              {isActive(item.href) && (
+                <span
+                  aria-hidden="true"
+                  class="absolute inset-x-3 bottom-0 h-px bg-signal"
+                />
+              )}
+            </a>
+          ))
+        }
+        <a href={PRIMARY_CTA.href} class="btn btn-primary mt-2 lg:hidden">
+          {PRIMARY_CTA.label}
+          <span aria-hidden="true">→</span>
+        </a>
+      </nav>
+
+      <a href={PRIMARY_CTA.href} class="btn btn-secondary hidden lg:inline-flex">
+        {PRIMARY_CTA.label}
+        <span aria-hidden="true">→</span>
+      </a>
+
+      <button
+        type="button"
+        class="menu-toggle h-11 w-11 flex-col items-center justify-center gap-[5px] border border-line text-paper"
+        aria-expanded="false"
+        aria-controls="site-nav-panel"
+        aria-label="Open navigation menu"
+        data-menu-toggle
+      >
+        <span class="block h-px w-5 bg-current"></span>
+        <span class="block h-px w-5 bg-current"></span>
+        <span class="block h-px w-5 bg-current"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (() => {
+    const button = document.querySelector('[data-menu-toggle]');
+    const panel = document.getElementById('site-nav-panel');
+    if (!button || !panel) return;
+
+    const setOpen = (open) => {
+      panel.dataset.open = String(open);
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute(
+        'aria-label',
+        open ? 'Close navigation menu' : 'Open navigation menu',
+      );
+    };
+
+    button.addEventListener('click', () => {
+      setOpen(panel.dataset.open !== 'true');
+    });
+
+    panel.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (
+        panel.dataset.open === 'true' &&
+        !panel.contains(event.target) &&
+        !button.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024) setOpen(false);
+    });
+  })();
+</script>

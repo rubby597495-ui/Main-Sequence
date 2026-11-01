@@ -1,0 +1,46 @@
+---
+import { AD_CONFIG } from '../config/ads';
+
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = 'Advertisement', class: className = '' } = Astro.props;
+const enabled = AD_CONFIG.enabled && Boolean(AD_CONFIG.bannerKey);
+const invokeUrl = `https://www.highperformanceformat.com/${AD_CONFIG.bannerKey}/invoke.js`;
+---
+
+{
+  enabled && (
+    <aside
+      class={`my-10 border-y border-line-soft py-4 ${className}`.trim()}
+      aria-label="Advertisement"
+    >
+      <p class="mb-2 text-center font-mono text-[0.57rem] uppercase tracking-[0.16em] text-mist">
+        {label}
+      </p>
+      <div class="adsterra-slot mx-auto flex min-h-[250px] w-full max-w-[728px] items-center justify-center">
+        <script
+          is:inline
+          define:vars={{
+            key: AD_CONFIG.bannerKey,
+            height: AD_CONFIG.height,
+            width: AD_CONFIG.width,
+          }}
+        >
+          /** @type {any} */
+          const adWindow = window;
+          adWindow.atOptions = {
+            key,
+            format: 'iframe',
+            height,
+            width,
+            params: {},
+          };
+        </script>
+        <script is:inline src={invokeUrl}></script>
+      </div>
+    </aside>
+  )
+}

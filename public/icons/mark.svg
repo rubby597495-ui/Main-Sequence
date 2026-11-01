@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Main Sequence Guide mark">
+  <rect width="64" height="64" fill="#071017"/>
+  <path d="M32 7 56 20.7v23.1L32 57 8 43.8V20.7L32 7Z" fill="none" stroke="#f5a524" stroke-width="2"/>
+  <path d="M18.5 40.5 44 23.5" fill="none" stroke="#68d6d3" stroke-width="1.6"/>
+  <circle cx="44" cy="23.5" r="3.7" fill="#f5a524"/>
+  <circle cx="18.5" cy="40.5" r="1.8" fill="#68d6d3"/>
+  <path d="M24 36.5v-9l8 5 8-5v9" fill="none" stroke="#f1ede4" stroke-width="2" stroke-linejoin="round"/>
+</svg>

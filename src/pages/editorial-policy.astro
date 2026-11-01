@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import { SITE } from '../data/site';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Editorial policy', path: '/editorial-policy/' },
+];
+
+const labels = [
+  {
+    name: 'Official',
+    definition:
+      'A direct statement from the developer or publisher, an official storefront field, an official patch note, or a clear official in-game screenshot.',
+    style: 'badge-confirmed',
+  },
+  {
+    name: 'Reported',
+    definition:
+      'A credible third-party report with a verifiable origin. We use it for context and corroboration, not to override a direct official statement.',
+    style: 'badge-reported',
+  },
+  {
+    name: 'Community-tested',
+    definition:
+      'A player report from a current build. We reproduce it only when it solves a real problem, and we link to the thread and mark that it can change.',
+    style: 'badge-community',
+  },
+  {
+    name: 'Listed / estimated',
+    definition:
+      'A storefront timestamp, a third-party data listing or a calculation. It is useful for planning but is not publisher confirmation.',
+    style: 'badge-estimated',
+  },
+  {
+    name: 'Unconfirmed',
+    definition:
+      'No reliable public source establishes the detail. We say we do not know instead of inferring a number from another game.',
+    style: 'badge-unknown',
+  },
+];
+---
+
+<BaseLayout
+  title="Editorial Policy & Fact-Checking Standards"
+  description="How Main Sequence Guide separates official facts, reported details, community-tested findings and unconfirmed information, and how we handle corrections and updates."
+  breadcrumbs={breadcrumbs}
+  pageType="WebPage"
+>
+  <PageIntro
+    eyebrow="Standards"
+    title="Editorial policy and fact-checking"
+    description="The site only works if you can tell what is known, what is reported and what is still a guess. This is how we draw the lines."
+    breadcrumbs={breadcrumbs}
+    meta={['Effective November 1, 2026', 'Applies to every page', 'Corrections prioritized']}
+  />
+
+  <div class="wrap py-12 md:py-16">
+    <div class="prose-guide max-w-3xl">
+      <h2>Source hierarchy</h2>
+      <p>
+        We prefer the closest available source to the game. A developer
+        announcement or the store page outranks a video; a current in-game
+        screenshot outranks an older build guide. A community thread can be
+        useful evidence of a real blocker, but it is never presented as an
+        official design statement.
+      </p>
+
+      <div class="not-prose mt-6 divide-y divide-line-soft border-y border-line-soft">
+        {
+          labels.map((label) => (
+            <div class="grid gap-3 py-5 sm:grid-cols-[11rem_1fr]">
+              <div>
+                <span class={`badge ${label.style}`}>{label.name}</span>
+              </div>
+              <p class="m-0 text-sm leading-relaxed text-mist">
+                {label.definition}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <h2>What we will not publish</h2>
+      <ul>
+        <li>Invented characters, quests, items, recipes, maps or enemy stats.</li>
+        <li>Fake hands-on experience or fabricated playtime.</li>
+        <li>Third-party price, revenue, player-count or search-volume claims presented as official data.</li>
+        <li>Fake “updated today” timestamps with no verifiable change.</li>
+        <li>Generic FAQ blocks added only to fill keyword space.</li>
+        <li>Automatic entity pages built by renaming the same paragraph.</li>
+      </ul>
+
+      <h2>Dates, patches and version context</h2>
+      <p>
+        Game mechanics can change in a patch. Pages carry a last-checked date and
+        name the relevant build when a finding comes from a demo or playtest.
+        The update log only lists entries tied to an official announcement or
+        patch note. If a page relies on a community-tested step, it says so and
+        links the thread rather than silently merging it into official fact.
+      </p>
+
+      <h2>Use of AI assistance</h2>
+      <p>
+        This site uses AI-assisted drafting and editorial tooling. AI output is
+        not a source. We compare claims against linked primary material, keep
+        uncertain details out of confirmed fields and label community findings.
+        We do not use AI to invent experiences, statistics or relationships
+        between game entities.
+      </p>
+
+      <h2>Advertising and independence</h2>
+      <p>
+        The site is designed to support itself with clearly labelled display
+        advertising. No advertiser receives editorial approval over a page. The
+        current build does not load an ad script until a live placement is
+        configured; when advertising is enabled, the privacy policy will reflect
+        the active setup and consent controls where required.
+      </p>
+
+      <h2>Corrections</h2>
+      <p>
+        A correction should include the page URL, the specific statement and a
+        verifiable source. We will update the page rather than quietly deleting
+        a mistake. For urgent factual issues, use{' '}
+        <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> and put
+        “Correction” in the subject line.
+      </p>
+
+      <h2>Scope of this policy</h2>
+      <p>
+        This policy covers all guides, databases, tools, update entries and
+        explanatory pages on {SITE.url.replace('https://', '')}. External sites
+        are governed by their own policies. The policy may be revised as the
+        site adds new formats, including advertising or analytics; the effective
+        date at the top changes when it does.
+      </p>
+
+      <p class="mt-8 border-t border-line-soft pt-5 font-mono text-[0.62rem] uppercase tracking-[0.06em] text-mist">
+        Effective {SITE.lastVerifiedLabel}. This page is an editorial policy,
+        not legal advice.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

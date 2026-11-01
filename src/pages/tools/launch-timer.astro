@@ -1,0 +1,247 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import Countdown from '../../components/Countdown.astro';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Tools', path: '/tools/' },
+  { name: 'Launch countdown', path: '/tools/launch-timer/' },
+];
+
+const toc = [
+  { id: 'countdown', label: 'Countdown' },
+  { id: 'source-status', label: 'Official vs estimated' },
+  { id: 'time-zones', label: 'Time zones' },
+  { id: 'launch-day', label: 'Launch-day plan' },
+  { id: 'zero', label: 'When the timer ends' },
+  { id: 'faq', label: 'Launch-time questions' },
+];
+
+const target = new Date('2026-11-12T16:00:00Z');
+const zones = [
+  ['UTC', 'UTC'],
+  ['Los Angeles', 'America/Los_Angeles'],
+  ['New York', 'America/New_York'],
+  ['London', 'Europe/London'],
+  ['Berlin', 'Europe/Berlin'],
+  ['Dubai', 'Asia/Dubai'],
+  ['New Delhi', 'Asia/Kolkata'],
+  ['Singapore', 'Asia/Singapore'],
+  ['Tokyo', 'Asia/Tokyo'],
+  ['Sydney', 'Australia/Sydney'],
+  ['Auckland', 'Pacific/Auckland'],
+] as const;
+
+const launchTimes = zones.map(([label, timeZone]) => ({
+  label,
+  value: new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short',
+  }).format(target),
+}));
+
+const faq = [
+  {
+    question: 'What time does Main Sequence launch?',
+    answer:
+      'The exact unlock hour has not been officially announced. SteamDB lists a store release timestamp of 16:00 UTC on November 12, 2026. This page uses that as an estimate and labels it clearly; wait for the publisher’s launch-time post if the exact minute matters.',
+  },
+  {
+    question: 'Can I preload Main Sequence?',
+    answer:
+      'No preload details have been announced. The game is still a “coming soon” Steam page rather than an available purchase, so we cannot confirm pre-download timing or file size beyond the listed 5 GB minimum storage requirement.',
+  },
+  {
+    question: 'What should I do if the countdown ends and the game is not available?',
+    answer:
+      'Refresh the Steam store page. Storefront timestamps can lag, the publisher may change the unlock hour, and regional store updates are not instant. Check the official Steam page and developer announcements before assuming a delay.',
+  },
+  {
+    question: 'Is the November 12 date official?',
+    answer:
+      'Yes. The developer announced November 12, 2026 for Steam Early Access on October 1, 2026, and the Steam page displays the same date. Only the precise unlock time is unofficial.',
+  },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Release Countdown & Launch Time by Time Zone"
+  description="Track the Main Sequence Early Access countdown and convert the listed unlock time across time zones, with a clear note on which launch details are still unofficial."
+  eyebrow="Launch tool"
+  title="Main Sequence release countdown"
+  intro="One clock for the Early Access window, one table for the planet, and a visible line between the official date and the estimated unlock hour."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-news-2026-10-01',
+    'steam-store',
+    'steamdb',
+    'steam-demo',
+    'steam-news-2026-10-19',
+  ]}
+  image={GAME_IMAGES['main-sequence-asteroid-mining-beams.jpg']}
+  imageAlt="A Main Sequence mining ship illuminating asteroids with multiple blue mining beams"
+  imageCaption="Release date: November 12, 2026. Exact unlock hour: not yet confirmed by the publisher."
+  meta={['Date official', '16:00 UTC estimate', 'Browser-local conversion', 'No account needed']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="The countdown target is re-checked against SteamDB. The official November 12 date is separate from the unconfirmed unlock hour."
+>
+  <section id="countdown" class={block}>
+    <div class="border border-line-soft bg-night p-5 md:p-7">
+      <Countdown variant="full" class="max-w-xl" />
+    </div>
+    <noscript>
+      <p class="callout mt-4 text-sm text-mist">
+        JavaScript is off, so the live countdown cannot update. The official
+        release date is <strong>November 12, 2026</strong>; the exact hour is
+        not confirmed.
+      </p>
+    </noscript>
+  </section>
+
+  <section id="source-status" class={block}>
+    <h2>What is official, and what is estimated</h2>
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Detail</th>
+            <th scope="col">Status</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Detail">Release date: November 12, 2026</td>
+            <td data-label="Status">Official</td>
+            <td class="text-sm text-mist" data-label="Source">Developer announcement and Steam store page.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Detail">Steam Early Access launch</td>
+            <td data-label="Status">Official</td>
+            <td class="text-sm text-mist" data-label="Source">Developer announcement and Steam Early Access listing.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Detail">Exact unlock hour: 16:00 UTC</td>
+            <td data-label="Status">Estimated</td>
+            <td class="text-sm text-mist" data-label="Source">SteamDB store timestamp. The publisher has not confirmed it.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Detail">Price</td>
+            <td data-label="Status">Not announced</td>
+            <td class="text-sm text-mist" data-label="Source">Developer said details would follow the date announcement.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warning mt-5">
+      <span class="callout-title">The timer is a planning aid</span>
+      <p class="m-0 text-sm">
+        If the countdown reaches zero and Steam still shows “coming soon”,
+        refresh the store page. The date is official; the 16:00 UTC hour is a
+        storefront timestamp, and store updates can lag.
+      </p>
+    </div>
+  </section>
+
+  <section id="time-zones" class={block}>
+    <h2>Estimated launch time by time zone</h2>
+    <p>
+      These values convert the SteamDB timestamp of 16:00 UTC on November 12,
+      2026. Daylight-saving rules are applied for the date. Your browser-local
+      estimate is shown in the countdown above.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <caption class="sr-only">
+          Estimated Main Sequence launch times
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">City / zone</th>
+            <th scope="col">Estimated local time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            launchTimes.map((row) => (
+              <tr>
+                <th
+                  scope="row"
+                  class="whitespace-nowrap bg-deep px-4 py-3 font-mono text-[0.68rem] font-medium text-fog"
+                  data-label="City / zone"
+                >
+                  {row.label}
+                </th>
+                <td class="text-paper" data-label="Estimated local time">{row.value}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-xs leading-relaxed text-mist">
+      Based on an unofficial timestamp. The developer may confirm a different
+      launch time.
+    </p>
+  </section>
+
+  <section id="launch-day" class={block}>
+    <h2>How to plan launch day</h2>
+    <ol>
+      <li>
+        <strong>Install the demo now if you want a feel for the game.</strong>
+        The demo is free and separate from the Early Access purchase.
+      </li>
+      <li>
+        <strong>Expect an unknown price.</strong> Do not budget from a
+        third-party estimate. The publisher has not announced the price.
+      </li>
+      <li>
+        <strong>Do not take time off for an unconfirmed hour.</strong> The date
+        is solid, but the minute is not. A launch window or a store refresh can
+        shift the practical start.
+      </li>
+      <li>
+        <strong>Check the store page, not just the countdown.</strong> The
+        official Steam listing is the source that matters for regional
+        availability.
+      </li>
+      <li>
+        <strong>Start with a fresh-save expectation.</strong> Demo save transfer
+        has not been confirmed, so do not plan your launch around carrying over
+        a demo station.
+      </li>
+    </ol>
+  </section>
+
+  <section id="zero" class={block}>
+    <h2>When the timer ends</h2>
+    <p>
+      The countdown is not a store trigger. When it reaches zero:
+    </p>
+    <ul>
+      <li>Refresh the Steam store page once, then check the developer’s news feed.</li>
+      <li>Do not assume a delay from a single stale page; regional store updates can take time.</li>
+      <li>If the price is still absent, do not guess it from another game or from a third-party estimate.</li>
+      <li>If the launch has changed, the release-status page and update log will be corrected.</li>
+    </ul>
+    <p>
+      For the confirmed date, platforms, price status and system requirements,
+      use the <a href="/release-date/">release status page</a>. For changes,
+      see the <a href="/updates/">update log</a>.
+    </p>
+  </section>
+</GuideLayout>

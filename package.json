@@ -1,0 +1,41 @@
+{
+  "name": "main-sequence-guide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Independent, source-checked wiki and field guide for the video game Main Sequence.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "validate": "node scripts/validate.mjs",
+    "test:a11y": "node scripts/a11y-test.mjs",
+    "test:visual": "node scripts/visual-test.mjs",
+    "test:perf": "node scripts/perf-test.mjs",
+    "test:nojs": "node scripts/nojs-test.mjs",
+    "test:http": "node scripts/http-check.mjs",
+    "test:sources": "node scripts/source-check.mjs",
+    "test:content": "node scripts/validate.mjs"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/saira": "^5.3.0",
+    "@fontsource/saira-condensed": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "7.4.1",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "axe-core": "^4.14.0",
+    "cheerio": "^1.2.0",
+    "playwright-core": "^1.64.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.4"
+  }
+}

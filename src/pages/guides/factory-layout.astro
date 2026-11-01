@@ -1,0 +1,300 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import Figure from '../../components/Figure.astro';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/guides/' },
+  { name: 'Factory layout', path: '/guides/factory-layout/' },
+];
+
+const toc = [
+  { id: 'principles', label: 'Five layout principles' },
+  { id: 'plan', label: 'Plan the first floor' },
+  { id: 'flow', label: 'Material flow' },
+  { id: 'power', label: 'Power and services' },
+  { id: 'expansion', label: 'Room to expand' },
+  { id: 'defense', label: 'Defense by design' },
+  { id: 'failures', label: 'Failure modes' },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Factory Layout Guide: Build a Clean First Floor"
+  description="Plan a Main Sequence factory floor around power, material flow, storage and defensive access. A practical layout guide using only confirmed machines and logistics."
+  eyebrow="Automation"
+  title="Main Sequence factory layout guide"
+  intro="A good factory floor is not the densest one. It is the one where you can see what is stuck, reach what needs repair, and add the next machine without tearing it apart."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-store',
+    'steam-news-2025-08-12',
+    'steam-news-2026-09-21',
+    'steam-news-2026-09-17',
+    'steam-news-2026-10-19',
+    'steam-screens',
+    'steam-forum-docks',
+  ]}
+  image={GAME_IMAGES['main-sequence-production-lines.jpg']}
+  imageAlt="Rows of orange production machines and conveyor belts inside a Main Sequence station"
+  imageCaption="Machine rows, belts and service aisles in an official demo screenshot. Layout is a first-person problem."
+  meta={['No unverified ratios', 'Station-focused', 'Demo + Early Access context']}
+  pageType="WebPage"
+  dataNote="This is a design-method page, not a recipe database. Numeric ratios and machine footprints are deliberately omitted because the public sources do not establish a stable current set."
+>
+  <section id="principles" class={block}>
+    <h2>Five principles that survive a balance patch</h2>
+    <ol>
+      <li>
+        <strong>Keep power and production separable.</strong> If a machine
+        stalls, you want to know whether the generator, the fuel supply or the
+        recipe is at fault. Put the power source where you can inspect it.
+      </li>
+      <li>
+        <strong>Design around the human.</strong> The player walks the station
+        in first person. A line that is perfectly packed but impossible to
+        inspect is a bad layout.
+      </li>
+      <li>
+        <strong>Make one product visible end to end.</strong> A clean first
+        loop beats a wide floor of half-connected machines.
+      </li>
+      <li>
+        <strong>Leave buffers.</strong> Containers and empty belt segments give
+        you a place to see backlog before it becomes a factory-wide jam.
+      </li>
+      <li>
+        <strong>Leave a growth direction.</strong> Choose one wall or aisle
+        where the next machine row can extend. Do not box the base in on all
+        four sides.
+      </li>
+    </ol>
+  </section>
+
+  <section id="plan" class={block}>
+    <h2>Plan the first floor in six passes</h2>
+    <h3>1. Pick one product loop</h3>
+    <p>
+      Start with one output that feeds a machine or research. The demo’s
+      production tree includes ore processing and early components; do not try
+      to build every branch at once.
+    </p>
+    <h3>2. Mark inputs and outputs</h3>
+    <p>
+      Before placing belts, decide where the raw input arrives, where the
+      machine sits, and where the output goes. Three clear points are enough for
+      the first loop.
+    </p>
+    <h3>3. Put the power source at the edge</h3>
+    <p>
+      A power source at one edge is easier to expand and inspect. It also keeps
+      the noisiest, most dangerous equipment away from the main walkway. This is
+      a spatial suggestion, not a game-enforced rule.
+    </p>
+    <h3>4. Reserve a service aisle</h3>
+    <p>
+      Leave enough clear floor to walk between machine rows. In a first-person
+      factory, an aisle is part of the interface: it is how you see, repair and
+      reconfigure the line.
+    </p>
+    <h3>5. Build one belt run</h3>
+    <p>
+      Connect only the first loop. Watch one item travel from source to
+      destination. Then decide whether you need a splitter, a second input or a
+      buffer container.
+    </p>
+    <h3>6. Label your own floor plan</h3>
+    <p>
+      Use visual cues: keep power on one side, storage on another, and leave a
+      recognizable route from the dock to the production area. The game’s
+      decoration and color tools can help, but the layout should make sense
+      without them.
+    </p>
+
+    <Figure
+      name="main-sequence-factory-floor.jpg"
+      alt="A Main Sequence factory floor with several orange production machines and parallel belt lines"
+      caption="A production floor with repeated machine rows. Repetition makes a line readable, but the player still needs access."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+  </section>
+
+  <section id="flow" class={block}>
+    <h2>Material flow: build a trunk, then branches</h2>
+    <p>
+      A useful mental model is a <strong>trunk</strong> and <strong>branches</strong>.
+      The trunk carries the most-used input or output. Branches feed specific
+      machines. You do not need a main bus in the Factorio sense: the station is
+      three-dimensional and you can use floors, elevators and room shape.
+    </p>
+    <ul>
+      <li>
+        <strong>Trunk:</strong> the shortest stable route between the dock/storage
+        area and the first production cluster.
+      </li>
+      <li>
+        <strong>Branch:</strong> a short connection from the trunk to one machine
+        or one row.
+      </li>
+      <li>
+        <strong>Buffer:</strong> a container or open belt segment where you can
+        see whether supply or demand is the problem.
+      </li>
+    </ul>
+    <p>
+      Conveyor Belt Mk. 1, Splitter Mk. 1 and Item Elevator are confirmed
+      logistics elements. Their exact throughput and footprint are not published
+      in our sources, so do not copy a ratio from a video without checking the
+      current build. Build a small test segment first, then scale the shape that
+      works.
+    </p>
+
+    <h3>Belts are not the only bottleneck</h3>
+    <p>
+      A machine can stop because it lacks an input, has a full output, has no
+      power, has the wrong filter, or cannot accept the item at all. Design your
+      floor so you can inspect those five things in that order. A splitter is
+      not a fix for an empty input.
+    </p>
+  </section>
+
+  <section id="power" class={block}>
+    <h2>Power and services</h2>
+    <p>
+      Station machines and research need power. The official demo tree shows
+      Hydrogen Power and Solar Panels as generation unlocks. It does not publish
+      a universal generation-to-machine ratio, so the correct amount is whatever
+      keeps your current load stable with headroom for the next machine.
+    </p>
+    <p>
+      Build a power area that can grow. Keep fuel or input storage close, leave
+      space beside the generator, and avoid burying the configuration panel
+      behind another row of machines. If your station loses power, the factory
+      should fail visibly at the generator rather than somewhere deep in the
+      production chain.
+    </p>
+
+    <h3>Docks and storage are part of the layout</h3>
+    <p>
+      The Station Dock is the boundary between ships and the factory. Put
+      storage near the dock, but not on top of the walking route. Containers
+      and larger storage modules give you a buffer between incoming cargo and
+      the machines. The exact capacity of each container is not confirmed in our
+      public sources; see the <a href="/database/modules/">modules database</a>.
+    </p>
+
+    <div class="callout callout-info">
+      <span class="callout-title">No official “best layout”</span>
+      <p class="m-0 text-sm">
+        There is no published developer layout that guarantees optimal
+        throughput. Treat any online “perfect ratio” build as version-specific
+        until the full game is released and stable.
+      </p>
+    </div>
+  </section>
+
+  <section id="expansion" class={block}>
+    <h2>Room to expand without a rebuild</h2>
+    <p>
+      The station is a physical space, but it is also a growth plan. Leave one
+      clear direction for new machine rows, belt trunks and storage. If you
+      build a closed box around your first machine, the second machine will
+      force a remodel.
+    </p>
+    <ul>
+      <li>
+        <strong>Extend the trunk, not the tangle.</strong> Add a new branch off a
+        clean line instead of crossing five belts.
+      </li>
+      <li>
+        <strong>Keep vertical options in mind.</strong> The Item Elevator exists
+        as a logistics unlock; a multi-level plan is a legitimate long-term
+        direction, not a requirement for the first room.
+      </li>
+      <li>
+        <strong>Plan for another dock.</strong> Demo players report that extra
+        docks can be added through the station control panel. Co-op may increase
+        the pressure on docking and material transfer, but the exact multiplayer
+        logistics have not been documented.
+      </li>
+      <li>
+        <strong>Leave the defense lane open.</strong> A station that is easy to
+        walk is easier to defend and repair.
+      </li>
+    </ul>
+  </section>
+
+  <section id="defense" class={block}>
+    <h2>Defense belongs in the floor plan</h2>
+    <p>
+      The ancient alien defense network means a factory is also a target.
+      Station plasma turrets and shields are confirmed defense elements, but the
+      available public sources do not give exact coverage ranges or damage
+      values. Use the principles instead of a fake spreadsheet:
+    </p>
+    <ul>
+      <li>Keep defensive systems near the assets you cannot afford to lose.</li>
+      <li>Do not block your own fleet’s approach path with solid machine rows.</li>
+      <li>Leave access to repair or reconfigure defense equipment.</li>
+      <li>Treat a quiet sector as an opportunity to improve redundancy, not a guarantee of safety.</li>
+    </ul>
+    <p>
+      For the confirmed combat systems and what remains unknown, read the{' '}
+      <a href="/guides/combat-defense/">combat and defense guide</a>.
+    </p>
+  </section>
+
+  <section id="failures" class={block}>
+    <h2>Five failure modes to design out</h2>
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Failure</th>
+            <th scope="col">Symptom</th>
+            <th scope="col">Layout response</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Failure">Hidden power gap</td>
+            <td class="text-sm text-mist" data-label="Symptom">Lines stop together, but belts still contain items.</td>
+            <td class="text-sm text-mist" data-label="Layout response">Put generation on an accessible edge and keep a visible power reserve.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Failure">Output blockage</td>
+            <td class="text-sm text-mist" data-label="Symptom">The first machine fills, then the whole row stalls.</td>
+            <td class="text-sm text-mist" data-label="Layout response">Add a visible buffer or storage endpoint before expanding upstream.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Failure">Wrong-item jam</td>
+            <td class="text-sm text-mist" data-label="Symptom">A belt carries an input into the wrong machine.</td>
+            <td class="text-sm text-mist" data-label="Layout response">Keep one item type per branch where possible; use filters deliberately.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Failure">Unwalkable floor</td>
+            <td class="text-sm text-mist" data-label="Symptom">You cannot reach a machine’s configuration panel.</td>
+            <td class="text-sm text-mist" data-label="Layout response">Reserve service aisles before filling the floor.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Failure">No growth direction</td>
+            <td class="text-sm text-mist" data-label="Symptom">The next machine forces a tear-down.</td>
+            <td class="text-sm text-mist" data-label="Layout response">Keep one wall or aisle clear for the next row and trunk.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-5">
+      If you are still stuck before the first belt, the{' '}
+      <a href="/guides/first-station-logistics/">conveyor belt guide</a> covers
+      the power and Logistics I gate. If you want the early research sequence,
+      see the <a href="/database/research/">research database</a>.
+    </p>
+  </section>
+</GuideLayout>

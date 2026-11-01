@@ -1,0 +1,281 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import Figure from '../../components/Figure.astro';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/guides/' },
+  { name: 'Conveyor belt fix', path: '/guides/first-station-logistics/' },
+];
+
+const toc = [
+  { id: 'answer', label: 'The short answer' },
+  { id: 'power', label: 'Power the station' },
+  { id: 'research', label: 'Queue Logistics I' },
+  { id: 'belts', label: 'Build the first belt' },
+  { id: 'troubleshooting', label: 'Troubleshooting' },
+  { id: 'context', label: 'What is confirmed' },
+  { id: 'faq', label: 'Belt questions' },
+];
+
+const faq = [
+  {
+    question: 'Why are conveyor belts missing in Main Sequence?',
+    answer:
+      'In the current demo, conveyor belts are tied to the Logistics I research step. They are not a starting build option. A demo player report confirms that researching Logistics I makes belt construction available.',
+  },
+  {
+    question: 'Why won’t my research station start?',
+    answer:
+      'According to a demo player report, station machines need station-side power. Building a generator on the station and supplying it with power items was the solution in that playthrough. A docked ship did not share power with the station. This is community-tested rather than an official tutorial line.',
+  },
+  {
+    question: 'How much research does Logistics I need?',
+    answer:
+      'The official demo screenshot shows Logistics I in the Research Queue at 0/10. We do not treat that as a permanent cost because the demo is still being patched.',
+  },
+  {
+    question: 'Can I skip logistics and keep hand-feeding machines?',
+    answer:
+      'You can hand-feed a small amount of production, but the game is a factory builder and belts are a core automation tool. If your goal is to see the demo’s production loop, unlocking Logistics I is the practical path.',
+  },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Conveyor Belts: How to Unlock Logistics I"
+  description="Conveyor belts missing in Main Sequence? Power your station, research Logistics I and build your first belt line with this demo-focused step-by-step guide."
+  eyebrow="Demo field fix"
+  title="Why conveyor belts are missing in Main Sequence — and how to unlock them"
+  intro="Belts are not bugged. In the current demo they sit behind a station-power and Logistics I research step that the tutorial does not explain clearly."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-forum-logistics',
+    'steam-screens',
+    'steam-news-2026-09-21',
+    'steam-news-2026-10-21',
+    'steam-news-2025-08-12',
+    'steam-news-2026-05-28',
+  ]}
+  image={GAME_IMAGES['main-sequence-conveyor-belt-build.jpg']}
+  imageAlt="A blue holographic Conveyor Belt Mk. 1 being placed inside a Main Sequence station"
+  imageCaption="The conveyor build screen in the current demo. Belt availability is tied to progression, not just the hotbar."
+  meta={['Demo: October 21 build', 'Community-tested step labelled', 'Spoiler-light']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="The specific power and Logistics I sequence comes from a player-tested demo thread. Validate it against your current patch; the underlying research gate is visible in official media."
+>
+  <section id="answer" class={block}>
+    <div class="callout">
+      <span class="callout-title">Quick answer</span>
+      <p class="m-0">
+        Build a powered station first. Then use the station’s research/science
+        machine to queue <strong>Logistics I</strong>. Once that research is
+        complete, conveyor belt construction becomes available. In the current
+        demo, the station’s power comes from station-side generation; a docked
+        ship does not solve it, according to a community-tested report.
+      </p>
+    </div>
+
+    <p>
+      The confusion is understandable. The mission text tells you to connect
+      machines with a conveyor belt, but does not expose belts in the build
+      menu. The official demo screenshot shows Logistics I in a research queue
+      at 0/10, which supports what players found: this is a progression gate,
+      not a missing item.
+    </p>
+    <p>
+      The following route is split into the part that is visible in official
+      material and the part that comes from player testing. It reflects the
+      October 21, 2026 demo hotfix.
+    </p>
+  </section>
+
+  <section id="power" class={block}>
+    <h2>Step 1: Give the station power</h2>
+    <p>
+      Place station-side power generation before you queue research. In the
+      community thread that documented this blocker, the working sequence was:
+    </p>
+    <ol>
+      <li>Build a generator on the station.</li>
+      <li>Supply it with the power/fuel item it accepts.</li>
+      <li>Place the research machine on the same powered station.</li>
+      <li>Feed the research machine the input it requests.</li>
+    </ol>
+    <p>
+      The player who reported the issue had a powered ship docked at the
+      station, but the research machine still had no power. That suggests the
+      docked ship and station do not share a power pool in the current demo.
+      Treat this as a player-tested limitation, not a permanent design promise.
+    </p>
+
+    <div class="callout callout-warning">
+      <span class="callout-title">Status: community-tested</span>
+      <p class="m-0 text-sm">
+        The official tutorial does not clearly list the station-power step. The
+        exact generator, fuel item and build menu labels may have changed since
+        the report. Check the machine’s configuration panel for its power
+        requirements.
+      </p>
+    </div>
+
+    <h3>What to check before you build research</h3>
+    <ul>
+      <li>The generator is actually on the station, not only on the docked ship.</li>
+      <li>The generator has a fuel or power input connected.</li>
+      <li>The research machine is powered and is not showing a red power state.</li>
+      <li>The science/research input is present in storage or the machine’s input.</li>
+      <li>The station itself is powered rather than only being physically built.</li>
+    </ul>
+
+    <p>
+      The developer describes station power as a real constraint: mining drone
+      bays and machines require enough power to run. The specific solution in
+      the current demo is the part learned from players.
+    </p>
+  </section>
+
+  <section id="research" class={block}>
+    <h2>Step 2: Queue and finish Logistics I</h2>
+    <p>
+      Open the station’s research interface. The official research screenshot
+      shows a queue entry for <strong>Logistics I</strong> with a 0/10 progress
+      indicator and an “Unlocks” panel beside it. The same screenshot shows the
+      Automation branch continuing to Mining Drones, Computation Science and
+      Logistics II.
+    </p>
+    <ol>
+      <li>Interact with the research/science module on the powered station.</li>
+      <li>Add Logistics I to the research queue.</li>
+      <li>Supply the research machine with the correct research item.</li>
+      <li>Wait for the queue to complete; check that station power stays stable.</li>
+      <li>Return to the build menu and look for the conveyor build option.</li>
+    </ol>
+    <p>
+      Do not assume that “research complete” means “all belts unlocked forever.”
+      Later logistics technology may add more options. For the first belt, the
+      current demo progression is Logistics I.
+    </p>
+  </section>
+
+  <section id="belts" class={block}>
+    <h2>Step 3: Build the first belt without making a mess</h2>
+    <p>
+      The official build screenshot identifies the tool as <strong>Conveyor
+      Belt Mk. 1</strong>. Its on-screen build controls show:
+    </p>
+    <ul>
+      <li><strong>Confirm All</strong> for the selected line.</li>
+      <li><strong>Add Segment</strong> to continue the route.</li>
+      <li><strong>Rotate</strong> to change direction.</li>
+      <li><strong>Cancel Segment</strong> to undo the current segment.</li>
+    </ul>
+    <p>
+      Start with a short, straight connection between one output and one
+      storage or machine input. Do not build a decorative loop before you know
+      the item can travel the route.
+    </p>
+
+    <h3>A reliable first belt test</h3>
+    <ol>
+      <li>Place a machine with a completed recipe.</li>
+      <li>Place a container or the next machine directly beside it.</li>
+      <li>Connect the output to the input with a short belt.</li>
+      <li>Supply the source manually and watch one item move.</li>
+      <li>Only then extend the line or add a splitter.</li>
+    </ol>
+
+    <Figure
+      name="main-sequence-production-lines.jpg"
+      alt="A Main Sequence production room with machines in rows and conveyor belts running between them"
+      caption="Keep the first belt short enough that you can see both ends. Expand after the item moves reliably."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+  </section>
+
+  <section id="troubleshooting" class={block}>
+    <h2>Troubleshooting checklist</h2>
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Symptom</th>
+            <th scope="col">Check first</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Symptom">No conveyor in the build menu</td>
+            <td class="text-sm text-mist" data-label="Check first">Logistics I research complete, station is powered, current demo build installed.</td>
+            <td data-label="Status">Community-tested / visible gate</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Symptom">Research never progresses</td>
+            <td class="text-sm text-mist" data-label="Check first">Station generator running, research machine powered, correct research item supplied.</td>
+            <td data-label="Status">Community-tested</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Symptom">Belt exists but items do not move</td>
+            <td class="text-sm text-mist" data-label="Check first">Machine output enabled, destination input accepts the item, belt direction is correct.</td>
+            <td data-label="Status">General UI check</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Symptom">The tutorial contradicts this</td>
+            <td class="text-sm text-mist" data-label="Check first">Check the October 21 hotfix notes and the in-game Codex. Tutorial gaps are a known demo complaint.</td>
+            <td data-label="Status">Community report</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Symptom">Research option seems absent</td>
+            <td class="text-sm text-mist" data-label="Check first">Check prerequisites and current demo version. Players have reported missing tutorial steps; we do not have an official fix list for every case.</td>
+            <td data-label="Status">Unresolved / update-dependent</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-3 text-xs leading-relaxed text-mist">
+      If your build differs from the October 21 demo, trust the in-game
+      configuration panels over an older guide. The game is still changing.
+    </p>
+  </section>
+
+  <section id="context" class={block}>
+    <h2>What is actually confirmed?</h2>
+    <p>
+      There is a difference between the official information and the
+      player-tested route that solves the blocker:
+    </p>
+    <ul>
+      <li>
+        <strong>Official:</strong> conveyor belts are part of station logistics;
+        the developer describes connecting machines with belts. The official
+        screenshot shows Logistics I in the research queue and a Conveyor Belt
+        Mk. 1 build tool.
+      </li>
+      <li>
+        <strong>Player-tested:</strong> station machines need station-side power,
+        a docked ship did not supply that power in one reported playthrough, and
+        belts became available after Logistics I was researched.
+      </li>
+      <li>
+        <strong>Unknown:</strong> whether the exact sequence will remain
+        unchanged at Early Access, and whether the tutorial will explain it more
+        clearly.
+      </li>
+    </ul>
+    <p>
+      We keep the player-tested part visible because it solves a real problem,
+      but we do not dress it up as an official design document. For the broader
+      opening, return to the <a href="/beginner-guide/">beginner’s guide</a>.
+      For the technology branches, use the{' '}
+      <a href="/database/research/">research database</a>.
+    </p>
+  </section>
+</GuideLayout>

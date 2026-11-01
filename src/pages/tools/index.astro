@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Countdown from '../../components/Countdown.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Tools', path: '/tools/' },
+];
+
+const tools = [
+  {
+    href: '/tools/launch-timer/',
+    title: 'Release countdown & time zones',
+    description:
+      'Tracks the listed Early Access unlock timestamp, converts it to local time and clearly separates the official date from the unofficial hour.',
+    status: 'Live tool',
+    index: '01',
+  },
+  {
+    href: '/tools/demo-checklist/',
+    title: 'Demo progress checklist',
+    description:
+      'A spoiler-light checklist from requirements and first scan through station power, Logistics I, co-op and the Slipstream Drive objective.',
+    status: 'Saves locally',
+    index: '02',
+  },
+  {
+    href: '/guides/co-op/#crew-planner',
+    title: 'Co-op crew planner',
+    description:
+      'Assign logistics, production, defense and exploration across two to four captains, with a first move for each shift.',
+    status: 'Interactive',
+    index: '03',
+  },
+];
+---
+
+<BaseLayout
+  title="Main Sequence Tools: Countdown, Demo Checklist & Crew Planner"
+  description="Practical Main Sequence tools: a launch countdown by time zone, a demo progress checklist and a co-op crew planner. No account required; progress stays in your browser."
+  breadcrumbs={breadcrumbs}
+  pageType="CollectionPage"
+>
+  <PageIntro
+    eyebrow="Field tools"
+    title="Main Sequence tools for launch and play"
+    description="Three small tools with clear jobs. No account, no newsletter wall and no pretend game data. Where a number is unconfirmed, the tool says so."
+    breadcrumbs={breadcrumbs}
+    image={GAME_IMAGES['main-sequence-station-asteroid-belt.jpg']}
+    imageAlt="A Main Sequence station and ships in an asteroid field"
+    imageCaption="Tools are built around confirmed dates, demo progression and crew roles."
+    meta={['No account needed', 'Local browser storage', 'Source notes included']}
+  />
+
+  <div class="wrap py-12 md:py-16">
+    <div class="grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-start">
+      <div>
+        <SectionHeading
+          eyebrow="Available now"
+          title="Pick the tool for the question"
+          description="These are intended to remove a decision or a repetitive step, not to pad a page with fake interactivity."
+        />
+
+        <div class="mt-8 border-t border-line">
+          {
+            tools.map((tool) => (
+              <a
+                href={tool.href}
+                class="group grid gap-4 border-b border-line-soft py-6 md:grid-cols-[3rem_1fr_auto] md:items-start md:gap-6"
+              >
+                <span class="font-mono text-[0.6rem] text-[#6f8892]">{tool.index}</span>
+                <div>
+                  <p class="font-mono text-[0.57rem] uppercase tracking-[0.1em] text-signal">
+                    {tool.status}
+                  </p>
+                  <h2 class="mt-2 font-display text-3xl font-semibold uppercase text-paper group-hover:text-signal">
+                    {tool.title}
+                  </h2>
+                  <p class="mt-2 max-w-2xl text-sm leading-relaxed text-mist">
+                    {tool.description}
+                  </p>
+                </div>
+                <span class="font-mono text-xs text-signal">Open ↗</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <aside class="border border-line-soft bg-night p-5">
+        <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+          Next launch window
+        </p>
+        <Countdown class="mt-4" />
+        <div class="mt-5 border-t border-line-soft pt-4 text-xs leading-relaxed text-mist">
+          <p>
+            The date is official. The 16:00 UTC hour comes from SteamDB and is
+            labelled as estimated until the publisher confirms it.
+          </p>
+          <a href="/release-date/" class="arrow-link mt-4">Release facts</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <section class="border-y border-line-soft bg-night">
+    <div class="wrap py-12 md:py-16">
+      <div class="grid gap-10 lg:grid-cols-[1fr_1fr]">
+        <div>
+          <SectionHeading
+            eyebrow="Privacy by default"
+            title="Your checklist stays on your device"
+            description="The demo checklist uses browser localStorage so it works without an account or a database. We do not receive your progress."
+          />
+          <p class="mt-4 max-w-xl text-sm leading-relaxed text-mist">
+            If your browser blocks storage, the list still works for the current
+            page visit but will not persist. The crew planner is generated on
+            the page and is not submitted anywhere. The countdown runs entirely
+            in the browser.
+          </p>
+        </div>
+        <div class="border border-line-soft bg-deep p-5">
+          <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+            What we do not do
+          </p>
+          <ul class="mt-4 space-y-3 text-sm leading-relaxed text-mist">
+            <li>No fake in-game live player counter.</li>
+            <li>No invented build calculator based on unknown recipes.</li>
+            <li>No account system or email gate.</li>
+            <li>No promise that a tool matches a future patch.</li>
+          </ul>
+          <a href="/editorial-policy/" class="arrow-link mt-5">Editorial policy</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

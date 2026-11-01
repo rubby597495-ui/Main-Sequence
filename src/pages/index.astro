@@ -1,0 +1,499 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../components/BaseLayout.astro';
+import Countdown from '../components/Countdown.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { GAME_FACTS, GAMEPLAY_LOOP, FEATURES } from '../data/game';
+import { FEATURED_UPDATES } from '../data/updates';
+import { GUIDES } from '../data/guides';
+import { RESOURCES } from '../data/resources';
+import { MODULES } from '../data/modules';
+import { RESEARCH_NODES } from '../data/research';
+import { GAME_IMAGES } from '../lib/images';
+import { SITE } from '../data/site';
+
+const heroImage = GAME_IMAGES['main-sequence-mining-laser.jpg'];
+const cockpitImage = GAME_IMAGES['main-sequence-cockpit-station.jpg'];
+const researchImage = GAME_IMAGES['main-sequence-research-tree.jpg'];
+
+const startGuide = GUIDES[0];
+const secondaryGuides = [GUIDES[1], GUIDES[5]];
+const homeFacts = GAME_FACTS.filter((fact) =>
+  ['Release date', 'Platform', 'Demo', 'Price'].includes(fact.label),
+);
+
+const toolLinks = [
+  {
+    title: 'Launch countdown',
+    description:
+      'An estimated unlock countdown and local-time converter, with the official and unofficial parts labelled separately.',
+    href: '/tools/launch-timer/',
+    code: 'TOOL 01',
+  },
+  {
+    title: 'Demo checklist',
+    description:
+      'A spoiler-light progress list from first scan to Slipstream Drive. Saved in your browser, not on our server.',
+    href: '/tools/demo-checklist/',
+    code: 'TOOL 02',
+  },
+  {
+    title: 'Co-op crew planner',
+    description:
+      'Split logistics, production, defense and exploration across two to four captains before your first session.',
+    href: '/guides/co-op/#crew-planner',
+    code: 'TOOL 03',
+  },
+];
+---
+
+<BaseLayout
+  title="Main Sequence Guide — Wiki, Beginner Tips & Launch Tools"
+  description="Source-checked Main Sequence wiki: release date, demo help, beginner guides, ship modules, research tree, co-op tips and practical launch tools."
+>
+  <section class="relative isolate overflow-hidden border-b border-line-soft">
+    <div class="absolute inset-0 -z-20">
+      <Image
+        src={heroImage}
+        alt="A Main Sequence mining ship fires a bright orange laser into an asteroid in a dense asteroid field"
+        widths={[900, 1400, 1920]}
+        sizes="100vw"
+        format="webp"
+        quality={82}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="h-full w-full object-cover object-center"
+      />
+    </div>
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,16,23,0.95)_0%,rgba(7,16,23,0.78)_48%,rgba(7,16,23,0.2)_100%)]"
+    >
+    </div>
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(7,16,23,0.98)_0%,rgba(7,16,23,0)_45%)]"
+    >
+    </div>
+    <div aria-hidden="true" class="scanline absolute inset-0 -z-10 opacity-40"></div>
+
+    <div class="wrap relative flex min-h-[calc(100svh-8.7rem)] max-w-[var(--content-max)] flex-col justify-between pb-6 pt-14 md:pt-20">
+      <div class="grid items-end gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:gap-16">
+        <div class="max-w-3xl">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="badge badge-confirmed">Independent field manual</span>
+            <span class="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-mist">
+              Pre-launch dossier / 2026
+            </span>
+          </div>
+
+          <h1 class="display display-xl mt-6 text-paper text-shadow-hero">
+            <span class="block">Main Sequence</span>
+            <span class="mt-4 block font-display text-[0.28em] font-semibold uppercase leading-none tracking-[0.22em] text-signal">
+              Field Guide
+            </span>
+          </h1>
+
+          <p class="mt-7 max-w-2xl text-[1.15rem] leading-relaxed text-fog md:text-[1.32rem]">
+            A source-checked command manual for the first-person space factory
+            sim. Learn the demo, plan the station, design the fleet, and know
+            exactly what is confirmed before Early Access.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href="/beginner-guide/" class="btn btn-primary">
+              Start the beginner's guide
+              <span aria-hidden="true">→</span>
+            </a>
+            <a href="/release-date/" class="btn btn-secondary">
+              Release status
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <p class="mt-7 font-mono text-[0.59rem] uppercase tracking-[0.1em] text-mist">
+            Early Access · November 12, 2026
+            <span class="mx-2 text-line">/</span>
+            Windows PC · Steam
+            <span class="mx-2 text-line">/</span>
+            Demo available
+          </p>
+        </div>
+
+        <div class="panel relative border-line bg-void/90 p-4 md:p-5">
+          <div class="absolute inset-x-0 top-0 h-px bg-signal" aria-hidden="true"></div>
+          <div class="flex items-center justify-between gap-4">
+            <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+              Launch telemetry
+            </p>
+            <span class="h-1.5 w-1.5 animate-pulse bg-signal" aria-hidden="true"></span>
+          </div>
+          <Countdown class="mt-4" />
+          <a href="/tools/launch-timer/" class="arrow-link mt-4">
+            Full countdown & time zones
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-wrap items-end justify-between gap-4 border-t border-paper/15 pt-4">
+        <p class="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-mist">
+          Official imagery · editorial use
+        </p>
+        <p class="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-mist">
+          Not affiliated with Tumbling Dumpling Studio or Mythwright
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Launch facts" class="border-b border-line-soft bg-night">
+    <div class="wrap grid grid-cols-1 divide-y divide-line-soft sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+      {
+        homeFacts.map((fact) => (
+          <div class="px-0 py-5 sm:px-5 first:sm:pl-0 last:sm:pr-0 lg:py-6">
+            <div class="flex items-center justify-between gap-2">
+              <p class="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-mist">
+                {fact.label}
+              </p>
+              <StatusBadge status={fact.status} />
+            </div>
+            <p class="mt-2 font-display text-xl font-semibold uppercase leading-tight text-paper">
+              {fact.value}
+            </p>
+            {fact.note && (
+              <p class="mt-1.5 text-[0.7rem] leading-relaxed text-mist">
+                {fact.note}
+              </p>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap py-16 md:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading
+        eyebrow="Start here"
+        title="The frontier is easier with a checklist"
+        description="Three entry points: learn the demo loop, fix the first station roadblock, or check the launch facts before spending money."
+      />
+      <a href="/guides/" class="arrow-link hidden sm:inline-flex">Browse all guides</a>
+    </div>
+
+    <div class="mt-9 grid gap-5 lg:grid-cols-[1.45fr_0.85fr]">
+      <a href={startGuide.href} class="group relative overflow-hidden border border-line-soft bg-deep">
+        <div class="relative aspect-[16/9] overflow-hidden">
+          <Image
+            src={GAME_IMAGES['main-sequence-mining-laser.jpg']}
+            alt={startGuide.imageAlt ?? ''}
+            widths={[640, 960, 1400]}
+            sizes="(min-width: 1024px) 58vw, 100vw"
+            format="webp"
+            quality={78}
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+          />
+          <div class="absolute inset-0 bg-[linear-gradient(0deg,rgba(7,16,23,0.92),rgba(7,16,23,0)_62%)]" aria-hidden="true"></div>
+          <span class="absolute left-4 top-4 badge badge-estimated">Start here</span>
+        </div>
+        <div class="relative -mt-20 px-5 pb-6 md:px-7 md:pb-8">
+          <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+            Field manual / 01
+          </p>
+          <h2 class="mt-2 max-w-xl font-display text-3xl font-semibold uppercase leading-none text-paper md:text-4xl">
+            {startGuide.title}
+          </h2>
+          <p class="mt-3 max-w-xl text-sm leading-relaxed text-mist">
+            {startGuide.description}
+          </p>
+          <span class="arrow-link mt-5">Read the beginner's guide</span>
+        </div>
+      </a>
+
+      <div class="grid gap-5">
+        {
+          secondaryGuides.map((guide, index) => (
+            <a
+              href={guide.href}
+              class="group border border-line-soft bg-deep p-5 transition-colors hover:border-signal/60 md:p-6"
+            >
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-mono text-[0.57rem] uppercase tracking-[0.12em] text-mist">
+                  {guide.eyebrow}
+                </p>
+                <span class="font-mono text-xs text-[#6f8892]">0{index + 2}</span>
+              </div>
+              <h2 class="mt-4 font-display text-2xl font-semibold uppercase leading-none text-paper group-hover:text-signal">
+                {guide.title}
+              </h2>
+              <p class="mt-3 text-sm leading-relaxed text-mist">{guide.description}</p>
+              <span class="arrow-link mt-5">Open field note</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line-soft bg-night">
+    <div class="wrap grid gap-10 py-16 md:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+      <div>
+        <SectionHeading
+          eyebrow="Game overview"
+          title="A factory floor in the void"
+          description="Main Sequence is a first-person space-sim factory builder from solo developer Tumbling Dumpling Studio. Start with one mining ship; end with an interstellar industrial network."
+        />
+        <p class="mt-5 max-w-xl text-sm leading-relaxed text-mist md:text-base">
+          You scan and mine asteroids, refine ore aboard your ship, then build a
+          station and move production indoors. Machines, belts, power and
+          storage turn manual work into a factory. Research turns that output
+          into new ships, modules and sectors.
+        </p>
+        <p class="mt-4 max-w-xl text-sm leading-relaxed text-mist">
+          The calm loop has teeth: industrial activity wakes an ancient alien
+          defense network, so your fleet is both a hauling network and a
+          response force.
+        </p>
+        <a href="/game/" class="arrow-link mt-6">Read the full game overview</a>
+      </div>
+
+      <div class="grid gap-4">
+        <div class="image-frame">
+          <Image
+            src={cockpitImage}
+            alt="The cockpit of a Main Sequence ship approaching a solar-panel-equipped station above a planet"
+            widths={[640, 960, 1400]}
+            sizes="(min-width: 1024px) 52vw, 100vw"
+            format="webp"
+            quality={80}
+            loading="lazy"
+            decoding="async"
+            class="aspect-[16/9] w-full object-cover"
+          />
+        </div>
+        <div class="grid grid-cols-2 gap-px bg-line">
+          {
+            FEATURES.slice(0, 4).map((feature) => (
+              <div class="bg-void p-4">
+                <p class="font-mono text-[0.54rem] uppercase tracking-[0.1em] text-signal">
+                  {feature.index}
+                </p>
+                <h3 class="mt-2 font-display text-lg font-semibold uppercase text-paper">
+                  {feature.title}
+                </h3>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap py-16 md:py-24">
+    <SectionHeading
+      eyebrow="The loop"
+      title="Six moves from prospector to industrial power"
+      description="This is the confirmed gameplay spine described by the developer and storefront. The exact recipe ratios belong in-game or in a future database pass."
+    />
+    <ol class="mt-9 grid gap-px border border-line-soft bg-line sm:grid-cols-2 lg:grid-cols-3">
+      {
+        GAMEPLAY_LOOP.map((item, index) => (
+          <li class="bg-deep p-5 md:p-6">
+            <div class="flex items-baseline justify-between gap-4">
+              <span class="font-display text-4xl font-semibold leading-none text-[#607b85]">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span class="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-signal">
+                {item.step}
+              </span>
+            </div>
+            <p class="mt-5 text-sm leading-relaxed text-mist">{item.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="border-y border-line-soft bg-deep">
+    <div class="wrap py-16 md:py-24">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading
+          eyebrow="Confirmed update log"
+          title="Official transmissions, translated into field notes"
+          description="Selected verified changes to the game and demo. The full, dated timeline is in the update log; we do not invent patch cadence."
+        />
+        <a href="/updates/" class="arrow-link">Full update timeline</a>
+      </div>
+
+      <div class="mt-9 border-t border-line">
+        {
+          FEATURED_UPDATES.map((entry) => (
+            <article class="grid gap-4 border-b border-line-soft py-6 md:grid-cols-[8.5rem_1fr_auto] md:items-start md:gap-8">
+              <div>
+                <time datetime={entry.date} class="font-mono text-[0.63rem] uppercase tracking-[0.08em] text-signal">
+                  {entry.date}
+                </time>
+                <p class="mt-1 font-mono text-[0.56rem] uppercase tracking-[0.1em] text-mist">
+                  {entry.type}
+                </p>
+              </div>
+              <div>
+                <h3 class="font-display text-2xl font-semibold uppercase leading-none text-paper">
+                  {entry.title}
+                </h3>
+                <p class="mt-2 max-w-2xl text-sm leading-relaxed text-mist">
+                  {entry.summary}
+                </p>
+              </div>
+              <a href="/updates/" class="arrow-link md:justify-self-end">Log entry</a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap py-16 md:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading
+        eyebrow="Field tools"
+        title="Useful before you undock"
+        description="Small, functional tools with a clear job. They run in your browser and do not require an account."
+      />
+      <a href="/tools/" class="arrow-link">All tools</a>
+    </div>
+    <div class="mt-9 grid gap-4 md:grid-cols-3">
+      {
+        toolLinks.map((tool) => (
+          <a
+            href={tool.href}
+            class="group flex min-h-[15rem] flex-col justify-between border border-line-soft bg-night p-5 transition-colors hover:border-signal"
+          >
+            <div>
+              <p class="font-mono text-[0.57rem] uppercase tracking-[0.12em] text-signal">
+                {tool.code}
+              </p>
+              <h2 class="mt-3 font-display text-2xl font-semibold uppercase text-paper group-hover:text-signal">
+                {tool.title}
+              </h2>
+              <p class="mt-3 text-sm leading-relaxed text-mist">{tool.description}</p>
+            </div>
+            <span class="arrow-link mt-6">Open tool</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="border-y border-line-soft bg-night">
+    <div class="wrap grid gap-10 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
+      <div class="relative order-2 lg:order-1">
+        <div class="image-frame">
+          <Image
+            src={researchImage}
+            alt="The Main Sequence research tree with production, logistics, power and ship-module branches"
+            widths={[640, 960, 1400]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            format="webp"
+            quality={80}
+            loading="lazy"
+            decoding="async"
+            class="aspect-[16/9] w-full object-cover"
+          />
+        </div>
+        <div class="absolute bottom-4 left-4 border border-line bg-void/90 px-3 py-2 font-mono text-[0.55rem] uppercase tracking-[0.08em] text-mist">
+          Research screen / official demo capture
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <SectionHeading
+          eyebrow="Database"
+          title="What is confirmed, indexed, and still unknown"
+          description="We are deliberately not inventing a full item encyclopedia before launch. The database covers what official material and the demo actually show."
+        />
+        <div class="mt-8 divide-y divide-line-soft border-y border-line-soft">
+          <div class="group flex items-center justify-between gap-5 py-4">
+            <div>
+              <h3 class="font-display text-xl font-semibold uppercase text-paper group-hover:text-signal">
+                <a href="/database/resources/">Resources & materials</a>
+              </h3>
+              <p class="mt-1 text-xs text-mist">Ores, refined goods, components, science types</p>
+            </div>
+            <a href="/database/resources/" class="whitespace-nowrap font-mono text-sm text-signal">
+              {RESOURCES.length} <span class="sr-only">resources database entries</span> rows
+            </a>
+          </div>
+          <div class="group flex items-center justify-between gap-5 py-4">
+            <div>
+              <h3 class="font-display text-xl font-semibold uppercase text-paper group-hover:text-signal">
+                <a href="/database/modules/">Ships & station modules</a>
+              </h3>
+              <p class="mt-1 text-xs text-mist">Production, power, logistics, defense and hull systems</p>
+            </div>
+            <a href="/database/modules/" class="whitespace-nowrap font-mono text-sm text-signal">
+              {MODULES.length} <span class="sr-only">module database entries</span> rows
+            </a>
+          </div>
+          <div class="group flex items-center justify-between gap-5 py-4">
+            <div>
+              <h3 class="font-display text-xl font-semibold uppercase text-paper group-hover:text-signal">
+                <a href="/database/research/">Research & sciences</a>
+              </h3>
+              <p class="mt-1 text-xs text-mist">Visible demo nodes, branches and announced science tiers</p>
+            </div>
+            <a href="/database/research/" class="whitespace-nowrap font-mono text-sm text-signal">
+              {RESEARCH_NODES.length} <span class="sr-only">research database nodes</span> nodes
+            </a>
+          </div>
+        </div>
+        <a href="/database/" class="arrow-link mt-6">Open the database index</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap py-16 md:py-24">
+    <div class="grid gap-8 border border-line bg-deep p-6 md:p-10 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
+      <div>
+        <div class="eyebrow mb-4">Our standard</div>
+        <h2 class="display display-md max-w-2xl text-paper">
+          We label the difference between a fact, a report and a guess.
+        </h2>
+        <p class="mt-4 max-w-2xl text-sm leading-relaxed text-mist md:text-base">
+          Main Sequence is still in development. That makes precision more
+          valuable, not less. Official statements, storefront data,
+          community-tested demo findings and unconfirmed details are marked
+          separately across every guide and database page.
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 lg:items-end">
+        <a href="/editorial-policy/" class="btn btn-secondary">Read the editorial policy</a>
+        <a href="/sources/" class="arrow-link">Source archive</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line-soft bg-void">
+    <div class="wrap flex flex-col items-start justify-between gap-8 py-12 md:flex-row md:items-center">
+      <div>
+        <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+          Official storefront
+        </p>
+        <h2 class="mt-2 display text-3xl text-paper">Try the demo before launch</h2>
+        <p class="mt-2 max-w-xl text-sm leading-relaxed text-mist">
+          The free demo is live on Steam. The full game enters Early Access on
+          November 12, 2026. Price and exact unlock time remain unannounced.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href={SITE.game.demoSteam} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Demo on Steam ↗
+        </a>
+        <a href="/release-date/" class="btn btn-secondary">Launch details</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

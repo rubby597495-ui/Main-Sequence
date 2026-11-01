@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import { RESOURCES } from '../../data/resources';
+import { MODULES } from '../../data/modules';
+import { RESEARCH_NODES } from '../../data/research';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Database', path: '/database/' },
+];
+
+const sections = [
+  {
+    href: '/database/resources/',
+    label: 'Resources & materials',
+    description:
+      'Ores, refined materials, components, science inputs and consumables named in official media or the developer’s patch notes.',
+    count: RESOURCES.length,
+    unit: 'indexed entries',
+    tone: 'Raw → refined → science',
+  },
+  {
+    href: '/database/modules/',
+    label: 'Ships & station modules',
+    description:
+      'Confirmed production, power, logistics, defense and ship systems. Filter by category and see what each function is based on.',
+    count: MODULES.length,
+    unit: 'indexed modules',
+    tone: 'Station + ship systems',
+  },
+  {
+    href: '/database/research/',
+    label: 'Research & sciences',
+    description:
+      'The visible demo technology tree, plus science types and later research named by the developer. Dependencies are shown only where the screenshot shows them.',
+    count: RESEARCH_NODES.length,
+    unit: 'indexed nodes',
+    tone: 'Tech tree + branches',
+  },
+];
+---
+
+<BaseLayout
+  title="Main Sequence Database: Resources, Modules & Research"
+  description="A source-labelled Main Sequence database covering confirmed resources, ship and station modules, and research nodes from the demo and official announcements."
+  breadcrumbs={breadcrumbs}
+  pageType="CollectionPage"
+>
+  <PageIntro
+    eyebrow="Field reference"
+    title="Main Sequence database: what we know, and what we don’t"
+    description="A deliberately incomplete pre-launch database. Every row has a source; missing recipes and stats are left blank rather than filled with guesses."
+    breadcrumbs={breadcrumbs}
+    image={GAME_IMAGES['main-sequence-research-tree.jpg']}
+    imageAlt="The Main Sequence research tree screen with production, logistics, power and ship-module branches"
+    imageCaption="The research screen provides a verified skeleton of the demo tech tree. The full game will expand it."
+    meta={['Source-labelled', 'Demo + official material', 'Updated November 1, 2026']}
+  />
+
+  <div class="wrap py-12 md:py-16">
+    <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <div>
+        <SectionHeading
+          eyebrow="How to read this database"
+          title="Facts first, blanks visible"
+          description="The database is a reading and planning aid, not a hallucinated game data dump. It covers only the resources, modules and research that public sources actually identify."
+        />
+        <div class="mt-7 space-y-4 text-sm leading-relaxed text-mist">
+          <p>
+            The game is still in development, and the public demo is a limited
+            slice. Recipes, costs and even module balance have changed during
+            the demo period. A database that pretends to have final numbers
+            would go stale immediately and mislead readers.
+          </p>
+          <p>
+            We separate <strong>existence</strong> (a module or material is
+            named by an official source) from <strong>function</strong> (what
+            that thing does) and from <strong>numbers</strong> (cost, throughput,
+            damage, capacity). Many entries only reach the first or second
+            level. The data pages say so.
+          </p>
+        </div>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-3">
+          <div class="border border-line-soft bg-night p-4">
+            <StatusBadge status="confirmed" />
+            <p class="mt-3 text-xs leading-relaxed text-mist">
+              Official store text, developer post, patch note or clear in-game
+              screenshot.
+            </p>
+          </div>
+          <div class="border border-line-soft bg-night p-4">
+            <StatusBadge status="community" />
+            <p class="mt-3 text-xs leading-relaxed text-mist">
+              A demo player report. Useful, labelled, and subject to patch
+              changes.
+            </p>
+          </div>
+          <div class="border border-line-soft bg-night p-4">
+            <StatusBadge status="unknown" label="Unknown" />
+            <p class="mt-3 text-xs leading-relaxed text-mist">
+              Not publicly confirmed. We leave the space blank instead of
+              inventing a number.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="border border-line-soft bg-deep p-6">
+        <div class="eyebrow mb-3">Known unknowns</div>
+        <h2 class="font-display text-3xl font-semibold uppercase text-paper">
+          Not enough data for these pages yet
+        </h2>
+        <ul class="mt-5 space-y-3 text-sm leading-relaxed text-mist">
+          <li>Complete crafting recipes and exact machine ratios.</li>
+          <li>Full ship-module stats, damage values and power tables.</li>
+          <li>Named characters, factions and dialogue outcomes.</li>
+          <li>Quest lists, mission maps and location compendiums.</li>
+          <li>A complete enemy bestiary with health and attacks.</li>
+          <li>Final launch balance, price and exact unlock time.</li>
+        </ul>
+        <p class="mt-5 border-t border-line-soft pt-4 text-xs leading-relaxed text-mist">
+          When the Early Access build provides stable data, these can become
+          proper database pages. Until then, a page of empty categories would be
+          worse than no page at all.
+        </p>
+      </aside>
+    </div>
+  </div>
+
+  <section class="border-y border-line-soft bg-night">
+    <div class="wrap py-12 md:py-16">
+      <SectionHeading
+        eyebrow="Browse"
+        title="Three verified starting points"
+        description="Every database page includes its own source list and a note about what the public records cannot yet establish."
+      />
+      <div class="mt-8 grid gap-4">
+        {
+          sections.map((section) => (
+            <a
+              href={section.href}
+              class="group grid gap-4 border border-line-soft bg-deep p-5 transition-colors hover:border-signal md:grid-cols-[1fr_auto] md:items-center md:p-6"
+            >
+              <div>
+                <p class="font-mono text-[0.56rem] uppercase tracking-[0.1em] text-signal">
+                  {section.tone}
+                </p>
+                <h2 class="mt-2 font-display text-3xl font-semibold uppercase text-paper group-hover:text-signal">
+                  {section.label}
+                </h2>
+                <p class="mt-2 max-w-3xl text-sm leading-relaxed text-mist">
+                  {section.description}
+                </p>
+              </div>
+              <div class="flex items-center gap-5 md:flex-col md:items-end">
+                <span class="font-display text-4xl font-semibold leading-none text-paper">
+                  {section.count}
+                </span>
+                <span class="font-mono text-[0.55rem] uppercase tracking-[0.1em] text-mist">
+                  {section.unit}
+                </span>
+                <span class="arrow-link">Open</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap py-12 md:py-16">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading
+        eyebrow="Stay honest"
+        title="The blank fields are part of the product"
+        description="If a page says a number is unknown, that is a data limitation, not an invitation to fill it with a guess."
+      />
+      <div class="flex flex-wrap gap-5">
+        <a href="/sources/" class="arrow-link">Source archive</a>
+        <a href="/editorial-policy/" class="arrow-link">Editorial policy</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

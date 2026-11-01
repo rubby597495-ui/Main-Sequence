@@ -1,0 +1,228 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import DataFilter from '../../components/DataFilter.astro';
+import {
+  RESOURCES,
+  RESOURCE_CATEGORIES,
+} from '../../data/resources';
+import { getSources } from '../../data/sources';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Database', path: '/database/' },
+  { name: 'Resources & materials', path: '/database/resources/' },
+];
+
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'entries', label: 'Resource entries' },
+  { id: 'limits', label: 'What is missing' },
+  { id: 'sources', label: 'Sources' },
+];
+
+const sourceIds = Array.from(
+  new Set(RESOURCES.flatMap((resource) => resource.sourceIds)),
+);
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replaceAll('&', 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const evidenceLabel = (sourceId: string) => {
+  const source = getSources([sourceId])[0];
+  if (!source) return 'Official source';
+  if (source.kind === 'media') return 'Official screenshot';
+  if (source.id === 'steamdb-playtest-13') return 'Official patch notes';
+  if (source.kind === 'official') return `Developer update · ${source.date}`;
+  return `${source.publisher} · ${source.date}`;
+};
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Resources & Materials Database (Pre-Launch)"
+  description="Browse confirmed Main Sequence resources and materials — ores, refined goods, components, science types and consumables — with sources and known uses."
+  eyebrow="Database / materials"
+  title="Main Sequence resources and materials"
+  intro="A filterable index of materials that are actually named in official media. It is a map of confirmed existence and context, not a complete recipe calculator."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={sourceIds}
+  image={GAME_IMAGES['main-sequence-factory-floor.jpg']}
+  imageAlt="Orange production machines on a Main Sequence factory floor, surrounded by belts and storage"
+  imageCaption="The demo exposes a production chain but not a stable public recipe list. This index avoids inventing the missing steps."
+  meta={['Filterable table', 'Official sources only', 'Recipes left blank where unknown']}
+  pageType="WebPage"
+  dataNote="This list is complete only to the extent of the cited public material. The full Early Access recipe tree is not public."
+>
+  <section id="overview" class="scroll-mt-28">
+    <h2>What this index covers</h2>
+    <p>
+      The table collects materials that appear in official Steam screenshots,
+      developer announcements, patch notes or the official store listing. Each
+      row tells you <em>why</em> the material is in the database and what the
+      public record confirms about it.
+    </p>
+    <p>
+      It is intentionally not a full crafting encyclopedia. Many recipes,
+      recipe times and machine ratios are not public, and the demo has already
+      changed costs between patches. We do not fill those gaps with numbers
+      copied from an unrelated game or an old video.
+    </p>
+    <p>
+      Science tiers are included because the developer names them as progression
+      goals. Whether every science type is represented as a conventional
+      inventory item is not separately confirmed in the public material, so the
+      category is “Science type” rather than “science pack.”
+    </p>
+
+    <div class="grid gap-3 sm:grid-cols-2 mt-6 not-prose">
+      <div class="border border-line-soft bg-night p-4">
+        <p class="font-mono text-[0.58rem] uppercase tracking-[0.1em] text-signal">What the rows mean</p>
+        <p class="mt-2 text-sm leading-relaxed text-mist">
+          <strong class="text-paper">Name:</strong> as written in the source where possible.
+          <br /><strong class="text-paper">Context:</strong> the confirmed use or appearance.
+          <br /><strong class="text-paper">Evidence:</strong> the specific official source.
+        </p>
+      </div>
+      <div class="border border-line-soft bg-night p-4">
+        <p class="font-mono text-[0.58rem] uppercase tracking-[0.1em] text-signal">What the rows do not mean</p>
+        <p class="mt-2 text-sm leading-relaxed text-mist">
+          A lower-tier row is not a crafting recipe. An item appearing in a
+          build-cost screenshot does not mean that cost is current. No row
+          implies a drop rate, sell price or optimal production ratio.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="entries" class="scroll-mt-28">
+    <h2>Confirmed resources and materials</h2>
+    <p>
+      Use the filters to narrow the table by category or search for an item. All
+      rows remain in the page when JavaScript is unavailable.
+    </p>
+
+    <DataFilter
+      targetId="resources-table"
+      categories={[...RESOURCE_CATEGORIES]}
+      placeholder="Search resources, uses or sources…"
+    />
+
+    <div class="data-table-wrap not-prose mt-4">
+      <table class="data-table data-table-stack" id="resources-table">
+        <caption class="sr-only">
+          Confirmed Main Sequence resources and materials
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Entry</th>
+            <th scope="col">Type</th>
+            <th scope="col">Confirmed context</th>
+            <th scope="col">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            RESOURCES.map((resource) => {
+              const sources = getSources(resource.sourceIds);
+              const search = [
+                resource.name,
+                resource.category,
+                resource.context,
+                ...sources.map((source) => source.title),
+              ]
+                .join(' ')
+                .toLowerCase();
+              return (
+                <tr
+                  id={slugify(resource.name)}
+                  data-row
+                  data-category={resource.category}
+                  data-search={search}
+                >
+                  <th
+                    scope="row"
+                    class="cell-name bg-transparent px-4 py-3 text-left"
+                    data-label="Entry"
+                  >
+                    {resource.name}
+                  </th>
+                  <td data-label="Type">
+                    <span class="tag">{resource.category}</span>
+                  </td>
+                  <td class="text-sm text-mist" data-label="Confirmed context">{resource.context}</td>
+                  <td data-label="Evidence">
+                    <div class="flex flex-col gap-1">
+                      {sources.map((source) => (
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={source.title}
+                          class="evidence-link font-mono text-[0.57rem] uppercase tracking-[0.04em] text-signal hover:text-paper"
+                        >
+                          {evidenceLabel(source.id)} ↗
+                        </a>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
+          }
+          <tr data-filter-empty hidden>
+            <td colspan="4" class="py-10 text-center text-sm text-mist">
+              No entries match that search. Try a broader term or reset the category.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 font-mono text-[0.58rem] uppercase tracking-[0.05em] text-mist">
+      {RESOURCES.length} indexed entries · Source links open the original material
+    </p>
+  </section>
+
+  <section id="limits" class="scroll-mt-28">
+    <h2>What is intentionally missing</h2>
+    <p>
+      The public data is enough to seed a useful index but not enough to build a
+      complete production calculator. The following are absent because we could
+      not verify them:
+    </p>
+    <ul>
+      <li>Full recipe inputs and outputs for most materials.</li>
+      <li>Crafting times, machine speeds and power consumption.</li>
+      <li>Tier-by-tier acquisition locations and drop rates.</li>
+      <li>Market or sale values, if such a system exists.</li>
+      <li>The final launch balance for costs and stack sizes.</li>
+    </ul>
+    <p>
+      If you need one of these before launch, the safest source is the current
+      in-game interface and the latest official patch notes. Community videos
+      can show a working process, but they may be from an older build.
+    </p>
+
+    <div class="callout callout-info">
+      <span class="callout-title">A note on names</span>
+      <p class="m-0 text-sm">
+        The game sometimes uses a plural build-cost label (“Lightweight Frames”)
+        and a singular technology label. We standardise the display name and keep
+        the source context specific. The base item for “Nickel ore” is implied by
+        official references to Rich Nickel Asteroids and Enriched Nickel Ore, but
+        the exact inventory label is not separately visible in our sources.
+      </p>
+    </div>
+
+    <p>
+      For the visible technology dependencies, use the{' '}
+      <a href="/database/research/">research database</a>. For the machines that
+      consume these materials, use the{' '}
+      <a href="/database/modules/">modules database</a>.
+    </p>
+  </section>
+</GuideLayout>

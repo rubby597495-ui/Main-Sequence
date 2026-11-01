@@ -1,0 +1,54 @@
+---
+import { getSources, SOURCE_KIND_LABELS } from '../data/sources';
+import { SITE } from '../data/site';
+
+interface Props {
+  ids: string[];
+  title?: string;
+  intro?: string;
+}
+
+const {
+  ids,
+  title = 'Sources and verification',
+  intro = 'These are the primary references behind this page. Where sources disagree, the page explains the difference instead of presenting a guess as fact.',
+} = Astro.props;
+
+const sources = getSources(ids);
+---
+
+<section id="sources" class="mt-16 border-t border-line pt-8" aria-labelledby="sources-title">
+  <div class="eyebrow mb-3">Source log</div>
+  <h2 id="sources-title" class="display text-3xl text-paper">{title}</h2>
+  <p class="mt-3 max-w-2xl text-sm leading-relaxed text-mist">{intro}</p>
+  <ul class="source-list mt-6">
+    {
+      sources.map((source) => (
+        <li id={source.id} class="scroll-mt-28">
+          <a
+            href={source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-link text-sm"
+          >
+            {source.title}
+          </a>
+          <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[0.61rem] uppercase tracking-[0.07em] text-mist">
+            <span>{source.publisher}</span>
+            <span aria-hidden="true" class="text-line">/</span>
+            <span>{source.date}</span>
+            <span aria-hidden="true" class="text-line">/</span>
+            <span>{SOURCE_KIND_LABELS[source.kind]}</span>
+          </div>
+          <p class="mt-1.5 max-w-3xl text-xs leading-relaxed text-mist/85">
+            {source.usedFor}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="mt-4 font-mono text-[0.62rem] leading-relaxed tracking-[0.05em] text-mist">
+    Accessed and checked {SITE.lastVerifiedLabel}. External pages can change
+    after publication.
+  </p>
+</section>

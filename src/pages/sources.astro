@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import {
+  SOURCES,
+  SOURCE_KIND_LABELS,
+  type SourceKind,
+} from '../data/sources';
+import { SITE } from '../data/site';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Sources', path: '/sources/' },
+];
+
+const groups: { kind: SourceKind; title: string; intro: string }[] = [
+  {
+    kind: 'official',
+    title: 'Developer and publisher material',
+    intro:
+      'The highest-priority sources: official store text, developer announcements, patch notes and the game’s own site. SteamDB mirror links are identified separately.',
+  },
+  {
+    kind: 'store',
+    title: 'Storefronts and platform listings',
+    intro:
+      'Used for release fields, supported languages, requirements and platform availability. Store text can lag behind a developer announcement.',
+  },
+  {
+    kind: 'press',
+    title: 'Press coverage and press releases',
+    intro:
+      'Used for context, corroboration and developer background. When press reporting conflicts with an official page, the official page wins.',
+  },
+  {
+    kind: 'community',
+    title: 'Community reports',
+    intro:
+      'Used only for labelled, practical demo findings. These are not treated as official design statements.',
+  },
+  {
+    kind: 'data',
+    title: 'Unofficial data listings',
+    intro:
+      'Store timestamp data used for planning and clearly labelled as unofficial.',
+  },
+  {
+    kind: 'media',
+    title: 'Official media and screenshots',
+    intro:
+      'Editorial illustration and visual evidence for modules, research-tree nodes and in-game UI.',
+  },
+];
+
+const groupedSources = groups.map((group) => ({
+  ...group,
+  items: SOURCES.filter((source) => source.kind === group.kind),
+}));
+---
+
+<BaseLayout
+  title="Main Sequence Sources & Further Reading"
+  description="Official and secondary sources used across Main Sequence Guide, including Steam announcements, developer updates, store pages, press releases and community findings."
+  breadcrumbs={breadcrumbs}
+  pageType="CollectionPage"
+>
+  <PageIntro
+    eyebrow="Source archive"
+    title="Sources and further reading"
+    description="The reference trail behind the field guide. Every source is listed with the kind of evidence it provides, so you can check the work."
+    breadcrumbs={breadcrumbs}
+    meta={['Accessed November 1, 2026', 'Official sources first', 'Community findings labelled']}
+  />
+
+  <div class="wrap grid gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:py-16">
+    <div>
+      <div class="callout callout-info">
+        <span class="callout-title">How to use this archive</span>
+        <p class="m-0 text-sm">
+          Start with developer and storefront links. Use press coverage for
+          background and community links for practical demo findings. If you
+          find a broken source or a mismatch between a page and its evidence,
+          send the URL to <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+        </p>
+      </div>
+
+      {
+        groupedSources.map((group) => (
+          <section class="mt-12" aria-labelledby={`source-group-${group.kind}`}>
+            <div class="flex flex-wrap items-baseline justify-between gap-3 border-b border-line pb-3">
+              <h2 id={`source-group-${group.kind}`} class="display text-3xl text-paper">
+                {group.title}
+              </h2>
+              <span class="font-mono text-[0.56rem] uppercase tracking-[0.1em] text-mist">
+                {SOURCE_KIND_LABELS[group.kind]}
+              </span>
+            </div>
+            <p class="mt-3 max-w-3xl text-sm leading-relaxed text-mist">
+              {group.intro}
+            </p>
+            <ul class="source-list mt-4">
+              {group.items.map((source) => (
+                <li id={source.id} class="scroll-mt-28">
+                  <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-5">
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-link text-sm"
+                    >
+                      {source.title}
+                    </a>
+                    <span class="whitespace-nowrap font-mono text-[0.56rem] uppercase tracking-[0.06em] text-mist">
+                      {source.date}
+                    </span>
+                  </div>
+                  <p class="mt-1 text-[0.7rem] uppercase tracking-[0.04em] text-mist">
+                    {source.publisher}
+                  </p>
+                  <p class="mt-1.5 max-w-3xl text-xs leading-relaxed text-mist/90">
+                    {source.usedFor}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <div class="mt-12 border-t border-line-soft pt-6">
+        <p class="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-signal">
+          Image credits and independence
+        </p>
+        <p class="mt-3 max-w-3xl text-sm leading-relaxed text-mist">
+          Game screenshots are official Steam or publisher media, copyright
+          Tumbling Dumpling Studio and Mythwright, and are used here for
+          editorial commentary and illustration. This site is independent and
+          is not endorsed by the developer or publisher. See the{' '}
+          <a href="/about/" class="text-link">about page</a> and{' '}
+          <a href="/editorial-policy/" class="text-link">editorial policy</a>.
+        </p>
+      </div>
+    </div>
+
+    <aside>
+      <div class="sticky top-28 border border-line-soft bg-night p-5">
+        <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+          Source levels
+        </p>
+        <ol class="mt-4 space-y-3 text-xs leading-relaxed text-mist">
+          <li><strong class="text-paper">1. Official</strong> — developer, publisher, storefront and patch notes.</li>
+          <li><strong class="text-paper">2. Press</strong> — reputable coverage for context.</li>
+          <li><strong class="text-paper">3. Community</strong> — labelled player findings.</li>
+          <li><strong class="text-paper">4. Data listing</strong> — unofficial timestamps and aggregations.</li>
+        </ol>
+        <div class="mt-5 border-t border-line-soft pt-4">
+          <p class="text-xs leading-relaxed text-mist">
+            Access and verification date: {SITE.lastVerifiedLabel}.
+          </p>
+          <a href="/editorial-policy/" class="arrow-link mt-4">Read the policy</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

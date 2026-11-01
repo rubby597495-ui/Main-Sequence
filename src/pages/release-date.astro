@@ -1,0 +1,296 @@
+---
+import GuideLayout from '../components/GuideLayout.astro';
+import Countdown from '../components/Countdown.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { FAQS, SYSTEM_REQUIREMENTS } from '../data/game';
+import { GAME_IMAGES } from '../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Release status', path: '/release-date/' },
+];
+
+const toc = [
+  { id: 'release-date', label: 'Release date' },
+  { id: 'launch-time', label: 'Launch time' },
+  { id: 'price', label: 'Price status' },
+  { id: 'platforms', label: 'Platforms' },
+  { id: 'system-requirements', label: 'System requirements' },
+  { id: 'early-access', label: 'Early Access plan' },
+  { id: 'faq', label: 'Release questions' },
+];
+
+const faqs = FAQS.release;
+---
+
+<GuideLayout
+  seoTitle="Main Sequence: Release Date, Price & Platforms (2026)"
+  description="Main Sequence launches into Steam Early Access on November 12, 2026 for Windows PC. See confirmed platforms, price status, system requirements and launch-time notes."
+  eyebrow="Launch dossier"
+  title="Main Sequence release date and launch status"
+  intro="The Early Access date is confirmed. The price, exact unlock hour and some platform details are not. This page keeps the two categories separate."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-news-2026-10-01',
+    'steam-store',
+    'steam-demo',
+    'steamdb',
+    'simulationdaily',
+    'epic-store',
+    'steam-news-2026-09-09',
+    'steam-forum-controller',
+  ]}
+  image={GAME_IMAGES['main-sequence-freighter-departure.jpg']}
+  imageAlt="A large orange and white Main Sequence freighter fires its engines while leaving a station"
+  imageCaption="Main Sequence is scheduled for Steam Early Access on November 12, 2026. Official Steam screenshot."
+  meta={['Update status: pre-launch', 'Windows PC', 'Early Access', 'Price not announced']}
+  faq={faqs}
+  pageType="WebPage"
+  dataNote="Launch details can change. Check the official Steam page on release day before making a purchase or planning a stream."
+>
+  <section id="release-date" class="scroll-mt-28">
+    <div class="panel-signal panel p-5 md:p-6">
+      <div class="eyebrow mb-3">Confirmed</div>
+      <p class="m-0 font-display text-4xl font-semibold uppercase leading-none text-paper md:text-5xl">
+        November 12, 2026
+      </p>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-fog">
+        Main Sequence is scheduled to launch into <strong>Steam Early
+        Access</strong> for Windows PC on this date. The developer announced it
+        on October 1, 2026, and the Steam store displays the same date.
+      </p>
+    </div>
+
+    <p>
+      This is not a 1.0 release. The developer plans an Early Access period of
+      roughly one to two years, with the final length depending on when the game
+      is complete and well-rounded. The store description explicitly warns that
+      the game will change during development.
+    </p>
+
+    <div class="mt-7 border border-line-soft bg-night p-4 md:p-6">
+      <Countdown variant="full" class="max-w-xl" />
+    </div>
+  </section>
+
+  <section id="launch-time" class="scroll-mt-28">
+    <h2>When does it unlock?</h2>
+    <p>
+      The publisher has not announced an exact unlock hour. SteamDB records a
+      store timestamp of <strong>16:00 UTC on November 12, 2026</strong>. That is
+      a useful planning reference, not an official launch promise.
+    </p>
+    <p>
+      Use the <a href="/tools/launch-timer/">launch timer</a> to see that
+      timestamp converted into your local time and a table of common time zones.
+      The countdown on this page uses the same estimate.
+    </p>
+
+    <div class="callout callout-warning mt-5">
+      <span class="callout-title">Do not treat 16:00 UTC as official</span>
+      <p class="m-0 text-sm">
+        Until the publisher posts a launch-time update, 16:00 UTC is only a
+        storefront listing. Steam unlock times can differ from the listed store
+        date.
+      </p>
+    </div>
+  </section>
+
+  <section id="price" class="scroll-mt-28">
+    <h2>Price: not announced</h2>
+    <p>
+      There is no official Main Sequence price. The October 1 release-date
+      announcement said more information, including price and launch time,
+      would follow. Third-party estimates are not confirmation.
+    </p>
+    <p>
+      The developer has confirmed that the eventual 1.0 price will be adjusted
+      to reflect the finished game and expanded content. That means the Early
+      Access price and the final price may differ. The store page does not
+      currently list a price because the game is not yet available.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Status</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Item">Early Access price</td>
+            <td data-label="Status"><StatusBadge status="unknown" label="Not announced" /></td>
+            <td class="text-sm text-mist" data-label="Detail">No USD, EUR or regional price has been published.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Item">Deluxe / ultimate edition</td>
+            <td data-label="Status"><StatusBadge status="unknown" label="Not announced" /></td>
+            <td class="text-sm text-mist" data-label="Detail">No paid edition comparison exists in official material.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Item">1.0 price</td>
+            <td data-label="Status"><StatusBadge status="confirmed" label="Will change" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Expected to be adjusted based on the finished game.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Item">Demo</td>
+            <td data-label="Status"><StatusBadge status="confirmed" label="Free" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Separate free demo on Steam.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="platforms" class="scroll-mt-28">
+    <h2>Platforms: Windows PC at launch</h2>
+    <p>
+      The official launch announcement names Steam Early Access. Steam lists
+      Windows as the only supported operating system. No PlayStation, Xbox,
+      Switch or macOS release has been announced, and we found no public
+      statement about Steam Deck verification.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Platform / service</th>
+            <th scope="col">Status</th>
+            <th scope="col">What we know</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Platform / service">Steam (Windows)</td>
+            <td data-label="Status"><StatusBadge status="confirmed" /></td>
+            <td class="text-sm text-mist" data-label="What we know">Named in the Early Access launch announcement and store page.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Platform / service">Epic Games Store</td>
+            <td data-label="Status"><StatusBadge status="unknown" label="Listing exists" /></td>
+            <td class="text-sm text-mist" data-label="What we know">A store page exists, but the October launch announcement specifically names Steam. We are not treating Epic as the confirmed launch storefront.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Platform / service">Consoles</td>
+            <td data-label="Status"><StatusBadge status="unknown" label="Not announced" /></td>
+            <td class="text-sm text-mist" data-label="What we know">No PS5, Xbox Series or Switch version has been announced.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Platform / service">macOS / Linux</td>
+            <td data-label="Status"><StatusBadge status="unknown" label="Not announced" /></td>
+            <td class="text-sm text-mist" data-label="What we know">Only Windows is listed on Steam.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Platform / service">Xbox Game Pass</td>
+            <td data-label="Status"><StatusBadge status="unknown" label="Not announced" /></td>
+            <td class="text-sm text-mist" data-label="What we know">We found no Game Pass announcement.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Platform / service">Controller support</td>
+            <td data-label="Status"><StatusBadge status="estimated" label="Planned" /></td>
+            <td class="text-sm text-mist" data-label="What we know">The developer said in 2025 that controller support was planned for Early Access launch. That is a plan, not a confirmation of every controller layout.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="system-requirements" class="scroll-mt-28">
+    <h2>System requirements</h2>
+    <p>
+      Steam currently publishes a minimum specification only. The game is still
+      in development, so treat these numbers as a baseline rather than a
+      performance benchmark.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <caption class="sr-only">
+          Main Sequence minimum system requirements
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Component</th>
+            <th scope="col">Minimum</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            SYSTEM_REQUIREMENTS.minimum.map((item) => (
+              <tr>
+                <th scope="row" class="whitespace-nowrap bg-deep px-4 py-3 font-mono text-[0.68rem] font-medium text-fog" data-label="Component">
+                  {item.label}
+                </th>
+                <td class="text-paper" data-label="Minimum">{item.value}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-xs leading-relaxed text-mist">
+      {SYSTEM_REQUIREMENTS.note} The separate Steam demo lists the same
+      minimum. We have not benchmarked a retail build because it is not yet
+      available to the public.
+    </p>
+
+    <h3>What the requirements mean in practice</h3>
+    <ul>
+      <li>
+        <strong>8 GB RAM:</strong> sufficient for the listed minimum. If you
+        often play factory games with browser tabs or voice chat open, leaving
+        more memory headroom is sensible, but do not treat that as an official
+        requirement.
+      </li>
+      <li>
+        <strong>GTX 1050 / RX 460 class:</strong> an entry-level dedicated GPU
+        baseline. Integrated graphics are not listed.
+      </li>
+      <li>
+        <strong>5 GB storage:</strong> the listed install footprint. Patches and
+        saves can add to this over time.
+      </li>
+      <li>
+        <strong>DirectX 12:</strong> the game calls for Windows 10 64-bit or
+        newer with DX12 support.
+      </li>
+    </ul>
+  </section>
+
+  <section id="early-access" class="scroll-mt-28">
+    <h2>What Early Access means for this game</h2>
+    <p>
+      The developer’s Early Access statement says the core mechanics and
+      progression are fully playable at launch: ship and station design, trading
+      with NPCs, fighting alien enemies, factories and automation. The current
+      store estimate is around 40 hours of content.
+    </p>
+    <p>
+      The 1.0 roadmap is not a dated checklist. The developer wants more
+      building options, customization, quality-of-life features, factions, ship
+      and station modules, production lines and exploration. We will not
+      publish a fake roadmap with dates that have not been committed.
+    </p>
+
+    <h3>Demo save transfer</h3>
+    <p>
+      No official statement confirms that demo saves or builds will transfer to
+      Early Access. If continuity matters, plan for a fresh start and preserve
+      blueprints rather than assuming the demo state will carry over. This is
+      still an unresolved question in the community.
+    </p>
+
+    <h3>Exact content at launch</h3>
+    <p>
+      The September 2026 playtest included later sectors, Cobalt and Graphite,
+      a Trading Outpost and the Relic Destroyer, but playtest content is not a
+      guarantee of launch content. The demo is a separate, limited slice. We
+      label features as “demo” or “playtest” where the difference matters.
+    </p>
+  </section>
+</GuideLayout>

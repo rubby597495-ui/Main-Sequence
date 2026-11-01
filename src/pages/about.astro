@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import { GAME_IMAGES } from '../lib/images';
+import { SITE } from '../data/site';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about/' },
+];
+---
+
+<BaseLayout
+  title="About Main Sequence Guide"
+  description="Main Sequence Guide is an independent, source-first wiki and tool site for the space factory sim. Learn our editorial approach, independence and image credits."
+  breadcrumbs={breadcrumbs}
+  pageType="AboutPage"
+>
+  <PageIntro
+    eyebrow="About the project"
+    title="An independent field manual for Main Sequence"
+    description="Main Sequence Guide is a fan-operated editorial project about the space factory sim, built to be useful before launch without pretending the game is finished."
+    breadcrumbs={breadcrumbs}
+    image={GAME_IMAGES['main-sequence-station-asteroid-belt.jpg']}
+    imageAlt="A large Main Sequence station surrounded by asteroids"
+    imageCaption="Official game imagery is used for editorial illustration. Site design and written analysis are original."
+    meta={['Independent', 'Unofficial', 'Source-first']}
+  />
+
+  <div class="wrap py-12 md:py-16">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div class="prose-guide max-w-none">
+        <h2>Why this site exists</h2>
+        <p>
+          Main Sequence is a game about turning a single mining ship into an
+          industrial network. The information around it is scattered across a
+          store page, developer announcements, patch notes, demo builds,
+          community threads and videos. Our job is to collect the verifiable
+          parts, explain the game in plain English and mark the blanks.
+        </p>
+        <p>
+          The site is not affiliated with Tumbling Dumpling Studio, Mythwright
+          or Valve. It is not an official wiki, and it does not speak for the
+          developer. It is also not a review: we do not claim to have completed
+          a build that is not public.
+        </p>
+
+        <h2>What we prioritize</h2>
+        <ul>
+          <li>
+            <strong>Accuracy over speed.</strong> When a detail is unconfirmed,
+            the page says so. We do not turn an estimate into a fact to fill a
+            table.
+          </li>
+          <li>
+            <strong>Useful pages over page count.</strong> A missing character
+            database is better than invented characters. A missing recipe list
+            is better than an invented calculator.
+          </li>
+          <li>
+            <strong>Independence.</strong> No developer payment changes a
+            verdict, a label or a recommendation. Advertising, when enabled, is
+            separated from editorial content.
+          </li>
+          <li>
+            <strong>Maintenance.</strong> The demo and launch build will change.
+            Pages carry a last-checked date, and the update log is tied to
+            official sources.
+          </li>
+        </ul>
+
+        <h2>How the content is made</h2>
+        <p>
+          We use a combination of manual research, source comparison and
+          AI-assisted drafting. The drafting process helps organize large
+          amounts of public information; it is not treated as a source. Claims
+          are checked against the links in each page’s source log. Any
+          first-hand play impression or community-tested finding is labelled as
+          such.
+        </p>
+        <p>
+          We do not claim to have playtested a build we have not played. Where a
+          step comes from a community report—for example, the station-power
+          workaround in the demo—the page explicitly marks it as
+          community-tested and links to the report.
+        </p>
+
+        <h2>Editorial independence</h2>
+        <p>
+          Any future advertising is technical infrastructure, not editorial
+          direction. Ad placements are labelled, and they do not influence
+          source selection or page conclusions. If the site adds an affiliate
+          link, it will be disclosed. We do not accept payment for a positive
+          review or a guaranteed placement.
+        </p>
+
+        <h2>Images and trademarks</h2>
+        <p>
+          Screenshots are official Steam/press media, copyright Tumbling
+          Dumpling Studio and Mythwright, used for editorial commentary and
+          illustration. The site does <em>not</em> use the official game logo as
+          its own mark; the field-guide mark, layouts, charts and written
+          material are original to this project.
+        </p>
+
+        <h2>What comes next</h2>
+        <p>
+          After the Early Access build is public, the priorities are to verify
+          the launch state, rebuild the database from stable in-game data, and
+          add pages only where the game provides real entities: ships, modules,
+          resources, locations or systems. We will not publish empty route
+          variants to chase keywords.
+        </p>
+
+        <div class="callout callout-info">
+          <span class="callout-title">Corrections welcome</span>
+          <p class="m-0">
+            If a source link is wrong, a mechanic changed, or a detail is
+            mislabelled, send the page URL and a verifiable source to{' '}
+            <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+            Corrections are more important than defending a draft.
+          </p>
+        </div>
+      </div>
+
+      <aside>
+        <div class="sticky top-28 border border-line-soft bg-night p-5">
+          <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+            Site record
+          </p>
+          <dl class="mt-4 space-y-3 text-sm">
+            <div>
+              <dt class="font-mono text-[0.55rem] uppercase tracking-[0.06em] text-mist">Project</dt>
+              <dd class="mt-1 text-fog">Unofficial fan resource</dd>
+            </div>
+            <div>
+              <dt class="font-mono text-[0.55rem] uppercase tracking-[0.06em] text-mist">Focus</dt>
+              <dd class="mt-1 text-fog">Main Sequence wiki, guides and tools</dd>
+            </div>
+            <div>
+              <dt class="font-mono text-[0.55rem] uppercase tracking-[0.06em] text-mist">Contact</dt>
+              <dd class="mt-1 break-all text-fog">{SITE.contactEmail}</dd>
+            </div>
+            <div>
+              <dt class="font-mono text-[0.55rem] uppercase tracking-[0.06em] text-mist">Last checked</dt>
+              <dd class="mt-1 text-fog">{SITE.lastVerifiedLabel}</dd>
+            </div>
+          </dl>
+          <a href="/editorial-policy/" class="arrow-link mt-5">Editorial policy</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

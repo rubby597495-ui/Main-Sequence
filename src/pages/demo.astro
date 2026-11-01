@@ -1,0 +1,329 @@
+---
+import GuideLayout from '../components/GuideLayout.astro';
+import Figure from '../components/Figure.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { FAQS } from '../data/game';
+import { GAME_IMAGES } from '../lib/images';
+import { SITE } from '../data/site';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Demo guide', path: '/demo/' },
+];
+
+const toc = [
+  { id: 'what-is-demo', label: 'What the demo is' },
+  { id: 'access', label: 'How to access it' },
+  { id: 'included', label: 'What is included' },
+  { id: 'route', label: 'A practical first route' },
+  { id: 'co-op', label: 'Co-op in the demo' },
+  { id: 'saves', label: 'Saves and limits' },
+  { id: 'tip-notes', label: 'Field notes' },
+  { id: 'faq', label: 'Demo questions' },
+];
+
+const faq = FAQS.demo;
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Demo Guide: Content, Co-op & Save Status"
+  description="What's in the Main Sequence demo? Confirmed content, the October co-op update, demo limits, save-status unknowns and a practical route through the early technology tiers."
+  eyebrow="Demo field guide"
+  title="Main Sequence demo guide: what is playable now"
+  intro="The free Steam demo is the most useful reference point before Early Access. Here is what it actually contains, what changed in October, and which questions are still open."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-demo',
+    'steam-news-2026-10-19',
+    'steam-news-2026-10-21',
+    'steam-news-2026-05-28',
+    'steam-news-2026-06-09',
+    'steam-news-2026-09-09',
+    'steam-forum-logistics',
+    'steam-news-2026-09-21',
+  ]}
+  image={GAME_IMAGES['main-sequence-conveyor-belt-build.jpg']}
+  imageAlt="A Main Sequence player builds a line of Conveyor Belt Mk. 1 segments inside a station"
+  imageCaption="Belt construction is a research-gated part of the current demo progression. Official Steam screenshot."
+  meta={['Free on Steam', 'First two tech tiers', 'Co-op added October 19', 'Demo saves: unconfirmed']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="The demo changes between patches. This page reflects the October 21, 2026 hotfix and is not a substitute for the in-game tutorial."
+>
+  <section id="what-is-demo" class="scroll-mt-28">
+    <div class="callout">
+      <span class="callout-title">Current status</span>
+      <p class="m-0 text-fog">
+        The Main Sequence demo is a free, separate Steam app. It was released on
+        May 28, 2026 and remains listed as of our November 1 check. The October
+        19 Next Fest update added the new tech tree, Electromagnetic Science,
+        new equipment and places, the Shield Generator Mk. 1 and co-op
+        multiplayer. A small hotfix followed on October 21.
+      </p>
+    </div>
+
+    <p>
+      Steam describes the demo as a slice of the starting star system, covering
+      the first two technology tiers and culminating in the Slipstream Drive.
+      The October update extended the demo’s research options for players who
+      reached the previous endpoint, so “first two tiers” is still a useful
+      summary but no longer the complete patch story.
+    </p>
+    <p>
+      This is a development demo, not a content-complete preview of the full
+      game. Later systems, the Trading Outpost and late-game science featured in
+      the September playtest are playtest material unless an official update
+      explicitly says they are in the demo.
+    </p>
+  </section>
+
+  <section id="access" class="scroll-mt-28">
+    <h2>How to access the demo</h2>
+    <ol>
+      <li>
+        Open the <a href={SITE.game.demoSteam} target="_blank" rel="noopener noreferrer">Main Sequence Demo page on Steam</a>.
+      </li>
+      <li>
+        Sign in to Steam and select the demo download. It is a separate app from
+        the full game, so searching only for the main store page can make the
+        demo button easy to miss.
+      </li>
+      <li>
+        Install, launch and follow the in-game tutorial. The demo opens in the
+        starting asteroid belt with the mining ship.
+      </li>
+    </ol>
+    <p>
+      A Steam account is required. We do not host or mirror the demo files. The
+      demo’s availability after Steam Next Fest is controlled by the developer;
+      it was still listed at the time of our last check.
+    </p>
+  </section>
+
+  <section id="included" class="scroll-mt-28">
+    <h2>What is included in the demo</h2>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">System</th>
+            <th scope="col">Status in demo</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="System">Starting star system</td>
+            <td data-label="Status in demo"><StatusBadge status="confirmed" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Steam frames the demo around the starting system, not the whole galaxy.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="System">Mining and ship refining</td>
+            <td data-label="Status in demo"><StatusBadge status="confirmed" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Scan, mine and refine aboard the starting ship.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="System">Station building and factories</td>
+            <td data-label="Status in demo"><StatusBadge status="confirmed" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Build a station, place machines and start automating production.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="System">Research / Slipstream Drive</td>
+            <td data-label="Status in demo"><StatusBadge status="confirmed" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Steam names Slipstream Drive as the early demo goal. Only Warp Fuel can be inserted into it.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="System">Electromagnetic Science</td>
+            <td data-label="Status in demo"><StatusBadge status="confirmed" label="Added Oct 19" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Added for players who reached the end of the previous demo content.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="System">Combat and threat defense</td>
+            <td data-label="Status in demo"><StatusBadge status="confirmed" /></td>
+            <td class="text-sm text-mist" data-label="Detail">The demo includes enemies and the October update added a shield generator.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="System">Co-op</td>
+            <td data-label="Status in demo"><StatusBadge status="confirmed" label="Added Oct 19" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Multiplayer was added to the demo. The store page’s older single-player wording is out of date.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="System">Full game progression</td>
+            <td data-label="Status in demo"><StatusBadge status="unknown" label="Not included" /></td>
+            <td class="text-sm text-mist" data-label="Detail">Later systems and late-game science belong to the full/playtest build, not the public demo.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-4 text-xs leading-relaxed text-mist">
+      The demo is a moving target. It received a visual overhaul before release
+      and multiple hotfixes afterward. Treat exact recipes and costs as
+      patch-dependent.
+    </p>
+  </section>
+
+  <section id="route" class="scroll-mt-28">
+    <h2>A practical first route</h2>
+    <p>
+      The demo’s tutorial gives you a sequence of missions. The following route
+      is a synthesis of the official demo description and a community-tested
+      account of the early progression. It is not a scripted walkthrough with
+      hidden puzzle solutions.
+    </p>
+
+    <ol>
+      <li>
+        <strong>Scan and mine.</strong> Learn how the ship scanner identifies
+        resource asteroids, then mine enough material to test the refining loop.
+      </li>
+      <li>
+        <strong>Use the ship workstation.</strong> You do not need a complete
+        station before you can process ore. Early crafting happens on the ship.
+      </li>
+      <li>
+        <strong>Build the first station room.</strong> The Command module is the
+        station-design entry point. Plan for power before you fill the room with
+        machines.
+      </li>
+      <li>
+        <strong>Power the station.</strong> This is the step that trips up new
+        players. A docked ship does not necessarily solve station power in the
+        current demo; the community-tested answer is to build station-side
+        generation and supply it.
+      </li>
+      <li>
+        <strong>Queue Logistics I.</strong> The official demo screenshot shows
+        Logistics I in the research queue at 0/10. Conveyor belts are not
+        available until this research step is handled.
+      </li>
+      <li>
+        <strong>Build a belt loop.</strong> Once belts are available, connect
+        one machine to storage and watch the item flow. Add a splitter only when
+        you need to send material to two destinations.
+      </li>
+      <li>
+        <strong>Automate mining, then scale research.</strong> Mining Drones
+        follows Logistics I in the visible tree. That is the transition from
+        hand-feeding to a genuinely automated base.
+      </li>
+      <li>
+        <strong>Push toward Slipstream Drive.</strong> Build a stable science
+        loop before chasing the drive. The demo’s endpoint is a system-travel
+        technology, not a fully upgraded empire.
+      </li>
+    </ol>
+
+    <Figure
+      name="main-sequence-production-lines.jpg"
+      alt="Multiple orange production machines and blue-lit conveyor belts arranged on a Main Sequence station floor"
+      caption="A production floor is easier to expand when machine rows, belts and storage have room around them."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+
+    <div class="callout callout-warning">
+      <span class="callout-title">Tutorial gap warning</span>
+      <p class="m-0 text-sm">
+        Demo players have reported that the tutorial does not clearly explain
+        the station-power step or how to reach conveyor belts. The step-by-step
+        fix is covered in our{' '}
+        <a href="/guides/first-station-logistics/">conveyor belt guide</a>.
+      </p>
+    </div>
+  </section>
+
+  <section id="co-op" class="scroll-mt-28">
+    <h2>Co-op in the demo</h2>
+    <p>
+      The October 19 update added co-op to the demo. In the full game and the
+      demo’s design, each player is the captain of their own ship. The official
+      examples suggest splitting logistics, defense and exploration, but the
+      game does not force those roles.
+    </p>
+    <p>
+      What is still unknown: the maximum player count, dedicated-server
+      support, host migration, cross-play and exactly how shared progression
+      works. The demo is the current test bed, not a final specification.
+    </p>
+    <p>
+      Use the <a href="/guides/co-op/#crew-planner">co-op guide’s crew
+      planner</a> to assign a first shift across two to four captains.
+    </p>
+  </section>
+
+  <section id="saves" class="scroll-mt-28">
+    <h2>Will demo progress carry over?</h2>
+    <p>
+      This has not been confirmed. No official statement says demo saves,
+      stations or research will transfer to Early Access. Treat the demo as a
+      preview, not an early-access save file.
+    </p>
+    <p>
+      The safest preservation strategy is to save useful blueprints rather than
+      assuming a full save transfer. Whether blueprints themselves survive the
+      version boundary is also unconfirmed, so keep screenshots or notes of
+      designs you care about.
+    </p>
+
+    <h3>What could change at launch</h3>
+    <ul>
+      <li>
+        Recipe costs, research requirements and module balance can change
+        between the demo and Early Access.
+      </li>
+      <li>
+        The demo’s co-op performance was still being optimized during the
+        September playtest and October Next Fest.
+      </li>
+      <li>
+        The game is entering Early Access, so the launch build is not the final
+        1.0 balance either.
+      </li>
+    </ul>
+  </section>
+
+  <section id="tip-notes" class="scroll-mt-28">
+    <h2>Field notes for a cleaner demo run</h2>
+    <h3>Power before production</h3>
+    <p>
+      A factory line that cannot run is just expensive decoration. Build and
+      fuel station power before committing floor space to a chain of machines.
+      The community-reported tutorial gap makes this the first thing to verify.
+    </p>
+    <h3>Research is a production input</h3>
+    <p>
+      Science is not a passive XP bar. Certain produced items are converted into
+      research through Science Labs. That means your research pace is part of
+      your factory design: if science stalls, check the supply chain before
+      assuming the game is broken.
+    </p>
+    <h3>Read the queue</h3>
+    <p>
+      The research tree exposes prerequisites. Technology names that seem
+      missing may be later nodes, or may require a different ore to be
+      researched first. The demo’s tutorial has known gaps; the tree is a more
+      reliable map than a single mission line.
+    </p>
+    <h3>Don’t chase a finished “best build” yet</h3>
+    <p>
+      The current build is a demo and the launch build is Early Access. Recipes
+      and costs have already changed in patches. Use layouts that are easy to
+      modify, and avoid copying numeric ratios from a build that may no longer
+      match the current version.
+    </p>
+
+    <div class="panel p-5 mt-7 not-prose">
+      <p class="font-mono text-[0.59rem] uppercase tracking-[0.12em] text-signal">Related tool</p>
+      <h3 class="mt-2 font-display text-2xl font-semibold uppercase text-paper">Track your demo run</h3>
+      <p class="mt-2 max-w-xl text-sm leading-relaxed text-mist">
+        The demo checklist turns this route into a progress list saved in your
+        browser, from requirement checks to co-op and the Slipstream Drive
+        objective.
+      </p>
+      <a href="/tools/demo-checklist/" class="arrow-link mt-4">Open the demo checklist</a>
+    </div>
+  </section>
+</GuideLayout>

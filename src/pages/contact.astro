@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import { SITE } from '../data/site';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Contact', path: '/contact/' },
+];
+---
+
+<BaseLayout
+  title="Contact Main Sequence Guide"
+  description="Contact the Main Sequence Guide editorial team with a correction, source tip or partnership question. Independent fan site; not affiliated with the game's developers."
+  breadcrumbs={breadcrumbs}
+  pageType="ContactPage"
+>
+  <PageIntro
+    eyebrow="Contact"
+    title="Send a signal"
+    description="Corrections, source tips and clear questions are welcome. This site is independent and not the game’s official support channel."
+    breadcrumbs={breadcrumbs}
+    meta={['Corrections first', 'No sponsored coverage', 'Email contact']}
+  />
+
+  <div class="wrap grid gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:py-16">
+    <div class="prose-guide max-w-3xl">
+      <h2>Editorial and corrections</h2>
+      <p>
+        The fastest way to improve this site is to point at a specific mistake.
+        Please include:
+      </p>
+      <ul>
+        <li>The page URL and the exact statement you are questioning.</li>
+        <li>A link to an official source, current in-game screenshot or a reproducibly tested demo step.</li>
+        <li>Your game version or demo build date, if relevant.</li>
+      </ul>
+      <p>
+        Send editorial mail to{' '}
+        <a href={`mailto:${SITE.contactEmail}?subject=Correction%20—%20Main%20Sequence%20Guide`}>
+          {SITE.contactEmail}
+        </a>{' '}
+        with “Correction” in the subject line.
+      </p>
+
+      <h2>Advertising and partnerships</h2>
+      <p>
+        For advertising or site infrastructure questions, use the same address
+        with “Business” in the subject line. Sponsorship does not buy a favorable
+        verdict, a fake recommendation or a guaranteed mention. We do not sell
+        editorial pages.
+      </p>
+
+      <h2>Privacy requests</h2>
+      <p>
+        For privacy questions or a request relating to personal data, use the
+        subject “Privacy”. We do not have an account system, but hosting and
+        advertising providers may process technical data as described in the{' '}
+        <a href="/privacy/">privacy policy</a>.
+      </p>
+
+      <h2>Game support</h2>
+      <p>
+        We cannot help with Steam account issues, refunds, game bugs or missing
+        purchases. Use Valve support for Steam problems, and the developer’s
+        official community channels for game feedback.
+      </p>
+      <ul>
+        <li>
+          <a href="https://help.steampowered.com/" target="_blank" rel="noopener noreferrer">
+            Steam Support
+          </a>
+        </li>
+        <li>
+          <a href="https://steamcommunity.com/app/2487190/discussions/" target="_blank" rel="noopener noreferrer">
+            Main Sequence Steam discussions
+          </a>
+        </li>
+        <li>
+          <a href={SITE.game.officialSite} target="_blank" rel="noopener noreferrer">
+            Official game site
+          </a>
+        </li>
+      </ul>
+
+      <div class="callout callout-info">
+        <span class="callout-title">What makes a useful message</span>
+        <p class="m-0">
+          Keep it specific: page, sentence, version and source. A short,
+          checkable correction is more useful than a general “this is wrong”
+          message, and it is much easier to act on before launch.
+        </p>
+      </div>
+    </div>
+
+    <aside class="border border-line-soft bg-night p-5">
+      <p class="font-mono text-[0.58rem] uppercase tracking-[0.12em] text-signal">
+        Address
+      </p>
+      <a
+        href={`mailto:${SITE.contactEmail}`}
+        class="mt-3 block break-all font-display text-2xl font-semibold uppercase text-paper hover:text-signal"
+      >
+        {SITE.contactEmail}
+      </a>
+      <ul class="mt-5 space-y-2 border-t border-line-soft pt-4 text-xs text-mist">
+        <li>Corrections: include a source.</li>
+        <li>Business: no guaranteed coverage.</li>
+        <li>Privacy: identify the request.</li>
+        <li>Game support: contact Valve/the developer.</li>
+      </ul>
+      <p class="mt-5 border-t border-line-soft pt-4 text-xs leading-relaxed text-mist">
+        This is a fan resource. It is not affiliated with Tumbling Dumpling
+        Studio or Mythwright.
+      </p>
+    </aside>
+  </div>
+</BaseLayout>

@@ -1,0 +1,151 @@
+---
+import '@fontsource-variable/saira';
+import '@fontsource/saira-condensed/600.css';
+import '@fontsource/saira-condensed/700.css';
+import sairaLatin from '@fontsource-variable/saira/files/saira-latin-wght-normal.woff2?url';
+import sairaCondensed600 from '@fontsource/saira-condensed/files/saira-condensed-latin-600-normal.woff2?url';
+import sairaCondensed700 from '@fontsource/saira-condensed/files/saira-condensed-latin-700-normal.woff2?url';
+import '../styles/global.css';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { buildJsonLd } from '../lib/schema';
+import { SITE, absoluteUrl } from '../data/site';
+
+interface Breadcrumb {
+  name: string;
+  path: string;
+}
+
+interface ArticleInput {
+  headline: string;
+  description: string;
+  datePublished: string;
+  dateModified: string;
+  citations?: string[];
+  image?: string;
+}
+
+interface FaqInput {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  breadcrumbs?: Breadcrumb[];
+  pageType?: string;
+  article?: ArticleInput;
+  videoGame?: boolean;
+  faq?: FaqInput[];
+  image?: string;
+  noindex?: boolean;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  breadcrumbs,
+  pageType = 'WebPage',
+  article,
+  videoGame = false,
+  faq,
+  image,
+  noindex = false,
+  bodyClass = '',
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const normalizedPath = canonicalPath
+  ? canonicalPath.endsWith('/')
+    ? canonicalPath
+    : `${canonicalPath}/`
+  : pathname.endsWith('/')
+    ? pathname
+    : `${pathname}/`;
+const canonical = absoluteUrl(normalizedPath);
+const ogImagePath = image ?? '/og/main-sequence-guide.jpg';
+const ogImage = ogImagePath.startsWith('http')
+  ? ogImagePath
+  : absoluteUrl(ogImagePath);
+
+const jsonLd = buildJsonLd({
+  canonicalPath: normalizedPath,
+  title,
+  description,
+  pageType,
+  breadcrumbs,
+  article,
+  videoGame,
+  faq,
+  image: ogImage,
+});
+
+const jsonLdString = JSON.stringify(jsonLd).replaceAll('<', '\\u003c');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+    <meta name="theme-color" content="#071017" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="author" content={SITE.publisher} />
+
+    <link rel="preload" href={sairaLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sairaCondensed600} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sairaCondensed700} as="font" type="font/woff2" crossorigin />
+
+    <link rel="icon" href="/icons/mark.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/icon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Main Sequence Field Guide — an independent wiki and field manual" />
+    {
+      article && (
+        <>
+          <meta property="article:published_time" content={article.datePublished} />
+          <meta property="article:modified_time" content={article.dateModified} />
+          <meta property="article:author" content={SITE.name} />
+        </>
+      )
+    }
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <script type="application/ld+json" set:html={jsonLdString} />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

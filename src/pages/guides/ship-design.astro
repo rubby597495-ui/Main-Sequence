@@ -1,0 +1,323 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import Figure from '../../components/Figure.astro';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/guides/' },
+  { name: 'Ship design', path: '/guides/ship-design/' },
+];
+
+const toc = [
+  { id: 'designer', label: 'The Designer' },
+  { id: 'role', label: 'Define the ship’s job' },
+  { id: 'stats', label: 'Read the build stats' },
+  { id: 'power', label: 'Power and modules' },
+  { id: 'cargo', label: 'Cargo and stack size' },
+  { id: 'weapons', label: 'Weapons and utility' },
+  { id: 'blueprint', label: 'Save and share' },
+  { id: 'mistakes', label: 'Common mistakes' },
+  { id: 'faq', label: 'Ship design questions' },
+];
+
+const faq = [
+  {
+    question: 'Can you build your own ships in Main Sequence?',
+    answer:
+      'Yes. The ship Designer lets you build module by module, including cargo, reactor placement and weapons. You can access it from a Shipyard Core on a station, from the main menu for creative design, and according to official material save or share blueprints.',
+  },
+  {
+    question: 'What do mass, hull and thrust mean in the Designer?',
+    answer:
+      'The official screenshots show mass, hull, thrust and dimensions in the ship design readout. Mass is the build’s weight, hull is a structural/durability figure, and thrust is the propulsion output. The available public sources do not publish the full formulas, so treat the numbers as in-game trade-offs rather than a standalone stat tier list.',
+  },
+  {
+    question: 'Does a Ship Container increase storage?',
+    answer:
+      'The August 2025 patch notes say each Ship Container added to a ship increases the ship’s inventory max stack size by 50%. That is a historical balance note; the value may change during Early Access.',
+  },
+  {
+    question: 'Can you share ship blueprints?',
+    answer:
+      'The Steam description says players can save designs, share them with friends and build freely in creative mode. The exact file format, cross-version compatibility and multiplayer sharing process are not documented in our sources.',
+  },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Ship Design Guide: Stats, Modules & Blueprints"
+  description="Build better ships in Main Sequence: use the Designer, read mass, hull and thrust, plan power and cargo, save blueprints and avoid early design mistakes."
+  eyebrow="Shipyard"
+  title="Main Sequence ship design guide"
+  intro="The Designer gives you the parts and the readout. The hard part is deciding what the ship is for before you fill every socket with hardware."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-store',
+    'steam-news-2025-08-12',
+    'steamdb-playtest-13',
+    'steam-news-2026-09-21',
+    'steam-news-2026-10-19',
+    'steam-screens',
+  ]}
+  image={GAME_IMAGES['main-sequence-large-cruiser.jpg']}
+  imageAlt="A large white and orange cruiser built in the Main Sequence ship Designer"
+  imageCaption="The ship Designer exposes mass, hull, thrust, dimensions and a build-cost panel. Official Steam screenshot."
+  meta={['Designer-focused', 'Old-build numbers not treated as current', 'Demo + official modules']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="Ship balance changed during the demo period. The method here is more stable than any single build-cost screenshot."
+>
+  <section id="designer" class={block}>
+    <h2>The Designer is the shipyard</h2>
+    <p>
+      The official core-loop post describes three ways into the Designer:
+    </p>
+    <ul>
+      <li>
+        <strong>Command module:</strong> open the Designer to edit your station.
+      </li>
+      <li>
+        <strong>Shipyard module:</strong> edit the ship docked there. Constructing
+        new ships and disassembling old ones also happens through the Shipyard
+        Core, according to the official patch notes.
+      </li>
+      <li>
+        <strong>Main menu:</strong> design in creative mode and save blueprints
+        for later.
+      </li>
+    </ul>
+    <p>
+      Ships use modules rather than one monolithic hull. The official store
+      description names cargo capacity, reactor placement and weapons as
+      choices. The Designer screenshot shows Basic, Vertical, Piloting and
+      Weapons categories, with a live mass/hull/thrust/dimensions readout and a
+      separate build-cost list. Those categories are a good way to structure
+      your own design pass.
+    </p>
+
+    <Figure
+      name="main-sequence-ship-designer.jpg"
+      alt="The Main Sequence ship Designer interface showing module categories and build costs for a large frigate"
+      caption="The Designer shows both physical layout and a running construction cost. Do not treat these specific build costs as current; the screenshot is from a changing demo build."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+  </section>
+
+  <section id="role" class={block}>
+    <h2>Step 1: define the ship’s job</h2>
+    <p>
+      A ship that tries to mine, haul, fight and explore at the same time will
+      usually do all four awkwardly. Pick a primary job:
+    </p>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Role</th>
+            <th scope="col">What the design needs</th>
+            <th scope="col">Confirmed parts to consider</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Role">Miner</td>
+            <td class="text-sm text-mist" data-label="What the design needs">Mining tools, enough cargo for a useful run, enough thrust to move between rocks.</td>
+            <td class="text-sm text-mist" data-label="Confirmed parts to consider">Mining Laser, cargo/storage modules, thrusters.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Role">Hauler</td>
+            <td class="text-sm text-mist" data-label="What the design needs">Cargo capacity, a safe route and a dock it can use.</td>
+            <td class="text-sm text-mist" data-label="Confirmed parts to consider">Ship Container, thrusters, defensive utility.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Role">Combat ship</td>
+            <td class="text-sm text-mist" data-label="What the design needs">Weapons, shields, repair supplies and enough mobility to disengage.</td>
+            <td class="text-sm text-mist" data-label="Confirmed parts to consider">Plasma Cannon, Plasma Lance, Shield Generator Mk. 1, Repair Pack.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Role">Explorer</td>
+            <td class="text-sm text-mist" data-label="What the design needs">Travel range, scanning utility and enough supplies to return.</td>
+            <td class="text-sm text-mist" data-label="Confirmed parts to consider">Slipstream Drive, Tractor Beam, cargo and fuel.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-xs leading-relaxed text-mist">
+      The module list is confirmed, but the best combination is not. Specific
+      ranges, damage values and power draws are not public enough to rank builds
+      responsibly.
+    </p>
+  </section>
+
+  <section id="stats" class={block}>
+    <h2>Step 2: read the build stats as trade-offs</h2>
+    <p>
+      The Designer readout gives you mass, hull, thrust and dimensions. The
+      screenshot’s exact values belong to that specific build, not a universal
+      target. Use the relationships:
+    </p>
+    <ul>
+      <li>
+        <strong>Mass versus thrust.</strong> Adding structure, cargo and weapons
+        increases mass. More thrust helps a heavy ship move, but thrust modules
+        also add mass and power demand. There is no public “correct” ratio.
+      </li>
+      <li>
+        <strong>Hull is not invincibility.</strong> A high hull value tells you
+        how much structure the design has, not whether the ship can survive a
+        fight. Shields, weapons and mobility matter too.
+      </li>
+      <li>
+        <strong>Dimensions matter in a first-person ship.</strong> The ship is a
+        physical space you walk through. Long, tall or wide designs can be harder
+        to fit around a dock and harder to navigate internally.
+      </li>
+      <li>
+        <strong>Build cost is part of the design.</strong> The right-hand panel
+        shows the materials required. A design you cannot afford is a blueprint,
+        not a ship.
+      </li>
+    </ul>
+
+    <div class="callout callout-info">
+      <span class="callout-title">Screenshot caveat</span>
+      <p class="m-0 text-sm">
+        The numbers visible in official screenshots are from a development
+        build. We do not reproduce them as “ideal stats” because patch notes
+        already changed component masses and build costs during the demo
+        period.
+      </p>
+    </div>
+  </section>
+
+  <section id="power" class={block}>
+    <h2>Step 3: plan power, space and access</h2>
+    <p>
+      The store description names reactor placement as a design decision. A
+      reactor is not just a required block; it is a thing you need to reach and
+      configure. Keep it accessible, and avoid sealing it behind a decorative
+      wall with no door.
+    </p>
+    <ul>
+      <li>Place power generation before filling the hull with machines.</li>
+      <li>Keep power and fuel storage near the reactor or generator, not across the ship.</li>
+      <li>Leave a walking route from the pilot seat to the power controls.</li>
+      <li>Check that the final module count fits the power budget before you save the blueprint.</li>
+    </ul>
+    <p>
+      The available sources do not publish a per-module power table. Use the
+      in-game configuration panel as the authority, especially after patches.
+    </p>
+
+    <h3>Landing gear and ship interiors</h3>
+    <p>
+      Landing Gear, Ship Ladder, Ship Frames, Ship Windows I and Small Habitat
+      Window are confirmed ship modules or unlocks. They serve different jobs:
+      some keep the ship physically usable, some are structural, some are
+      interior navigation and some are visual. A screenshot of a beautiful ship
+      is not proof that its landing gear or interior path works in the current
+      build.
+    </p>
+  </section>
+
+  <section id="cargo" class={block}>
+    <h2>Step 4: build cargo around the route, not the stat</h2>
+    <p>
+      Cargo capacity matters only if the ship can complete the route, dock, and
+      unload. The official August 2025 patch notes state that each Ship
+      Container increases a ship’s inventory max stack size by 50%. That makes
+      containers a strong tool for a hauler, but stacking them without thrust,
+      power and docking space is not automatically better.
+    </p>
+    <p>
+      A useful test is a round trip, not a static inspection: load the ship,
+      fly the intended route, dock, unload and check whether you had to fight
+      the controls or abandon cargo space. If the route is too long, add range
+      or reduce the load before adding more containers.
+    </p>
+  </section>
+
+  <section id="weapons" class={block}>
+    <h2>Step 5: weapons, shields and utility</h2>
+    <p>
+      Confirmed combat modules include the Plasma Cannon and Plasma Lance, while
+      the Shield Generator Mk. 1 arrived in the October 19, 2026 demo update.
+      The Tractor Beam and Mining Laser are utility systems shown in official
+      screenshots and the ship designer.
+    </p>
+
+    <Figure
+      name="main-sequence-combat-alert.jpg"
+      alt="A Main Sequence cockpit view showing an alien Relic Trident target and weapon readouts"
+      caption="Combat is a cockpit and fleet problem. A weapon module is only useful if the ship can power it, aim it and survive the response."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+
+    <p>
+      Do not assume a mining laser is a competitive weapon simply because it is
+      attached to a ship, or that a shield makes a ship invulnerable. The current
+      public sources do not provide damage, range or resistance numbers. If you
+      want a combat build, test it in the safest encounter you can find and
+      bring Repair Packs.
+    </p>
+  </section>
+
+  <section id="blueprint" class={block}>
+    <h2>Step 6: save, share and iterate</h2>
+    <p>
+      Official material confirms saved ship/station designs, sharing with
+      friends and creative-mode building from the main menu. Treat blueprints as
+      design records:
+    </p>
+    <ul>
+      <li>Give each ship a role-based name, not just a version number.</li>
+      <li>Keep a stripped-down test hull before uploading a decorated final.</li>
+      <li>Save after a successful test flight, not before it.</li>
+      <li>Expect blueprint compatibility to change between demo and Early Access; no transfer has been confirmed.</li>
+    </ul>
+
+    <p>
+      For the full module index, including what is and is not known about each
+      part, use the <a href="/database/modules/">ships and station modules
+      database</a>. For combat planning, read the{' '}
+      <a href="/guides/combat-defense/">combat and defense guide</a>.
+    </p>
+  </section>
+
+  <section id="mistakes" class={block}>
+    <h2>Common ship design mistakes</h2>
+    <ol>
+      <li>
+        <strong>Building with no role.</strong> A generalist first draft is fine
+        for learning the interface, but do not call it a finished design.
+      </li>
+      <li>
+        <strong>Ignoring the build-cost panel.</strong> The ship you designed
+        may be far beyond what your station can currently produce.
+      </li>
+      <li>
+        <strong>Sealing the reactor.</strong> Power equipment needs access and
+        configuration.
+      </li>
+      <li>
+        <strong>Copying old mass values.</strong> Official patches already
+        changed ship-part masses; an old screenshot is not a current stat sheet.
+      </li>
+      <li>
+        <strong>Skipping the test flight.</strong> Dock, fly and shoot before
+        you commit to a blueprint.
+      </li>
+      <li>
+        <strong>Assuming blueprints transfer.</strong> Save your ideas outside
+        the game; demo-to-release transfer is unconfirmed.
+      </li>
+    </ol>
+  </section>
+</GuideLayout>

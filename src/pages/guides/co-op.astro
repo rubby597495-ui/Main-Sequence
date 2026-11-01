@@ -1,0 +1,226 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import CrewPlanner from '../../components/CrewPlanner.astro';
+import { FAQS } from '../../data/game';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/guides/' },
+  { name: 'Co-op guide', path: '/guides/co-op/' },
+];
+
+const toc = [
+  { id: 'status', label: 'Current co-op status' },
+  { id: 'confirmed', label: 'What is confirmed' },
+  { id: 'unknown', label: 'What is not confirmed' },
+  { id: 'start', label: 'Starting a session' },
+  { id: 'crew-planner', label: 'Crew planner' },
+  { id: 'roles', label: 'Role strategy' },
+  { id: 'faq', label: 'Co-op questions' },
+];
+
+const faq = FAQS.coOp;
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Co-op Guide: Multiplayer Status & Crew Planner"
+  description="How Main Sequence co-op works: each player captains a ship, the demo supports multiplayer, and our planner helps split logistics, defense and exploration."
+  eyebrow="Multiplayer"
+  title="Main Sequence co-op guide and crew planner"
+  intro="Co-op is in the demo, but it is still a moving target. Here is what the developer has confirmed, what remains unknown, and a practical way to split the first shift."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-store',
+    'steam-news-2026-10-19',
+    'steam-news-2026-09-09',
+    'gamesfinity',
+    'steam-news-2026-10-21',
+    'steam-forum-docks',
+  ]}
+  image={GAME_IMAGES['main-sequence-fleet-management.jpg']}
+  imageAlt="The Main Sequence fleet management interface listing stations and ships in a co-op industrial network"
+  imageCaption="Fleet management becomes a shared logistics problem in co-op. Official Steam screenshot."
+  meta={['Online & LAN co-op', 'Demo support added Oct 19', 'Player cap unconfirmed', 'Crew planner included']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="Multiplayer is a focus of ongoing development. Re-test the current demo before planning a large crew; player count and stability may change."
+>
+  <section id="status" class={block}>
+    <div class="callout">
+      <span class="callout-title">Current status</span>
+      <p class="m-0">
+        Steam lists single-player, online co-op and LAN co-op. The October 19,
+        2026 Next Fest update added co-op multiplayer to the demo. The developer
+        describes each player as the captain of their own ship. No maximum
+        player count, dedicated-server support or cross-play details have been
+        published.
+      </p>
+    </div>
+
+    <p>
+      The public material presents co-op as the same industrial sandbox, with
+      more captains able to operate ships and stations — not a separate
+      competitive mode. The developer’s examples split work between logistics,
+      defense and exploration, but the game does not appear to enforce classes
+      or a single shared role.
+    </p>
+    <p>
+      During the September 2026 playtest, multiplayer was explicitly
+      experimental, with performance and stability called an ongoing focus
+      before Early Access. The October demo update improved multiplayer, but it
+      is still not a finished competitive or dedicated-server product.
+    </p>
+  </section>
+
+  <section id="confirmed" class={block}>
+    <h2>What is confirmed</h2>
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col">Status</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Feature">Online co-op</td>
+            <td data-label="Status">Confirmed</td>
+            <td class="text-sm text-mist" data-label="Detail">Listed on the Steam store and added to the demo in the October 19 update.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Feature">LAN co-op</td>
+            <td data-label="Status">Confirmed</td>
+            <td class="text-sm text-mist" data-label="Detail">Listed as a Steam feature on the main game page.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Feature">Own ship per player</td>
+            <td data-label="Status">Confirmed</td>
+            <td class="text-sm text-mist" data-label="Detail">The official store description says every co-op player is the captain of their own ship.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Feature">Flexible division of work</td>
+            <td data-label="Status">Confirmed</td>
+            <td class="text-sm text-mist" data-label="Detail">Logistics, defense and exploration are given as examples, not locked classes.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Feature">Demo multiplayer</td>
+            <td data-label="Status">Confirmed</td>
+            <td class="text-sm text-mist" data-label="Detail">Added October 19; the older demo description may still call it single-player.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="unknown" class={block}>
+    <h2>What is not confirmed</h2>
+    <p>
+      These are the questions we cannot answer from official material. They are
+      not gaps in the game; they are gaps in the public information:
+    </p>
+    <ul>
+      <li><strong>Maximum player count.</strong> No public cap has been announced.</li>
+      <li><strong>Dedicated servers.</strong> They have not been mentioned in the store description or launch announcements.</li>
+      <li><strong>Cross-play.</strong> No cross-platform details have been published; the confirmed launch platform is Windows/Steam.</li>
+      <li><strong>Host migration and save ownership.</strong> No official explanation of what happens if the host leaves or how progression is stored.</li>
+      <li><strong>Shared versus separate progression.</strong> The demo is the current reference, not a final rule set.</li>
+      <li><strong>Mods and blueprints in multiplayer.</strong> Blueprint sharing is advertised as a general feature, but multiplayer compatibility is not documented.</li>
+    </ul>
+
+    <div class="callout callout-warning">
+      <span class="callout-title">Use the demo, not a guess</span>
+      <p class="m-0 text-sm">
+        If you are planning a large group or a stream, test the current demo
+        with the exact player count you intend to use. Do not assume the demo’s
+        stability or sharing behavior will match the Early Access build.
+      </p>
+    </div>
+  </section>
+
+  <section id="start" class={block}>
+    <h2>How to start a co-op session</h2>
+    <p>
+      The exact lobby flow is not documented in the public patch notes, so we
+      will not invent a menu path. The reliable starting point is:
+    </p>
+    <ol>
+      <li>
+        Install the current <a href="https://store.steampowered.com/app/3640620/Main_Sequence_Demo/" target="_blank" rel="noopener noreferrer">Main Sequence demo</a>.
+      </li>
+      <li>
+        Open the demo’s multiplayer or co-op menu. The October 19 update is the
+        version that added the mode; an older local build may not show it.
+      </li>
+      <li>
+        Decide whether you are using Steam’s online path or a LAN session. Both
+        are listed as features on the store page.
+      </li>
+      <li>
+        Before inviting a group, run a short session with one other captain to
+        confirm chat, ship access and station permissions in your build.
+      </li>
+    </ol>
+    <p>
+      The demo’s exact player cap and host settings are not public. If the
+      interface shows a cap, that is the practical limit for that build, not
+      necessarily the final Early Access limit.
+    </p>
+
+    <h3>A sensible first-session goal</h3>
+    <p>
+      Do not start a mega-project on the first co-op night. Complete one shared
+      objective: a powered station, one working belt loop or a safe mining run.
+      That gives everyone a common point of reference and exposes logistics
+      problems early.
+    </p>
+  </section>
+
+  <section id="crew-planner" class={block}>
+    <CrewPlanner />
+  </section>
+
+  <section id="roles" class={block}>
+    <h2>Role strategy for two to four captains</h2>
+    <h3>Two captains: one base, one frontier</h3>
+    <p>
+      One player owns logistics and production while the other handles defense
+      and exploration. This is the cleanest split because it gives the base a
+      dedicated operator and keeps the fleet from sitting idle. Rotate after the
+      first session so both players learn the other side of the game.
+    </p>
+    <h3>Three captains: protect the middle</h3>
+    <p>
+      A dedicated logistics captain, a production captain who also watches
+      defense, and an exploration captain works well. The production/defense
+      overlap is deliberate: a factory that cannot respond to a threat is a
+      factory that will eventually stop.
+    </p>
+    <h3>Four captains: one primary lane each</h3>
+    <p>
+      With four players, assign one primary lane per captain: logistics,
+      production, defense and exploration. Have each captain write down their
+      first objective and what they need from the others. The clean split reduces
+      duplicated ships and half-built production lines.
+    </p>
+
+    <h3>What every captain should know</h3>
+    <ul>
+      <li>Where the station’s power comes from.</li>
+      <li>Which dock or storage area is receiving shared cargo.</li>
+      <li>What the current research goal is.</li>
+      <li>How to call for help when a combat alert starts.</li>
+      <li>Which personal ship is theirs, and where it is parked.</li>
+    </ul>
+
+    <p>
+      The planner is an editorial aid. It does not set in-game permissions or
+      enforce classes. Every crew will need to adapt to its own station layout.
+    </p>
+  </section>
+
+</GuideLayout>

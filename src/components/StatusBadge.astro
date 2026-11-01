@@ -1,0 +1,42 @@
+---
+import { STATUS_LABELS, type ClaimStatus } from '../data/site';
+
+type BadgeStatus =
+  | ClaimStatus
+  | 'Official'
+  | 'Community-tested'
+  | 'In demo tree'
+  | 'Announced for later'
+  | 'Referenced';
+
+interface Props {
+  status: BadgeStatus;
+  label?: string;
+  class?: string;
+}
+
+const { status, label, class: className = '' } = Astro.props;
+
+const classMap: Record<string, string> = {
+  confirmed: 'badge-confirmed',
+  Official: 'badge-confirmed',
+  reported: 'badge-reported',
+  community: 'badge-community',
+  'Community-tested': 'badge-community',
+  estimated: 'badge-estimated',
+  'In demo tree': 'badge-confirmed',
+  'Announced for later': 'badge-estimated',
+  Referenced: 'badge-estimated',
+  unknown: 'badge-unknown',
+};
+
+const displayLabel =
+  label ??
+  (status in STATUS_LABELS
+    ? STATUS_LABELS[status as ClaimStatus]
+    : status);
+---
+
+<span class={`badge ${classMap[status] ?? 'badge-unknown'} ${className}`.trim()}>
+  {displayLabel}
+</span>

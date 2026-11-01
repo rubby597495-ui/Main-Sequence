@@ -1,0 +1,48 @@
+---
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  title?: string;
+  intro?: string;
+  id?: string;
+}
+
+const {
+  items,
+  title = 'Frequently asked questions',
+  intro,
+  id = 'faq',
+} = Astro.props;
+---
+
+<section id={id} class="mt-14 scroll-mt-28" aria-labelledby={`${id}-title`}>
+  <div class="eyebrow mb-3">Quick answers</div>
+  <h2 id={`${id}-title`} class="display text-3xl text-paper md:text-4xl">
+    {title}
+  </h2>
+  {intro && <p class="mt-3 max-w-2xl text-sm leading-relaxed text-mist">{intro}</p>}
+  <div class="mt-6 max-w-3xl border-t border-line-soft">
+    {
+      items.map((item) => (
+        <details class="group border-b border-line-soft">
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-5 py-4 text-left text-[0.98rem] font-semibold text-paper marker:content-none">
+            <span>{item.question}</span>
+            <span
+              aria-hidden="true"
+              class="mt-0.5 font-mono text-lg font-normal leading-none text-signal transition-transform group-open:rotate-45"
+            >
+              +
+            </span>
+          </summary>
+          <p class="max-w-2xl pb-5 pr-8 text-sm leading-relaxed text-mist">
+            {item.answer}
+          </p>
+        </details>
+      ))
+    }
+  </div>
+</section>

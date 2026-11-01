@@ -1,0 +1,169 @@
+---
+import { CHECKLIST } from '../data/checklist';
+
+const phases = [
+  'Before you play',
+  'Demo basics',
+  'Automation',
+  'Systems & launch',
+] as const;
+
+const grouped = phases.map((phase) => ({
+  phase,
+  items: CHECKLIST.filter((item) => item.phase === phase),
+}));
+const total = CHECKLIST.length;
+---
+
+<div class="mt-8" data-demo-checklist>
+  <div class="panel sticky top-[5.8rem] z-20 p-4 md:p-5">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p
+          class="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-signal"
+          data-progress-text
+          aria-live="polite"
+        >
+          0 of {total} complete
+        </p>
+        <p class="mt-1 text-xs text-mist">
+          Saved locally in this browser. Nothing is sent to a server.
+        </p>
+      </div>
+      <button
+        type="button"
+        class="filter-chip border-line text-fog hover:border-danger hover:text-danger"
+        data-checklist-reset
+      >
+        Reset progress
+      </button>
+    </div>
+    <div class="progress-track mt-3" aria-hidden="true">
+      <div class="progress-bar" data-progress-bar></div>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="callout mt-4 text-sm text-mist">
+      JavaScript is off. The checkboxes below still work as a visual checklist,
+      but progress cannot be saved in this browser.
+    </p>
+  </noscript>
+
+  {
+    grouped.map((group) => (
+      <section class="mt-10" aria-labelledby={`checklist-${group.phase.replaceAll(' ', '-').toLowerCase()}`}>
+        <div class="flex items-center gap-3">
+          <span class="h-px w-7 bg-signal" aria-hidden="true" />
+          <h2
+            id={`checklist-${group.phase.replaceAll(' ', '-').toLowerCase()}`}
+            class="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-signal"
+          >
+            {group.phase}
+          </h2>
+        </div>
+        <div class="mt-3 border-b border-line-soft">
+          {
+            group.items.map((item) => (
+              <div class="checklist-item">
+                <input
+                  type="checkbox"
+                  id={`check-${item.id}`}
+                  data-check-id={item.id}
+                />
+                <div class="min-w-0">
+                  <label
+                    for={`check-${item.id}`}
+                    class="checklist-title inline cursor-pointer text-[1rem] font-semibold leading-snug text-paper"
+                  >
+                    {item.title}
+                  </label>
+                  <p class="mt-1.5 max-w-2xl text-sm leading-relaxed text-mist">
+                    {item.detail}
+                  </p>
+                  {item.link && (
+                    <a
+                      href={item.link.href}
+                      class="arrow-link mt-2.5 inline-flex"
+                    >
+                      {item.link.label}
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    ))
+  }
+
+  <p class="mt-8 max-w-2xl text-xs leading-relaxed text-mist">
+    This is an editorial checklist, not an in-game achievement list. It is
+    based on the official demo description, developer updates and a
+    community-tested demo progression step. Availability can change with
+    patches.
+  </p>
+</div>
+
+<script is:inline>
+  (() => {
+    if (window.__msChecklistLoaded) return;
+    window.__msChecklistLoaded = true;
+
+    const root = document.querySelector('[data-demo-checklist]');
+    if (!root) return;
+
+    const storageKey = 'main-sequence-guide.demo-checklist.v1';
+    const boxes = Array.from(root.querySelectorAll('[data-check-id]'));
+    const progressBar = root.querySelector('[data-progress-bar]');
+    const progressText = root.querySelector('[data-progress-text]');
+    const resetButton = root.querySelector('[data-checklist-reset]');
+
+    const readSaved = () => {
+      try {
+        const raw = window.localStorage.getItem(storageKey);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    };
+
+    const writeSaved = (ids) => {
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(ids));
+      } catch {
+        // The checklist still works for this page view if storage is blocked.
+      }
+    };
+
+    const updateProgress = () => {
+      const checked = boxes.filter((box) => box.checked).length;
+      const percent = boxes.length ? (checked / boxes.length) * 100 : 0;
+      if (progressBar) progressBar.style.width = `${percent}%`;
+      if (progressText) {
+        progressText.textContent = `${checked} of ${boxes.length} complete`;
+      }
+      writeSaved(
+        boxes.filter((box) => box.checked).map((box) => box.dataset.checkId),
+      );
+    };
+
+    const saved = new Set(readSaved());
+    boxes.forEach((box) => {
+      box.checked = saved.has(box.dataset.checkId);
+      box.addEventListener('change', updateProgress);
+    });
+
+    resetButton?.addEventListener('click', () => {
+      boxes.forEach((box) => {
+        box.checked = false;
+      });
+      updateProgress();
+    });
+
+    updateProgress();
+  })();
+</script>

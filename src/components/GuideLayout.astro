@@ -1,0 +1,155 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageIntro from './PageIntro.astro';
+import TocNav from './TocNav.astro';
+import SourceList from './SourceList.astro';
+import FaqSection, { type FaqItem } from './FaqSection.astro';
+import AdSlot from './AdSlot.astro';
+import { getSources } from '../data/sources';
+import { SITE } from '../data/site';
+
+interface Breadcrumb {
+  name: string;
+  path: string;
+}
+
+interface TocItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  seoTitle: string;
+  description: string;
+  eyebrow: string;
+  title: string;
+  intro: string;
+  breadcrumbs: Breadcrumb[];
+  toc: TocItem[];
+  sourceIds: string[];
+  image?: ImageMetadata;
+  imageAlt?: string;
+  imageCaption?: string;
+  meta?: string[];
+  faq?: FaqItem[];
+  pageType?: string;
+  dataNote?: string;
+  videoGame?: boolean;
+}
+
+const {
+  seoTitle,
+  description,
+  eyebrow,
+  title,
+  intro,
+  breadcrumbs,
+  toc,
+  sourceIds,
+  image,
+  imageAlt,
+  imageCaption,
+  meta = [],
+  faq,
+  pageType = 'WebPage',
+  dataNote = 'This page is reviewed against the linked sources. Where the game is still in development, mechanics may change.',
+  videoGame = false,
+} = Astro.props;
+
+const sources = getSources(sourceIds);
+const citations = sources.map((source) => source.url);
+const date = SITE.lastVerified;
+
+const article = {
+  headline: title,
+  description,
+  datePublished: date,
+  dateModified: date,
+  citations,
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  breadcrumbs={breadcrumbs}
+  pageType={pageType}
+  article={article}
+  faq={faq}
+  videoGame={videoGame}
+>
+  <PageIntro
+    eyebrow={eyebrow}
+    title={title}
+    description={intro}
+    breadcrumbs={breadcrumbs}
+    image={image}
+    imageAlt={imageAlt}
+    imageCaption={imageCaption}
+    meta={meta}
+  />
+
+  <div class="wrap grid gap-12 py-10 lg:grid-cols-[minmax(0,1fr)_17rem] xl:gap-16 lg:py-14">
+    <article class="min-w-0">
+      <details class="mb-8 border border-line-soft bg-night p-4 lg:hidden">
+        <summary class="cursor-pointer font-mono text-[0.63rem] uppercase tracking-[0.12em] text-signal">
+          On this page
+        </summary>
+        <TocNav items={toc} class="mt-4" />
+      </details>
+
+      <div class="prose-guide">
+        <slot />
+      </div>
+
+      <AdSlot />
+
+      {faq?.length && (
+        <FaqSection
+          items={faq}
+          title="Common questions"
+          intro="Short answers, with the verified detail kept in the sections above."
+        />
+      )}
+
+      <SourceList ids={sourceIds} />
+
+      <nav aria-label="Related pages" class="mt-10 border-t border-line-soft pt-6">
+        <p class="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-signal">
+          Continue reading
+        </p>
+        <div class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <a href="/guides/" class="text-link">All guides</a>
+          <a href="/database/" class="text-link">Database index</a>
+          <a href="/tools/" class="text-link">Field tools</a>
+          <a href="/editorial-policy/" class="text-link">How we verify facts</a>
+        </div>
+      </nav>
+    </article>
+
+    <aside class="hidden lg:block">
+      <div class="sticky top-28 space-y-8">
+        <TocNav items={toc} />
+        <div class="panel p-4">
+          <p class="font-mono text-[0.57rem] uppercase tracking-[0.12em] text-signal">
+            Data status
+          </p>
+          <p class="mt-3 text-xs leading-relaxed text-mist">{dataNote}</p>
+          <div class="mt-4 border-t border-line-soft pt-3">
+            <dl class="space-y-2 font-mono text-[0.56rem] uppercase tracking-[0.06em]">
+              <div class="flex justify-between gap-3">
+                <dt class="text-mist">Last checked</dt>
+                <dd class="text-right text-fog">{SITE.lastVerifiedLabel}</dd>
+              </div>
+              <div class="flex justify-between gap-3">
+                <dt class="text-mist">Version</dt>
+                <dd class="text-right text-fog">Demo / pre-launch</dd>
+              </div>
+            </dl>
+          </div>
+          <a href="/contact/" class="arrow-link mt-4">Report a correction</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

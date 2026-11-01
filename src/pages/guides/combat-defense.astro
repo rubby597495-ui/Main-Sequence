@@ -1,0 +1,294 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import Figure from '../../components/Figure.astro';
+import { GAME_IMAGES } from '../../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/guides/' },
+  { name: 'Combat & defense', path: '/guides/combat-defense/' },
+];
+
+const toc = [
+  { id: 'threat', label: 'The threat model' },
+  { id: 'layers', label: 'Layered defense' },
+  { id: 'station', label: 'Station defense' },
+  { id: 'fleet', label: 'Fleet response' },
+  { id: 'repair', label: 'Repair and recovery' },
+  { id: 'peaceful', label: 'Peaceful mode' },
+  { id: 'unknown', label: 'What is not confirmed' },
+  { id: 'faq', label: 'Combat questions' },
+];
+
+const faq = [
+  {
+    question: 'Can you turn off combat in Main Sequence?',
+    answer:
+      'The developer said peaceful mode was already available in the demo in June 2026, and that more difficulty and customization options were planned for Early Access. We have not verified every setting in the current build, so check the demo’s current game options.',
+  },
+  {
+    question: 'Can your space station be attacked?',
+    answer:
+      'Yes. The official store description says an ancient alien defense network identifies your industrial activity as a threat and tells players to use the fleet to protect what they have built. Station plasma turrets are a confirmed defense module.',
+  },
+  {
+    question: 'What is the Relic Destroyer?',
+    answer:
+      'The Relic Destroyer is named in the developer’s September 2026 playtest post as an enemy lurking at the edge of the solar system. The developer says defeating it unlocks research into the Interstellar Warp Drive. It is not confirmed as a launch-day encounter for every mode.',
+  },
+  {
+    question: 'Are shields confirmed?',
+    answer:
+      'Yes. The Shield Generator Mk. 1 was added in the October 19, 2026 demo update. Exact shield strength, regeneration and power draw are not public.',
+  },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Combat & Defense Guide: Shields, Turrets & Fleet"
+  description="Defend your station against Main Sequence's alien network. Understand confirmed turrets, shields, repair packs, fleet mobility and layered defense before Early Access."
+  eyebrow="Threat response"
+  title="Main Sequence combat and defense guide"
+  intro="The alien defense network turns your factory into a target. The goal is not to win a dogfight; it is to keep the industrial network alive while you answer the threat."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-store',
+    'steam-news-2026-10-19',
+    'steam-news-2026-09-21',
+    'steam-news-2026-06-09',
+    'steam-news-2026-09-09',
+    'steam-news-2026-09-17',
+    'steamdb-playtest-13',
+    'steam-screens',
+  ]}
+  image={GAME_IMAGES['main-sequence-combat-alert.jpg']}
+  imageAlt="A Main Sequence cockpit shows a red alien alert and a Relic Trident target in an asteroid field"
+  imageCaption="A combat alert in the demo. The same ships and stations used for industry become the defense network."
+  meta={['Confirmed systems labelled', 'No invented damage numbers', 'Spoiler warning for enemy names']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="Combat is still being balanced. The strategy on this page is built from confirmed mechanics and general play logic, not unpublished damage tables."
+>
+  <section id="threat" class={block}>
+    <h2>The threat model</h2>
+    <p>
+      The official store description is direct: your industrial activity wakes
+      an ancient alien defense network that identifies you as a threat. The game
+      frames defense around protecting what you have built, or taking the fight
+      to enemy defense platforms and shipyards before the next wave arrives.
+    </p>
+    <p>
+      That gives you three defensive moments to plan for:
+    </p>
+    <ol>
+      <li>
+        <strong>Detection:</strong> a threat appears while your ships and station
+        are doing normal work.
+      </li>
+      <li>
+        <strong>Response:</strong> your fleet moves to intercept, your station
+        weapons engage, or both.
+      </li>
+      <li>
+        <strong>Recovery:</strong> repair damage, replace losses and restore
+        production before the next attack.
+      </li>
+    </ol>
+
+    <div class="callout callout-warning">
+      <span class="callout-title">We do not know the full threat schedule</span>
+      <p class="m-0 text-sm">
+        Public material confirms attacks and waves but does not publish timing,
+        spawn logic or difficulty scaling. Any guide that gives exact wave times
+        before release should be treated as unverified.
+      </p>
+    </div>
+  </section>
+
+  <section id="layers" class={block}>
+    <h2>Build defense in layers, not a single turret</h2>
+    <p>
+      A single weapon system can fail: it might be destroyed, out of range, or
+      on the wrong side of the station. Layering means each layer buys time for
+      the next one.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Layer</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Confirmed tools</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Layer">Mobile screen</td>
+            <td class="text-sm text-mist" data-label="Purpose">Meet a threat before it reaches the station and keep it busy.</td>
+            <td class="text-sm text-mist" data-label="Confirmed tools">Fleet ships with weapons or shields; ship mobility.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Layer">Station weapons</td>
+            <td class="text-sm text-mist" data-label="Purpose">Add firepower and coverage around the assets that cannot move.</td>
+            <td class="text-sm text-mist" data-label="Confirmed tools">Station Plasma Turret.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Layer">Damage control</td>
+            <td class="text-sm text-mist" data-label="Purpose">Keep ships in the fight and recover between waves.</td>
+            <td class="text-sm text-mist" data-label="Confirmed tools">Shield Generator Mk. 1, Repair Packs.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Layer">Industrial resilience</td>
+            <td class="text-sm text-mist" data-label="Purpose">Keep critical production away from the first point of contact and rebuild quickly.</td>
+            <td class="text-sm text-mist" data-label="Confirmed tools">Distributed stations, storage buffers, redundant production.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-4">
+      A distributed factory is not automatically safer. Every additional station
+      is another asset to defend and another supply route to protect. The right
+      balance depends on how much of your production can survive a single loss.
+    </p>
+  </section>
+
+  <section id="station" class={block}>
+    <h2>Station defense: make the first loss survivable</h2>
+    <p>
+      Station Plasma Turrets are a confirmed module. The patch notes show their
+      cost changed during the September playtest, which is a useful reminder
+      that defense economics are still being tuned.
+    </p>
+    <ul>
+      <li>
+        <strong>Cover the valuable side.</strong> Put weapons near the dock,
+        storage or production cluster you cannot replace quickly.
+      </li>
+      <li>
+        <strong>Do not block your own fleet.</strong> Leave a flight path and
+        docking approach clear.
+      </li>
+      <li>
+        <strong>Keep the power area protected.</strong> A turret without power
+        is scenery. The same station grid that runs your factory runs your
+        defense.
+      </li>
+      <li>
+        <strong>Plan for a breach.</strong> Keep a storage buffer and a repair
+        route so one destroyed machine does not stop the whole science chain.
+      </li>
+    </ul>
+
+    <p>
+      Exact turret range, damage and power draw are not published in our
+      sources. Place turrets by coverage and access, then adjust in-game once
+      you can see their actual readouts.
+    </p>
+  </section>
+
+  <section id="fleet" class={block}>
+    <h2>Fleet response: mobility is the point</h2>
+    <p>
+      The developer describes ships as the backbone of both transport and
+      defense. In a threat, that means your combat response can come from
+      somewhere else: a nearby mining ship, a dedicated patrol, or a mixed fleet
+      that was already moving cargo.
+    </p>
+
+    <Figure
+      name="main-sequence-fleet-management.jpg"
+      alt="The Main Sequence fleet list showing scouts and haulers with autopilot status"
+      caption="Fleet management links logistics and defense. A ship assigned to a route may be the closest responder."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+
+    <h3>A simple fleet principle</h3>
+    <p>
+      Do not build a fleet of identical generalists. Decide which ships are
+      expected to fight and which are expected to flee. A hauler that stays to
+      fight can turn a defense win into an economic loss; a combat ship that
+      chases a target across the system can leave the station undefended.
+    </p>
+    <p>
+      The exact weapon stats for the Plasma Cannon, Plasma Lance and Shield
+      Generator Mk. 1 are not public. Use the ship Designer readout and the
+      in-game UI to decide what works, and read the{' '}
+      <a href="/guides/ship-design/">ship design guide</a> before committing to
+      a combat hull.
+    </p>
+  </section>
+
+  <section id="repair" class={block}>
+    <h2>Repair and recovery</h2>
+    <p>
+      Repair Packs are confirmed: the August 2025 playtest added them as an
+      Assembler-crafted item that can be used from the pilot seat to repair
+      ships. That makes the Assembler part of your defense logistics, not just
+      your production floor.
+    </p>
+    <ul>
+      <li>Keep a small stock of repair supplies before a fight, not after.</li>
+      <li>Do not send a damaged ship on a long route without a repair plan.</li>
+      <li>Check the station’s power and assembly line after an attack; a factory that survived the hit may still be offline.</li>
+      <li>Replace losses deliberately. Rebuilding one ship that has a clear role is better than replacing a mixed fleet at random.</li>
+    </ul>
+
+    <p>
+      No public source gives repair amounts, cooldowns or the full damage model.
+      The useful rule is logistical: treat consumables as part of your fleet
+      readiness.
+    </p>
+  </section>
+
+  <section id="peaceful" class={block}>
+    <h2>Peaceful mode and difficulty</h2>
+    <p>
+      The developer said in June 2026 that peaceful mode was already available
+      in the demo and that more customization of combat, research and automation
+      difficulty was planned for Early Access. The exact options and whether
+      they can be changed mid-save are not documented in our sources.
+    </p>
+    <p>
+      Peaceful mode is useful for learning the factory systems before adding
+      defense pressure. It does not make the game’s combat design irrelevant;
+      it simply separates the two learning curves.
+    </p>
+
+    <div class="callout callout-info">
+      <span class="callout-title">Known named threats</span>
+      <p class="m-0 text-sm">
+        The official demo screenshot shows a <strong>Relic Trident</strong>
+        target. The developer’s September playtest post names the{' '}
+        <strong>Relic Destroyer</strong> at the edge of the solar system. These
+        are the only enemy names we include because they are visible in sourced
+        material, not because they are the only enemies in the game.
+      </p>
+    </div>
+  </section>
+
+  <section id="unknown" class={block}>
+    <h2>What is still unknown</h2>
+    <p>
+      We are deliberately not building an enemy stat database yet. The public
+      sources do not establish:
+    </p>
+    <ul>
+      <li>Exact enemy health, damage, range or attack patterns;</li>
+      <li>Wave timing, spawn conditions or difficulty scaling;</li>
+      <li>Turret coverage, shield strength or repair values;</li>
+      <li>Whether every enemy type appears in every mode or sector;</li>
+      <li>How cooperative scaling changes threat difficulty.</li>
+    </ul>
+    <p>
+      The <a href="/database/modules/">modules database</a> lists confirmed
+      defense equipment without inventing values. For the broader early-game
+      path, start with the <a href="/beginner-guide/">beginner’s guide</a>.
+    </p>
+  </section>
+</GuideLayout>

@@ -1,0 +1,253 @@
+---
+const roleGroups = [
+  {
+    name: 'Logistics',
+    scope: 'Docks, storage, hauling and supply routes',
+    firstMove:
+      'Set up a clean dock-to-storage flow and keep an eye on the item filters.',
+  },
+  {
+    name: 'Production',
+    scope: 'Power, refining, crafting and factory throughput',
+    firstMove:
+      'Build the first powered room, then connect one complete machine-to-storage loop.',
+  },
+  {
+    name: 'Defense',
+    scope: 'Threat response, shields, repairs and station weapons',
+    firstMove:
+      'Put one defensive system online before expanding into a new asteroid field.',
+  },
+  {
+    name: 'Exploration',
+    scope: 'Scanning, wrecks, resources and route scouting',
+    firstMove:
+      'Scout the next resource patch and report a safe route before the fleet commits.',
+  },
+];
+---
+
+<div class="panel mt-7 p-5 md:p-7" data-crew-planner>
+  <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <div>
+      <div class="eyebrow mb-3">Crew allocation tool</div>
+      <h2 class="display text-3xl text-paper">Plan the first co-op shift</h2>
+      <p class="mt-2 max-w-xl text-sm leading-relaxed text-mist">
+        Choose a crew size and generate a starting division of work. The
+        divisions are editorial suggestions based on the roles named by the
+        developer; every player still captains their own ship.
+      </p>
+    </div>
+    <div class="flex items-end gap-2">
+      <label class="block">
+        <span class="mb-1 block font-mono text-[0.59rem] uppercase tracking-[0.1em] text-mist">
+          Crew
+        </span>
+        <select
+          class="filter-input min-h-[2.9rem] w-[8rem]"
+          data-crew-size
+          aria-label="Number of players"
+        >
+          <option value="2">2 players</option>
+          <option value="3">3 players</option>
+          <option value="4">4 players</option>
+        </select>
+      </label>
+      <button type="button" class="btn btn-primary" data-crew-generate>
+        Generate
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-6 grid gap-3 md:grid-cols-2" data-crew-output aria-live="polite">
+    <article class="border border-line-soft bg-night p-4">
+      <p class="font-mono text-[0.58rem] uppercase tracking-[0.11em] text-signal">Captain 1</p>
+      <h3 class="mt-2 font-display text-2xl font-semibold uppercase text-paper">Logistics + Production</h3>
+      <p class="mt-2 text-sm leading-relaxed text-mist">Docks, storage, hauling, power and the first production loop.</p>
+      <p class="mt-3 border-t border-line-soft pt-3 text-xs leading-relaxed text-fog">First move: build the first powered room, then connect a dock-to-storage flow.</p>
+    </article>
+    <article class="border border-line-soft bg-night p-4">
+      <p class="font-mono text-[0.58rem] uppercase tracking-[0.11em] text-signal">Captain 2</p>
+      <h3 class="mt-2 font-display text-2xl font-semibold uppercase text-paper">Defense + Exploration</h3>
+      <p class="mt-2 text-sm leading-relaxed text-mist">Threat response, repairs, scanning and resource scouting.</p>
+      <p class="mt-3 border-t border-line-soft pt-3 text-xs leading-relaxed text-fog">First move: scout a second resource patch and put one defensive system online.</p>
+    </article>
+  </div>
+
+  <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+    <p class="font-mono text-[0.58rem] uppercase tracking-[0.07em] text-mist" data-crew-note>
+      Two-player split · 2 domains per captain
+    </p>
+    <button
+      type="button"
+      class="filter-chip"
+      data-crew-rotate
+    >
+      Rotate assignments
+    </button>
+  </div>
+
+  <details class="mt-6 border-t border-line-soft pt-4">
+    <summary class="cursor-pointer font-mono text-[0.64rem] uppercase tracking-[0.1em] text-signal">
+      Role briefs
+    </summary>
+    <div class="mt-4 grid gap-4 md:grid-cols-2">
+      {
+        roleGroups.map((role) => (
+          <div>
+            <h3 class="font-display text-xl font-semibold uppercase text-paper">
+              {role.name}
+            </h3>
+            <p class="mt-1 text-sm text-mist">{role.scope}</p>
+            <p class="mt-2 text-xs leading-relaxed text-fog">
+              Suggested first move: {role.firstMove}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </details>
+
+  <noscript>
+    <p class="mt-4 text-xs leading-relaxed text-mist">
+      JavaScript is off. The two-player split above is still a useful starting
+      plan, but the generator will not run.
+    </p>
+  </noscript>
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-crew-planner]');
+    if (!root) return;
+
+    const output = root.querySelector('[data-crew-output]');
+    const sizeSelect = root.querySelector('[data-crew-size]');
+    const generate = root.querySelector('[data-crew-generate]');
+    const rotate = root.querySelector('[data-crew-rotate]');
+    const note = root.querySelector('[data-crew-note]');
+    let rotation = 0;
+
+    const roles = [
+      {
+        name: 'Logistics',
+        short: 'Logistics',
+        scope: 'Docks, storage, hauling and supply routes.',
+        first:
+          'Set up a dock-to-storage flow and keep an eye on the item filters.',
+      },
+      {
+        name: 'Production',
+        short: 'Production',
+        scope: 'Power, refining, crafting and factory throughput.',
+        first:
+          'Build the first powered room, then connect one complete production loop.',
+      },
+      {
+        name: 'Defense',
+        short: 'Defense',
+        scope: 'Threat response, shields, repairs and station weapons.',
+        first:
+          'Put one defensive system online before expanding into a new field.',
+      },
+      {
+        name: 'Exploration',
+        short: 'Exploration',
+        scope: 'Scanning, wrecks, resources and route scouting.',
+        first:
+          'Scout the next resource patch and report a safe route before the fleet moves.',
+      },
+    ];
+
+    const plans = {
+      2: [
+        { main: 'Logistics', support: 'Production' },
+        { main: 'Defense', support: 'Exploration' },
+      ],
+      3: [
+        { main: 'Logistics', support: null },
+        { main: 'Production', support: 'Defense' },
+        { main: 'Exploration', support: null },
+      ],
+      4: [
+        { main: 'Logistics', support: null },
+        { main: 'Production', support: null },
+        { main: 'Defense', support: null },
+        { main: 'Exploration', support: null },
+      ],
+    };
+
+    const getRole = (name) => roles.find((role) => role.name === name);
+    const card = (index, plan) => {
+      const main = getRole(plan.main);
+      const support = plan.support ? getRole(plan.support) : null;
+      const title = support ? `${main.name} + ${support.name}` : main.name;
+      const scope = support
+        ? `${main.scope} ${support.scope.charAt(0).toLowerCase()}${support.scope.slice(1)}`
+        : main.scope;
+      const first = support
+        ? `${main.first} ${support.first}`
+        : main.first;
+
+      const article = document.createElement('article');
+      article.className = 'border border-line-soft bg-night p-4';
+
+      const label = document.createElement('p');
+      label.className =
+        'font-mono text-[0.58rem] uppercase tracking-[0.11em] text-signal';
+      label.textContent = `Captain ${index + 1}`;
+
+      const heading = document.createElement('h3');
+      heading.className =
+        'mt-2 font-display text-2xl font-semibold uppercase text-paper';
+      heading.textContent = title;
+
+      const description = document.createElement('p');
+      description.className = 'mt-2 text-sm leading-relaxed text-mist';
+      description.textContent = scope;
+
+      const firstMove = document.createElement('p');
+      firstMove.className =
+        'mt-3 border-t border-line-soft pt-3 text-xs leading-relaxed text-fog';
+      firstMove.textContent = `First move: ${first}`;
+
+      article.append(label, heading, description, firstMove);
+      return article;
+    };
+
+    const render = () => {
+      const count = Number(sizeSelect.value);
+      const plan = plans[count];
+      if (!plan || !output) return;
+      output.replaceChildren(
+        ...plan.map((_, index) => {
+          const shift = (index + rotation) % plan.length;
+          return card(index, plan[shift]);
+        }),
+      );
+      if (note) {
+        note.textContent =
+          count === 2
+            ? 'Two-player split · 2 domains per captain'
+            : count === 3
+              ? 'Three-player split · Production covers defense'
+              : 'Four-player split · one primary domain each';
+      }
+    };
+
+    generate?.addEventListener('click', () => {
+      rotation = 0;
+      render();
+    });
+    sizeSelect?.addEventListener('change', () => {
+      rotation = 0;
+      render();
+    });
+    rotate?.addEventListener('click', () => {
+      rotation += 1;
+      render();
+    });
+
+    render();
+  })();
+</script>

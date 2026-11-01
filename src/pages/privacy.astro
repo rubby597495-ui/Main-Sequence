@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import { SITE } from '../data/site';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Privacy', path: '/privacy/' },
+];
+---
+
+<BaseLayout
+  title="Privacy Policy | Main Sequence Guide"
+  description="How Main Sequence Guide handles data, hosting logs, localStorage tools, external links and potential third-party advertising, including Adsterra."
+  breadcrumbs={breadcrumbs}
+  pageType="WebPage"
+>
+  <PageIntro
+    eyebrow="Privacy"
+    title="Privacy policy"
+    description="What this site does with data, what it deliberately does not collect, and how local browser tools are handled."
+    breadcrumbs={breadcrumbs}
+    meta={['Effective November 1, 2026', 'No account system', 'Ad script currently disabled']}
+  />
+
+  <div class="wrap py-12 md:py-16">
+    <div class="prose-guide max-w-3xl">
+      <p class="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-mist">
+        Effective date: {SITE.lastVerifiedLabel}
+      </p>
+
+      <h2>Who runs this site</h2>
+      <p>
+        Main Sequence Guide is an independent editorial website at{' '}
+        {SITE.url.replace('https://', '')}. It is not affiliated with Tumbling
+        Dumpling Studio, Mythwright or Valve. Privacy questions can be sent to{' '}
+        <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+      </p>
+
+      <h2>Data we collect directly</h2>
+      <p>
+        The site has no accounts, comments, checkout or newsletter signup. We do
+        not ask for your name, address or payment details. If you email us, we
+        receive the address and message you send, and we use it to answer or
+        correct the site.
+      </p>
+
+      <h2>Hosting and logs</h2>
+      <p>
+        The site is served by Cloudflare Pages. Cloudflare and its network may
+        process technical information such as IP address, user agent, request
+        path and security signals to deliver the site, prevent abuse and
+        maintain reliability. Those processing activities are governed by
+        Cloudflare’s privacy terms. We do not operate a separate visitor
+        analytics profile in the current build.
+      </p>
+
+      <h2>Local browser tools</h2>
+      <p>
+        The demo checklist stores checkbox state in your browser’s local storage
+        so it can show progress when you return. This information stays on your
+        device. It is not transmitted to the site owner and it does not
+        synchronise across devices. You can reset it with the on-page reset
+        button or by clearing site data in your browser.
+      </p>
+      <p>
+        The co-op crew planner runs in the page and does not store or submit the
+        allocations. The countdown reads the current time in your browser. No
+        account is required.
+      </p>
+
+      <h2>Advertising and Adsterra</h2>
+      <p>
+        The current build does not load advertising scripts. The site is
+        prepared to support clearly labelled display advertising through
+        Adsterra if a live placement is configured in a future build. If that
+        happens, the third-party ad provider may use cookies, local storage,
+        device information and IP address to serve, cap, measure or protect ads.
+        Those activities are controlled by Adsterra and its partners, not by
+        this site.
+      </p>
+      <p>
+        Before advertising is enabled in a way that requires consent, we expect
+        to add an appropriate consent mechanism for the relevant regions and to
+        update this policy with the active provider details. If advertising is
+        never enabled, the ad script remains absent.
+      </p>
+      <p>
+        Adsterra’s own privacy information is available at{' '}
+        <a href="https://adsterra.com/privacy-policy/" target="_blank" rel="noopener noreferrer">
+          adsterra.com/privacy-policy
+        </a>.
+      </p>
+
+      <h2>Cookies and similar technologies</h2>
+      <p>
+        This site’s code uses local storage for the checklist, not advertising
+        cookies. Cloudflare may set security-related cookies for abuse
+        prevention. If third-party advertising is enabled, additional cookies or
+        local storage may be set by the ad provider; the consent banner and
+        provider disclosures would apply at that time.
+      </p>
+
+      <h2>External links</h2>
+      <p>
+        Links to Steam, the official game site, YouTube, Steam Community,
+        Adsterra and other sites are provided for reference. Once you leave this
+        site, the destination’s own privacy policy applies. We do not control
+        those sites.
+      </p>
+
+      <h2>Legal bases and rights</h2>
+      <p>
+        Where applicable law provides rights such as access, correction,
+        deletion, objection or portability, you can contact us using the address
+        above. Because this site does not maintain an account database, we may
+        need enough information to identify the relevant correspondence or rely
+        on the hosting provider for server-side records. You may also have the
+        right to complain to your local data protection authority.
+      </p>
+      <p>
+        We do not sell personal information. The site is not directed to
+        children under 13, and we do not knowingly collect their personal data.
+      </p>
+
+      <h2>Retention</h2>
+      <p>
+        Email correspondence is retained only as long as needed to handle the
+        request and keep an accurate correction record. Hosting logs are
+        retained according to the hosting provider’s settings and policies.
+        Browser localStorage remains until you clear it or reset the checklist.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If the site adds analytics, a new host, active advertising or a contact
+        form, this policy will be updated and the effective date changed. A
+        privacy policy update is not a claim that the game or its data changed.
+      </p>
+
+      <div class="callout callout-info">
+        <span class="callout-title">Plain-language summary</span>
+        <p class="m-0">
+          No accounts. No newsletter. The checklist stays in your browser.
+          Cloudflare handles hosting. Ads are currently off; if they turn on, a
+          third-party ad provider may process ad-related data and this policy
+          will be updated with the active setup.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import Breadcrumbs from './Breadcrumbs.astro';
+
+interface Breadcrumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  breadcrumbs: Breadcrumb[];
+  image?: ImageMetadata;
+  imageAlt?: string;
+  imageCaption?: string;
+  meta?: string[];
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  breadcrumbs,
+  image,
+  imageAlt = '',
+  imageCaption,
+  meta = [],
+} = Astro.props;
+---
+
+<header class="relative overflow-hidden border-b border-line-soft bg-night">
+  <div
+    aria-hidden="true"
+    class="grid-bg pointer-events-none absolute inset-0 opacity-30"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -right-24 top-8 hidden font-display text-[15rem] leading-none text-line/15 lg:block"
+  >
+    MS
+  </div>
+
+  <div class="wrap relative">
+    <div class="pt-5">
+      <Breadcrumbs items={breadcrumbs} />
+    </div>
+
+    <div
+      class:list={[
+        'grid gap-8 pb-9 pt-8 md:pt-10',
+        image && 'lg:grid-cols-[minmax(0,1.12fr)_minmax(20rem,0.88fr)] lg:items-end lg:gap-12',
+      ]}
+    >
+      <div class={image ? 'lg:pb-10' : 'max-w-4xl'}>
+        <div class="eyebrow mb-4">{eyebrow}</div>
+        <h1 class="display display-lg max-w-4xl text-paper text-shadow-hero">
+          {title}
+        </h1>
+        <p class="lede mt-5">{description}</p>
+        {
+          meta.length > 0 && (
+            <ul class="mt-6 flex flex-wrap gap-2" aria-label="Page details">
+              {meta.map((item) => (
+                <li class="tag">{item}</li>
+              ))}
+            </ul>
+          )
+        }
+        <slot />
+      </div>
+
+      {
+        image && (
+          <div class="relative">
+            <div class="image-frame">
+              <Image
+                src={image}
+                alt={imageAlt}
+                widths={[480, 768, 1080, 1440]}
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                format="webp"
+                quality={82}
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                class="aspect-[16/10] w-full object-cover"
+              />
+              <div class="flex items-center justify-between gap-3 border-t border-line-soft bg-void/85 px-3 py-2 font-mono text-[0.54rem] uppercase tracking-[0.08em] text-mist">
+                <span>Visual reference / official media</span>
+                <span aria-hidden="true" class="text-signal">MS-01</span>
+              </div>
+            </div>
+            {imageCaption && <p class="figure-caption">{imageCaption}</p>}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</header>

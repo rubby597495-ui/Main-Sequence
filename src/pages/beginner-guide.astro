@@ -1,0 +1,347 @@
+---
+import GuideLayout from '../components/GuideLayout.astro';
+import Figure from '../components/Figure.astro';
+import { GAME_IMAGES } from '../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Beginner’s guide', path: '/beginner-guide/' },
+];
+
+const toc = [
+  { id: 'before', label: 'Before you start' },
+  { id: 'opening', label: 'The opening route' },
+  { id: 'station', label: 'Station power and belts' },
+  { id: 'research', label: 'Research priorities' },
+  { id: 'tips', label: 'Field tips' },
+  { id: 'mistakes', label: 'Common mistakes' },
+  { id: 'launch', label: 'Demo vs Early Access' },
+  { id: 'faq', label: 'Beginner questions' },
+];
+
+const faq = [
+  {
+    question: 'Is this beginner guide based on the full game?',
+    answer:
+      'No. It is based on the playable demo, official developer posts and storefront descriptions, with player-tested findings labelled as such. The Early Access build may change recipes, research costs and tutorial flow.',
+  },
+  {
+    question: 'Why can’t I find conveyor belts in the build menu?',
+    answer:
+      'In the current demo, conveyor belts are gated behind the Logistics I research step. You need a powered station and a working science/research input before the conveyor build option appears. The dedicated conveyor belt guide covers the blockage step by step.',
+  },
+  {
+    question: 'What should I research first?',
+    answer:
+      'The visible demo tree places Logistics I before Mining Drones and Computation Science. Power technology is a separate branch. In practice, secure enough station power to run research and machines before expanding production. The game does not publish a single mandatory order for every playstyle.',
+  },
+  {
+    question: 'Do I need to play the demo before Early Access?',
+    answer:
+      'You do not have to, but it is the best way to see whether the first-person building and factory flow suit you. The demo is free, and its progress is not confirmed to carry into Early Access.',
+  },
+];
+
+const block = 'scroll-mt-28';
+---
+
+<GuideLayout
+  seoTitle="Main Sequence Beginner's Guide: First Station, Power & Research"
+  description="A practical Main Sequence beginner's guide: scan and mine, refine aboard your ship, power a station, unlock Logistics I and start your first automated production loop."
+  eyebrow="Start here"
+  title="Main Sequence beginner's guide: from mining ship to working factory"
+  intro="A spoiler-light route through the demo opening, including the two steps that most often stop new commanders: station power and conveyor belts."
+  breadcrumbs={breadcrumbs}
+  toc={toc}
+  sourceIds={[
+    'steam-store',
+    'steam-demo',
+    'steam-news-2025-08-12',
+    'steam-news-2026-05-28',
+    'steam-news-2026-09-21',
+    'steam-news-2026-10-19',
+    'steam-forum-logistics',
+    'steam-screens',
+  ]}
+  image={GAME_IMAGES['main-sequence-asteroid-mining-beams.jpg']}
+  imageAlt="A Main Sequence mining ship uses several blue mining beams on nearby asteroids"
+  imageCaption="The opening loop starts with the ship, not the factory. Official Steam screenshot."
+  meta={['Spoiler-light', 'Demo-focused', 'Community-tested steps marked', 'Updated Nov 1, 2026']}
+  faq={faq}
+  pageType="WebPage"
+  dataNote="This guide combines official information with one clearly labelled player-tested progression step. The game is in development; tutorial gaps may be patched."
+>
+  <section id="before" class={block}>
+    <h2>Before you start</h2>
+    <p>
+      Main Sequence begins at the frontier in a small mining ship. You are not
+      handed a finished base, and you should not expect the opening to behave
+      like a pure sandbox. The demo uses missions and research gates to introduce
+      mining, station building and production.
+    </p>
+    <p>
+      You need a Steam account and the free demo if you want to follow along
+      before launch. The full game is scheduled for Early Access on November 12,
+      2026. Exact recipes and costs are patch-dependent, so this guide focuses
+      on the order of operations rather than numeric ratios.
+    </p>
+
+    <div class="callout callout-info">
+      <span class="callout-title">The one-sentence plan</span>
+      <p class="m-0">
+        Mine enough to learn the loop, build a powered station, research
+        logistics, then make one complete automated production chain before
+        trying to scale.
+      </p>
+    </div>
+  </section>
+
+  <section id="opening" class={block}>
+    <h2>The opening route</h2>
+    <h3>1. Scan, mine and return with a clear purpose</h3>
+    <p>
+      The ship scanner identifies asteroids and their resources. Mine enough to
+      test the ship workstation, but do not fill every slot blindly: the early
+      goal is to understand what each ore feeds, not to hoard unknown material.
+      The official store description names the scanner as the first step of the
+      mining loop.
+    </p>
+
+    <h3>2. Refine and craft at the ship workstation</h3>
+    <p>
+      The starting ship can process ore before you build a full factory. Official
+      hotfix notes reference refining enriched ores at the ship workstation, and
+      the developer describes refining resources on your ship as part of the
+      opening. Use this phase to learn the crafting inputs.
+    </p>
+
+    <h3>3. Build the first station room</h3>
+    <p>
+      The station is the center of the production game. The Command module is
+      the station-design entry point. Start with a compact room that has space
+      for power, a research/science machine and production. Do not build a huge
+      empty hall that you cannot light or power.
+    </p>
+
+    <h3>4. Solve station power before adding machines</h3>
+    <p>
+      This is the most common demo roadblock. Station machines need station-side
+      power. A docked ship does not automatically run the station’s research or
+      production, according to a demo player report. Build the station’s
+      generation and fuel path first, then place the machine that needs it.
+    </p>
+    <p class="text-sm text-mist">
+      Status: <strong>community-tested</strong>, not an official tutorial
+      statement. The current demo is based on the October 21 build; a later
+      patch may improve this flow.
+    </p>
+
+    <h3>5. Research Logistics I</h3>
+    <p>
+      The official demo screenshot shows Logistics I in the research queue at
+      0/10. Players report that conveyor belts are not available until this
+      step is completed. If belts are missing from the build menu, do not
+      restart: check power and the research queue first.
+    </p>
+
+    <h3>6. Build one complete loop</h3>
+    <p>
+      A useful first loop has a source, a processor and a destination. Once a
+      machine is fed and its output is stored, you have a factory. Only then add
+      another machine or a splitter. This is slower than building a huge line,
+      but it makes it much easier to find the item that is stuck.
+    </p>
+
+    <Figure
+      name="main-sequence-factory-floor.jpg"
+      alt="A Main Sequence station factory floor with rows of orange machines, conveyor belts and railings"
+      caption="Machine rows and belts take up space. Leave walking room and room for the next link in the chain."
+      sizes="(min-width: 768px) 760px, 100vw"
+      class="my-6"
+    />
+
+    <div class="panel p-5 not-prose">
+      <p class="font-mono text-[0.59rem] uppercase tracking-[0.12em] text-signal">Stuck here?</p>
+      <h3 class="mt-2 font-display text-2xl font-semibold uppercase text-paper">Read the focused fix</h3>
+      <p class="mt-2 max-w-2xl text-sm leading-relaxed text-mist">
+        Our conveyor belt guide walks through station power, the research queue
+        and the specific tutorial gap in more detail.
+      </p>
+      <a href="/guides/first-station-logistics/" class="arrow-link mt-4">Unlock conveyor belts</a>
+    </div>
+  </section>
+
+  <section id="station" class={block}>
+    <h2>Station power and your first factory floor</h2>
+    <p>
+      Treat the first station as a small workshop, not an empire. The useful
+      zones are:
+    </p>
+    <ul>
+      <li>
+        <strong>Power:</strong> generator, fuel supply and the machines that
+        depend on it.
+      </li>
+      <li>
+        <strong>Research:</strong> the science/research input and the queue you
+        use to unlock the next tier.
+      </li>
+      <li>
+        <strong>Production:</strong> the first refinery or crafting machine and
+        a clear route to storage.
+      </li>
+      <li>
+        <strong>Logistics:</strong> one belt line, with space for a future
+        splitter or elevator instead of a tangle of belts.
+      </li>
+    </ul>
+    <p>
+      The exact machine names and recipes can change. The durable lesson is the
+      dependency: power supports research, research unlocks logistics, and
+      logistics turns one machine into a production chain.
+    </p>
+    <p>
+      For a layout method rather than a copy-paste build, read the{' '}
+      <a href="/guides/factory-layout/">factory layout guide</a>. For the
+      confirmed module list, the <a href="/database/modules/">modules
+      database</a> separates Station, Production, Power, Logistics, Defense and
+      Ship modules.
+    </p>
+  </section>
+
+  <section id="research" class={block}>
+    <h2>What to research early</h2>
+    <p>
+      The visible demo tree places <strong>Logistics I → Mining Drones → Computation Science → Logistics II</strong> on one automation line.
+      Power is a separate branch beginning with Hydrogen Power and Solar Panels.
+      The production branch begins with Silica Refining and Ore Enrichment.
+    </p>
+
+    <div class="data-table-wrap not-prose mt-5">
+      <table class="data-table data-table-stack">
+        <thead>
+          <tr>
+            <th scope="col">Early goal</th>
+            <th scope="col">Why it matters</th>
+            <th scope="col">Confirmed context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name" data-label="Early goal">Logistics I</td>
+            <td data-label="Why it matters">Moves your base from hand-feeding to belts.</td>
+            <td class="text-sm text-mist" data-label="Confirmed context">Visible in the demo tree and shown at 0/10 in the official screenshot.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Early goal">Power generation</td>
+            <td data-label="Why it matters">Machines and research stop without it.</td>
+            <td class="text-sm text-mist" data-label="Confirmed context">Hydrogen Power and Solar Panels are visible in the power branch.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Early goal">Mining Drones</td>
+            <td data-label="Why it matters">Adds station-side mining automation.</td>
+            <td class="text-sm text-mist" data-label="Confirmed context">The developer names Mining Drone Bays as a resource-gathering path.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Early goal">Ore processing</td>
+            <td data-label="Why it matters">Feeds construction, modules and science.</td>
+            <td class="text-sm text-mist" data-label="Confirmed context">Silica Refining, Ore Enrichment and Cobalt Refining are visible production nodes.</td>
+          </tr>
+          <tr>
+            <td class="cell-name" data-label="Early goal">Slipstream Drive</td>
+            <td data-label="Why it matters">Unlocks travel around the starting system.</td>
+            <td class="text-sm text-mist" data-label="Confirmed context">Steam names it as the demo progression goal; it runs only on Warp Fuel.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-3 text-xs leading-relaxed text-mist">
+      Costs are not shown for most nodes in the public screenshot. We do not
+      invent a research-time ranking. See the full{' '}
+      <a href="/database/research/">research database</a> for the visible branch
+      order.
+    </p>
+  </section>
+
+  <section id="tips" class={block}>
+    <h2>Field tips that survive patches</h2>
+    <h3>Build for diagnosability</h3>
+    <p>
+      A machine that visibly receives items and outputs to a known container is
+      easier to debug than a beautiful floor with three possible failure
+      points. Add complexity after the first loop is stable.
+    </p>
+    <h3>Keep the research path visible</h3>
+    <p>
+      The research queue is your actual progression map. Before adding a new
+      production line, check which science or module it feeds. If the answer is
+      “nothing yet” you can probably postpone it.
+    </p>
+    <h3>Do not trust a borrowed ratio</h3>
+    <p>
+      Recipes and build costs changed during the demo period. A ratio from an
+      older video or an older demo build may no longer be correct. Use the
+      in-game UI and the current patch notes.
+    </p>
+    <h3>Use the ship as a mobile test bench</h3>
+    <p>
+      Early refining and manual crafting happen aboard the ship. You do not need
+      to solve the station first; use the ship to learn the material chain, then
+      move that process into the factory.
+    </p>
+  </section>
+
+  <section id="mistakes" class={block}>
+    <h2>Common beginner mistakes</h2>
+    <ol>
+      <li>
+        <strong>Assuming belts should be in the build menu from the start.</strong>
+        They are gated behind Logistics I in the current demo.
+      </li>
+      <li>
+        <strong>Building machines before station power.</strong> The machine
+        exists, but it will not process anything without power.
+      </li>
+      <li>
+        <strong>Ignoring the research queue.</strong> “Missing” technology is
+        often a prerequisite problem rather than a bug.
+      </li>
+      <li>
+        <strong>Expanding the station footprint too early.</strong> A large room
+        costs more to fill and makes power and logistics harder to diagnose.
+      </li>
+      <li>
+        <strong>Expecting demo saves to carry over.</strong> Transfer has not
+        been confirmed. Keep screenshots of designs and treat the run as a
+        preview.
+      </li>
+      <li>
+        <strong>Using outdated build ratios.</strong> The October update and
+        earlier hotfixes changed research flow, modules and balance.
+      </li>
+    </ol>
+  </section>
+
+  <section id="launch" class={block}>
+    <h2>Demo versus Early Access</h2>
+    <p>
+      The demo is a limited slice. The Early Access build is expected to include
+      the core progression and around 40 hours of developer-estimated content,
+      with more systems planned during the Early Access period. The demo’s
+      starting system and first technology tiers are not a full roadmap.
+    </p>
+    <p>
+      If you are deciding whether to start at release, the practical question is
+      not “is there enough content?” but “do I want to play a game that is
+      explicitly still changing?” The store page and the developer both say the
+      Early Access build will evolve. If you need a fixed balance and complete
+      feature set, waiting is a valid choice.
+    </p>
+    <p>
+      Check the <a href="/release-date/">release status page</a> for the date,
+      price status and requirements. The page is updated when the publisher
+      confirms new launch details.
+    </p>
+  </section>
+</GuideLayout>

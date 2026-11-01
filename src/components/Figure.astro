@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import { GAME_IMAGES, type GameImageName } from '../lib/images';
+
+interface Props {
+  name: GameImageName;
+  alt: string;
+  caption?: string;
+  class?: string;
+  ratio?: string;
+  sizes?: string;
+  priority?: boolean;
+  credit?: boolean;
+}
+
+const {
+  name,
+  alt,
+  caption,
+  class: className = '',
+  ratio = 'aspect-[16/9]',
+  sizes = '(min-width: 1024px) 800px, 100vw',
+  priority = false,
+  credit = true,
+} = Astro.props;
+
+const image = GAME_IMAGES[name];
+---
+
+<figure class={className}>
+  <div class={`image-frame relative ${ratio}`}>
+    <Image
+      src={image}
+      alt={alt}
+      widths={[480, 768, 1200, 1600, 1920]}
+      sizes={sizes}
+      format="webp"
+      quality={80}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+      class="h-full w-full object-cover"
+    />
+  </div>
+  {
+    (caption || credit) && (
+      <figcaption class="figure-caption">
+        {caption}
+        {caption && credit && <span aria-hidden="true"> — </span>}
+        {credit && (
+          <span>
+            Official screenshot, © Tumbling Dumpling Studio / Mythwright.
+            Editorial use.
+          </span>
+        )}
+      </figcaption>
+    )
+  }
+</figure>
