@@ -2,44 +2,83 @@
 import { AD_CONFIG } from '../config/ads';
 
 interface Props {
+  variant?: 'banner' | 'native';
   label?: string;
   class?: string;
 }
 
-const { label = 'Advertisement', class: className = '' } = Astro.props;
-const enabled = AD_CONFIG.enabled && Boolean(AD_CONFIG.bannerKey);
-const invokeUrl = `https://www.highperformanceformat.com/${AD_CONFIG.bannerKey}/invoke.js`;
+const {
+  variant = 'banner',
+  label = 'Advertisement',
+  class: className = '',
+} = Astro.props;
+
+const enabled = AD_CONFIG.enabled;
+const desktopBanner = AD_CONFIG.bannerDesktop;
+const mobileBanner = AD_CONFIG.bannerMobile;
+const nativeBanner = AD_CONFIG.nativeBanner;
 ---
 
 {
-  enabled && (
+  enabled && variant === 'banner' && (
     <aside
-      class={`my-10 border-y border-line-soft py-4 ${className}`.trim()}
-      aria-label="Advertisement"
+      class={`border-b border-line-soft bg-night/70 py-2 ${className}`.trim()}
+      aria-label="Top banner advertisement"
     >
-      <p class="mb-2 text-center font-mono text-[0.57rem] uppercase tracking-[0.16em] text-mist">
-        {label}
-      </p>
-      <div class="adsterra-slot mx-auto flex min-h-[250px] w-full max-w-[728px] items-center justify-center">
-        <script
-          is:inline
-          define:vars={{
-            key: AD_CONFIG.bannerKey,
-            height: AD_CONFIG.height,
-            width: AD_CONFIG.width,
-          }}
-        >
-          /** @type {any} */
-          const adWindow = window;
-          adWindow.atOptions = {
-            key,
-            format: 'iframe',
-            height,
-            width,
-            params: {},
-          };
-        </script>
-        <script is:inline src={invokeUrl}></script>
+      <div class="wrap flex flex-col items-center justify-center">
+        <p class="mb-1 text-center font-mono text-[0.55rem] uppercase tracking-[0.16em] text-mist">
+          {label}
+        </p>
+        <div class="adsterra-banner-slot mx-auto flex min-h-[50px] w-[320px] max-w-full items-center justify-center overflow-hidden md:min-h-[60px] md:w-[468px]">
+          <script
+            is:inline
+            define:vars={{
+              desktopBanner,
+              mobileBanner,
+            }}
+          >
+            (() => {
+              const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+              const config = isDesktop ? desktopBanner : mobileBanner;
+              /** @type {any} */
+              const adWindow = window;
+              adWindow.atOptions = {
+                key: config.key,
+                format: 'iframe',
+                height: config.height,
+                width: config.width,
+                params: {},
+              };
+              document.write(
+                '<scr' + 'ipt src="' + config.scriptSrc + '"></scr' + 'ipt>',
+              );
+            })();
+          </script>
+        </div>
+      </div>
+    </aside>
+  )
+}
+
+{
+  enabled && variant === 'native' && (
+    <aside
+      class={`border-b border-line-soft bg-void py-5 ${className}`.trim()}
+      aria-label="Sponsored content"
+    >
+      <div class="wrap">
+        <p class="mb-2 text-center font-mono text-[0.55rem] uppercase tracking-[0.16em] text-mist">
+          {label}
+        </p>
+        <div class="adsterra-native-slot mx-auto min-h-[100px] w-full">
+          <script
+            is:inline
+            async="async"
+            data-cfasync="false"
+            src={nativeBanner.scriptSrc}
+          ></script>
+          <div id={nativeBanner.containerId}></div>
+        </div>
       </div>
     </aside>
   )

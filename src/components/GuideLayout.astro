@@ -4,7 +4,6 @@ import PageIntro from './PageIntro.astro';
 import TocNav from './TocNav.astro';
 import SourceList from './SourceList.astro';
 import FaqSection, { type FaqItem } from './FaqSection.astro';
-import AdSlot from './AdSlot.astro';
 import { getSources } from '../data/sources';
 import { SITE } from '../data/site';
 
@@ -101,8 +100,6 @@ const article = {
       <div class="prose-guide">
         <slot />
       </div>
-
-      <AdSlot />
 
       {faq?.length && (
         <FaqSection

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../components/BaseLayout.astro';
+import AdSlot from '../components/AdSlot.astro';
 import Countdown from '../components/Countdown.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import StatusBadge from '../components/StatusBadge.astro';
@@ -172,6 +173,8 @@ const toolLinks = [
       }
     </div>
   </section>
+
+  <AdSlot variant="native" />
 
   <section class="wrap py-16 md:py-24">
     <div class="flex flex-wrap items-end justify-between gap-6">

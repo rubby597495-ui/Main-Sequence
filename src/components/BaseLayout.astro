@@ -8,6 +8,7 @@ import sairaCondensed700 from '@fontsource/saira-condensed/files/saira-condensed
 import '../styles/global.css';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
+import AdSlot from './AdSlot.astro';
 import { buildJsonLd } from '../lib/schema';
 import { SITE, absoluteUrl } from '../data/site';
 
@@ -144,6 +145,7 @@ const jsonLdString = JSON.stringify(jsonLd).replaceAll('<', '\\u003c');
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Header />
     <main id="main-content">
+      <AdSlot variant="banner" />
       <slot />
     </main>
     <Footer />

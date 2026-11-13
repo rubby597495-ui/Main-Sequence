@@ -2,7 +2,6 @@
 import BaseLayout from '../components/BaseLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import SourceList from '../components/SourceList.astro';
-import AdSlot from '../components/AdSlot.astro';
 import { UPDATES } from '../data/updates';
 import { GAME_IMAGES } from '../lib/images';
 import { SITE } from '../data/site';
@@ -127,8 +126,6 @@ const latest = UPDATES[0];
           );
         })
       }
-
-      <AdSlot />
 
       <SourceList
         ids={sourceIds}
